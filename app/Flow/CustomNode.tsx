@@ -1,9 +1,25 @@
 //import {  Avatar, background } from '@chakra-ui/react';
 import { memo } from 'react';
+import React from 'react';
 import { Handle, Position } from 'reactflow';
 
+type hex =`#${string}` ; // a hex color value, like #123456
 
-function stringToColor(str) {
+/*function stringToColor(str: string) : hex {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  let color: hex = "#";
+  for (let i = 0; i < 3; i++) {
+      let value = (hash >> (i * 8)) & 0xFF;
+      value = (value < 128) ? Math.max(value * 2, 0) : Math.min(value * 2 - 255, 255);
+      color += ('00' + value.toString(16).substring(-2));
+  }
+  console.log (color)
+  return color as hex;
+}*/
+function stringToColor(str: string): string {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -11,11 +27,14 @@ function stringToColor(str) {
   let color = "#";
   for (let i = 0; i < 3; i++) {
       let value = (hash >> (i * 8)) & 0xFF;
-      color += ('00' + value.toString(16)).substr(-2);
+      value = (value < 128) ? Math.max(value * 2, 0) : Math.min(value * 2 - 255, 255);
+      color += ('00' + value.toString(16)).slice(-2);
   }
+  //console.log(color);
   return color;
 }
-const CustomNode = ({ data}) => {
+
+const CustomNode = ({ data }) => {
 // console.log ('data:',data)
 
   if (data.type === 'xxx' ) {
@@ -62,7 +81,7 @@ const CustomNode = ({ data}) => {
       background: stringToColor(data.label),//'#8B00FF',
       //paddingLeft: '10px', // Ajusta este valor según tu preferencia
       borderRadius: '50%',
-     width: '20px',
+      width: '20px',
       height: '20px',
       display: 'flex',
       flexDirection: 'column',
@@ -97,7 +116,7 @@ const CustomNode = ({ data}) => {
 };
 
 export default memo(CustomNode);
-
+//export default CustomNode;
 
 /*
 

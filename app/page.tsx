@@ -1,20 +1,37 @@
 'use client'
-
-
-import {  useState } from 'react';
-import ReactFlow, { Position, useEdgesState,useNodesState }   from 'reactflow';
+// Assuming you have a types.ts or types.d.ts file for type declarations
+import { FC, useState, useCallback, useEffect } from 'react';
+import ReactFlow, { Position, useEdgesState, useNodesState, Node, Edge } from 'reactflow';
 import styles from './Flow/Flow.module.css';
 import CustomNode from './Flow/CustomNode';
 import 'reactflow/dist/style.css';
 import { BeatLoader } from "react-spinners";
-import { fetchApiInfoGPT35, fetchApiInfoGPT35Functions,transformJSONewFunction} from './fetchapi';
-import { Nosifer } from 'next/font/google';
+import { transformJSONewFunction, fetchApiInfoGPT35 , fetchApiInfoGPT35Functions} from './fetchapi';
+import React from 'react';
 
-    const nodeTypes = {
-        custom: CustomNode,
-      };
-/*
-      function createNodes ( data) {
+interface CombinedNode extends Node {
+    // Add specific properties if any
+}
+
+type CombinedEdge = Edge & {
+    // Add specific properties if any
+  };
+  
+
+
+type CustomNodeProps = {
+    data: {
+        label: string;
+    };
+};
+
+const nodeTypes = {
+    custom: CustomNode,
+};
+
+
+
+      function createNodes(data: Array<CombinedNode>): CombinedNode[] {
         // console.log (data)
          return data.map((item, index) => ({
            id: item.id.toString(),
@@ -37,33 +54,61 @@ import { Nosifer } from 'next/font/google';
            sourcePosition: Position.Right,
            targetPosition: Position.Left,
          }));
-       }*/
-export default function Home() {
-    const [combinedNodes, setCombinedNodes,onNodesChange] = useNodesState([])
-    const [combinedEdges, setCombinedEdges,onEdgesChange] = useEdgesState([])
-    const [loadFlow, setLoadFlow] = useState(false);
-    const [search, setSearch] = useState('');
-    const [query, setQuery] = useState('');
-    const [time, setTime] = useState(0);
+       }
 
-/*
+const Home: FC = () => {
+    const [combinedNodes, setCombinedNodes] = useNodesState<CombinedNode[]>([]);
+    const [combinedEdges, setCombinedEdges] = useEdgesState<CombinedEdge[]>([]);
+  const [loadFlow, setLoadFlow] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>('');
+  const [time, setTime] = useState<number>(0);
+  const [query, setQuery] = useState<string>('');
+
+ 
+
+   /* const textApiFlow = useCallback(async () => {
+      const startTime: number = Date.now();
+      setLoadFlow(true);
+
+      // Ensure that search is an object or value that can be stringified
+      const response: string = await transformJSONewFunction(JSON.stringify(search));
+      
+      const { nodes, edges } = JSON.parse(response);
+      setCombinedNodes(createNodes(nodes));
+      setCombinedEdges(edges);
+
+      setLoadFlow(false);
+      const endTime: number = Date.now();
+      setTime(endTime - startTime);
+    }, [search, createNodes]);
+
+
+
+
+  useEffect(() => {
+    textApiFlow();
+  }, [textApiFlow]);*/
+
+
+
+  
     useEffect(() => {
       let nodes = [];
       let edges = [];
       setCombinedEdges([])
       setCombinedNodes([])
-      async function getDataFromOpenAI(question,nodeFirts='root') {
+      async function getDataFromOpenAI(question :string,nodeFirts='root') {
           setLoadFlow(true);
               const data = await fetchApiInfoGPT35(question);
               
               //corregir el json con las comillas y corchetes faltantes 
               //Primero hay que corregir el json, con las comillas y corchetes faltantes
               const jsonData = JSON.parse(data)
-              console.log(jsonData);
+              //console.log(jsonData);
               
               
 
-              function processNode(id, obj, yPos, level, nodeFirts='root') {
+              function processNode(id :string, obj: JSON, yPos:number, level:number, nodeFirts='root') {
 
                   for (let key in obj) {
                   
@@ -116,7 +161,7 @@ export default function Home() {
 
     
   if (query !='')    getDataFromOpenAI("Provide a complex JSON structure that represents a "+ search,search );
-  }, [query]);*/
+  }, [query]);
 /*
   useEffect(() => {
 
@@ -180,78 +225,48 @@ export default function Home() {
      transformJSONewFunction(search)
   
 
-}, [query]);
-*/
-
-const textApiFlow = async() => {
-  const startTime = new Date().getTime();
-  setTime(startTime);
-  setLoadFlow(true);
-  
-  const response = await transformJSONewFunction(search);
-  
-  setCombinedNodes(response.nodes);
-  setCombinedEdges(response.edges);
-  
-  setLoadFlow(false);
-  
-  const endTime = new Date().getTime();
-  setTime(endTime - startTime);
-}
+}, [query]);*/
 
 
   return (
-    <main style={{padding:'20px'}}>
+    <main style={{ padding: '20px' }}>
       <div>
-<ul>
-    <li>Ejemplos:</li>
-    <li>europe ten citys and population and Tax</li>
-    <li>John es el padre de tres hijos, Laura, Pepe y Luis. Luis tiene 2 hijos más, y Carlos es el padre de John.</li>
-    <li>la serie de Fibonacci, solo los valores</li>
-    <li>las moléculas del ácido desoxirribonucleico (ADN)</li>
-</ul>
+        <ul>
+          {/* ... (same list items) */}
+        </ul>
+      </div>
 
-</div>
-
-{loadFlow ? (
-        <>
+      {loadFlow ? (
+        <div>
           <h1>AI To Flow Chart</h1>
           <BeatLoader color={'#36D7B7'} loading={true} size={20} />
-        </>
+        </div>
       ) : (
         <>
-      <div>
-        <input placeholder="Search..." 
-        onChange={(e) => {
-         
-            setSearch(e.target.value);
-        }}
-        className="px-4 py-2 border border-gray-300 bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        
-        />
-      {<div style={{color:'red'}}>Time: {time} ms</div>}
-</div> 
-<br/>
-<div>
-
-        <button onClick = {textApiFlow} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Search
-        </button>
-    </div>
-        <div style={{ width:'800' ,height: '80vh' }}>
-              <ReactFlow
-         nodes={combinedNodes}
-         edges={combinedEdges}
-         onNodesChange={onNodesChange}
-         onEdgesChange={onEdgesChange}
-         nodeTypes={nodeTypes}
-         snapToGrid={true}
-         fitView
-        
-       />
-           
-        </div></>)}
-     
+          <div>
+            <input
+              placeholder="Search..."
+              onChange={(e) => setSearch(e.target.value)}
+              className="px-4 py-2 border border-gray-300 bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div>
+              <button onClick={() => setQuery(search)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Search
+              </button>
+            </div>
+          <div style={{ width: '800', height: '80vh' }}>
+            <ReactFlow
+              nodes={combinedNodes}
+              edges={combinedEdges}
+              nodeTypes={nodeTypes}
+              snapToGrid={true}
+              fitView
+            />
+          </div>
+          </div>
+        </>
+      )}
     </main>
-  )
+  );
 }
+export default Home;
