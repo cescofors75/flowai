@@ -1,4 +1,85 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AI to Flow Chart Visualization
+
+This project is a React application that allows users to visualize complex JSON structures using a flowchart. It fetches data from an API to generate nodes and edges, representing the JSON data structure, and then displays it using the ReactFlow library.
+
+## Features
+
+- **Interactive Search**: Users can input a query to generate flowcharts based on the AI's understanding of the query.
+- **Flow Chart Visualization**: Displays complex JSON structures in a clear and concise flowchart format.
+- **Custom Nodes**: The application uses custom-styled nodes to represent data.
+- **Loading Indicator**: A spinning loader appears while fetching and processing data.
+
+## Installation & Setup
+
+1. Clone the repository:
+
+2. Install the required dependencies:
+
+3. Run the application:
+
+## Usage
+
+1. Launch the application.
+2. Enter a query in the search bar.
+3. Click on the "Search" button.
+4. View the generated flowchart visualization based on the AI's understanding of the query.
+
+## Dependencies
+
+- **ReactFlow**: For flowchart visualization.
+- **React**: JavaScript library for building user interfaces.
+- **BeatLoader**: For the loading spinner.
+
+## Contributing
+
+If you want to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+---
+
+# Visualización de AI a Diagrama de Flujo
+
+Este proyecto es una aplicación React que permite a los usuarios visualizar estructuras JSON complejas usando un diagrama de flujo. Obtiene datos de una API para generar nodos y aristas, representando la estructura de datos JSON, y luego lo muestra usando la biblioteca ReactFlow.
+
+## Características
+
+- **Búsqueda Interactiva**: Los usuarios pueden introducir una consulta para generar diagramas de flujo basados en la comprensión de la IA de la consulta.
+- **Visualización de Diagrama de Flujo**: Muestra estructuras JSON complejas en un formato claro y conciso de diagrama de flujo.
+- **Nodos Personalizados**: La aplicación utiliza nodos con estilos personalizados para representar datos.
+- **Indicador de Carga**: Aparece un cargador giratorio mientras se obtienen y procesan los datos.
+
+## Instalación y Configuración
+
+1. Clona el repositorio:
+
+2. Instala las dependencias requeridas:
+
+3. Ejecuta la aplicación:
+
+## Uso
+
+1. Lanza la aplicación.
+2. Introduce una consulta en la barra de búsqueda.
+3. Haz clic en el botón "Buscar".
+4. Visualiza el diagrama de flujo generado basado en la comprensión de la IA de la consulta.
+
+## Dependencias
+
+- **ReactFlow**: Para la visualización del diagrama de flujo.
+- **React**: Biblioteca JavaScript para construir interfaces de usuario.
+- **BeatLoader**: Para el spinner de carga.
+
+## Contribuyendo
+
+Si quieres contribuir, por favor haz un fork del repositorio y utiliza una rama de características. Las pull requests son bienvenidas.
+
+## Licencia
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
 
 ## Getting Started
 
