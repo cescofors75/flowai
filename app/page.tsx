@@ -1,272 +1,163 @@
 'use client'
-// Assuming you have a types.ts or types.d.ts file for type declarations
-import { FC, useState, useCallback, useEffect } from 'react';
-import ReactFlow, { Position, useEdgesState, useNodesState, Node, Edge } from 'reactflow';
-import styles from './Flow/Flow.module.css';
-import CustomNode from './Flow/CustomNode';
-import 'reactflow/dist/style.css';
-import { BeatLoader } from "react-spinners";
-import { transformJSONewFunction, fetchApiInfoGPT35 , fetchApiInfoGPT35Functions} from './fetchapi';
-import React from 'react';
+import React, { useState } from 'react';
+import {
+  Button,
 
-interface CombinedNode extends Node {
-    // Add specific properties if any
-}
+  Image,
+  Box,
+  Flex,
+  IconButton
+} from '@chakra-ui/react';
+import { FiCamera } from 'react-icons/fi';
+import AudioPlayer from './components/AudioPlayer';
+import { ChakraProvider } from '@chakra-ui/react';
 
-type CombinedEdge = Edge & {
-    // Add specific properties if any
-  };
-  
+function Home() {
+  const [image, setImage] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [textScan, setTextScan] = useState('');
 
-
-type CustomNodeProps = {
-    data: {
-        label: string;
-    };
-};
-
-const nodeTypes = {
-    custom: CustomNode,
-};
-
-
-
-      function createNodes(data: Array<CombinedNode>): CombinedNode[] {
-        // console.log (data)
-         return data.map((item, index) => ({
-           id: item.id.toString(),
-           type: 'custom',
-           className: styles.customNode,
-           data: {  
-           type: 'xxx',
-           label: item.data.label,
-           image: `https://fwhlcijbnqstdjgowqvm.supabase.co/storage/v1/object/public/images/Image2.jpg`
-         },
-           style: {
-            backgroundSize: 'cover',
-             
-             fontWeight: 'bold',
-             border: '1px solid #222138',
-             borderRadius: '5px',
-             height: '75px',
-           },
-           position: { x: item.position.x, y: item.position.y },
-           sourcePosition: Position.Right,
-           targetPosition: Position.Left,
-         }));
-       }
-
-const Home: FC = () => {
-    const [combinedNodes, setCombinedNodes] = useNodesState<CombinedNode[]>([]);
-    const [combinedEdges, setCombinedEdges] = useEdgesState<CombinedEdge[]>([]);
-  const [loadFlow, setLoadFlow] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>('');
-  const [time, setTime] = useState<number>(0);
-  const [query, setQuery] = useState<string>('');
-
- 
-
-   /* const textApiFlow = useCallback(async () => {
-      const startTime: number = Date.now();
-      setLoadFlow(true);
-
-      // Ensure that search is an object or value that can be stringified
-      const response: string = await transformJSONewFunction(JSON.stringify(search));
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      const base64Image = reader.result as string;
+      setImage(base64Image.split(',')[1]);
+      setImagePreview(base64Image);
       
-      const { nodes, edges } = JSON.parse(response);
-      setCombinedNodes(createNodes(nodes));
-      setCombinedEdges(edges);
+    };
+  };
 
-      setLoadFlow(false);
-      const endTime: number = Date.now();
-      setTime(endTime - startTime);
-    }, [search, createNodes]);
+  const analyzeImage = async () => {
+    setLoading(true);
+    const api_key = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+    const payload = {
+      model: 'gpt-4-vision-preview',
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text:
+                //'Analitza la imatge, i explica el seu contingut per a una persona de cinc anys cega.',
+                'Analiza la imagen, y explica su contenido para una persona de cinco años ciega.'
+            },
+            {
+              type: 'image_url',
+              image_url: {
+                url: `data:image/jpeg;base64,${image}`,
+              },
+            },
+          ],
+        },
+      ],
+      max_tokens: 300,
+    };
 
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${api_key}`,
+        },
+        body: JSON.stringify(payload),
+      });
 
-
-
-  useEffect(() => {
-    textApiFlow();
-  }, [textApiFlow]);*/
-
-
-
-  
-    useEffect(() => {
-      let nodes = [];
-      let edges = [];
-      setCombinedEdges([])
-      setCombinedNodes([])
-      async function getDataFromOpenAI(question :string,nodeFirts='root') {
-          setLoadFlow(true);
-              const data = await fetchApiInfoGPT35(question);
-              
-              //corregir el json con las comillas y corchetes faltantes 
-              //Primero hay que corregir el json, con las comillas y corchetes faltantes
-              const jsonData = JSON.parse(data)
-              //console.log(jsonData);
-              
-              
-
-              function processNode(id :string, obj: JSON, yPos:number, level:number, nodeFirts='root') {
-
-                  for (let key in obj) {
-                  
-                      const nodeId = `${id}-${key}`;
-                      
-                      nodes.push({
-                          id: nodeId,
-                          data: { label: `${key}: ${typeof obj[key] === 'object' ? '' : obj[key]}` },
-                          position: { x: 250 + level * 300, y: yPos },
-                          
-                      });
-                      edges.push({
-                          id: `${id}-${nodeId}`,
-                          source: id,
-                          target: nodeId,
-                          animated: true,
-                         // label: key
-                      });
-
-                      if (typeof obj[key] === 'object') {
-                          yPos =  processNode(nodeId, obj[key], yPos, level + 1);
-                      } else {
-                          yPos += 100;
-                      }
-                  }
-                  return yPos;
-              }
-         
-              
-              nodes.push({
-                  id: 'root',
-                  data: { label: nodeFirts},
-                  position: { x: 250, y: 0 }
-              });
-
-              processNode('root', jsonData, 0, 1,search);
-
-
-
-
-
-
-          
-      const nodesTransform = createNodes(nodes);
-   
-      setCombinedNodes([...nodesTransform]);
-      setCombinedEdges([...edges]);
-      setLoadFlow(false);
-      }
-
-    
-  if (query !='')    getDataFromOpenAI("Provide a complex JSON structure that represents a "+ search,search );
-  }, [query]);
-/*
-  useEffect(() => {
-
-    async function transformJSONewFunction(item) {
-        const scaleFactor =1;
-        setLoadFlow(true);
-        console.log ('item',item)
-        const response = await fetchApiInfoGPT35Functions(item);
-        console.log ('response',response)
-        
-        const input = JSON.parse(response);
-
-       
-        console.log('input',input)
-        // Transform nodes
-        
-        const nodes = input.nodes.map(({ id, x, y }, index) => {
-            let sourcePosition, targetPosition;
-       
-        
-            return {
-                id: id.toString(),
-                type:'custom',
-                position: {
-                    x: x * scaleFactor,
-                    y: y * scaleFactor
-                },
-                //className: 'circle',
-                sourcePosition,
-                targetPosition,
-                data: {
-                    label: id,
-                    type: 'xxx2'
-                }
-            };
-        });
-        
-
-        // Transform edges
-        const edges = input.edges.map(({ source, target }) => ({
-            id: `e${source}-${target}`,
-            source: source.toString(),
-            target: target.toString(),
-            animated: true,
-        }));
-
-        setCombinedNodes(nodes);
-        setCombinedEdges(edges);
-        
-        setLoadFlow(false);
-        //return null
-
-        return {
-            
-            nodes,
-            edges
-        };
+      const data = await response.json();
+      setLoading(false);
+      setTextScan(data.choices[0].message.content);
+      // Handle the response data
+    } catch (error) {
+      console.error('Error analyzing image:', error);
     }
+  };
 
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-     transformJSONewFunction(search)
-  
-
-}, [query]);*/
-
-
+  const onButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+  //console.log(imagePreview);
   return (
-    <main style={{ padding: '20px' }}>
-      <div>
-        <ul>
-          {/* ... (same list items) */}
-        </ul>
-      </div>
-
-      {loadFlow ? (
-        <div>
-          <h1>AI To Flow Chart</h1>
-          <BeatLoader color={'#36D7B7'} loading={true} size={20} />
-        </div>
-      ) : (
-        <>
-          <div>
+    <ChakraProvider>
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        h="100vh"
+        position="relative"
+        maxW='390px'
+      >
+        {!imagePreview && (
+          <Flex direction="column" align="center" justify="center" alignItems="center">
             <input
-              placeholder="Search..."
-              onChange={(e) => setSearch(e.target.value)}
-              className="px-4 py-2 border border-gray-300 bg-white text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleImageUpload}
             />
-            <div>
-              <button onClick={() => setQuery(search)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Search
-              </button>
-            </div>
-          <div style={{ width: '800', height: '80vh' }}>
-            <ReactFlow
-              nodes={combinedNodes}
-              edges={combinedEdges}
-              nodeTypes={nodeTypes}
-              snapToGrid={true}
-              fitView
-            />
-          </div>
-          </div>
-        </>
-      )}
-    </main>
+            <IconButton
+              icon={<FiCamera color="white.300"  />}
+              mt={4}
+              onClick={onButtonClick} // Llama a onButtonClick aquí
+              aria-label="Upload Image"
+              colorScheme="red"
+            >
+            </IconButton>
+          </Flex>
+        )}
+        {imagePreview && (
+          
+           <Flex direction="column" align="center" justify="center" alignItems="center">
+           
+          
+           
+            
+              <Button colorScheme="red" onClick={analyzeImage} isLoading={loading}>
+                Analyze Image
+              </Button>
+              {!textScan &&
+              
+              <Image mt={4} src={imagePreview} alt="Preview" maxW="350" maxH="100%" mb="4" />}
+              {textScan && <AudioPlayer text={textScan} />}
+              <Box style={{ backgroundImage: `url(${imagePreview})` , maxWidth: '350px', maxHeight: '100%', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}
+               
+                mt={4}
+               bgColor='black'
+             
+               mb="4" >
+                <div style={{
+                    margin: '0 auto',
+                    padding: '2px',
+                    textAlign: 'justify',
+                    backgroundColor: 'rgba(77, 77, 77, 0.5)',
+                    borderRadius: '6px',
+                    color:'white'
+                  }}
+                  >
+              {textScan}
+              
+              
+              </div>
+              
+              </Box>
+              {textScan &&
+              <Button mt={4} colorScheme="red" onClick={()=>{setTextScan('');setImagePreview('')}} >
+                Volver
+              </Button>
+}
+            </Flex>
+        )}
+       </Flex>
+    </ChakraProvider>
   );
 }
+
 export default Home;
+
