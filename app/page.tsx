@@ -68,7 +68,8 @@ function Home() {
           content: [
             {
               type: 'text',
-              text: `Analitza la imatge, i explica el seu contingut en ${language}, per a una persona cega. Estil de la resposta: ${styleResponse}`,
+             // text: `Analitza la imatge, i explica el seu contingut resumit en 3 frases i en ${language}, per a una persona cega. Estil de la resposta: ${styleResponse}`,
+              text: `Analyze the image, and explain its content in a summarized way in 3 sentences and in ${language}, for a visually impaired person. Response style: ${styleResponse}.`,
             },
             {
               type: 'image_url',
@@ -80,7 +81,7 @@ function Home() {
           ],
         },
       ],
-      max_tokens: 199,
+     max_tokens: 128,
     };
 
     try {
@@ -164,9 +165,14 @@ function Home() {
                 onChange={handleChange}
                 value={language}
               >
-                <option value="Español">Español</option>
                 <option value="Catala">Català</option>
+                <option value="Deutsch">Deutsch</option>
                 <option value="English">English</option>
+                <option value="Español">Español</option>
+                <option value="Français">Français</option>
+                <option value="Italiano">Italiano</option>
+                <option value="Português">Português</option>
+                
               </Select>
               <Select
                 placeholder="Years"
