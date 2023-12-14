@@ -1,26 +1,28 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Button,
-
   Image,
   Box,
   Flex,
   IconButton,
-  HStack
+  HStack,
+  Text,
+  ChakraProvider,
+  Select,
 } from '@chakra-ui/react';
 import { FiCamera } from 'react-icons/fi';
 import AudioPlayer from './components/AudioPlayer';
-import { ChakraProvider, Select, Text } from '@chakra-ui/react';
 
 function Home() {
   const [image, setImage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
   const [textScan, setTextScan] = useState('');
-  const [language, setLanguage] = useState('catalan');
-  const [years, setYears] = useState('40');
+  const [language, setLanguage] = useState('Catala');
+  const [years, setYears] = useState('20');
 
+  const fileInputRef = useRef(null);
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
@@ -44,19 +46,17 @@ function Home() {
 
   const analyzeImage = async () => {
     setLoading(true);
-    console.log(language);
-    console.log(years);
-    let styleResponse
-    if (years == '10') {
-      styleResponse = 'Per un nen , simple'
-    } else if (years == '20') {
-      styleResponse = 'Per un jove, detallada'
-    } else if (years == '40') {
-      styleResponse = 'Per un adult, comprensible'
-    } else if (years == '80') {
-      styleResponse = 'Per un vell, clara'
-    }
 
+    let styleResponse;
+    if (years === '10') {
+      styleResponse = 'Per un nen , simple';
+    } else if (years === '20') {
+      styleResponse = 'Per un jove, detallada';
+    } else if (years === '40') {
+      styleResponse = 'Per un adult, comprensible';
+    } else if (years === '80') {
+      styleResponse = 'Per un vell, clara';
+    }
 
     const api_key = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
     const payload = {
@@ -67,10 +67,8 @@ function Home() {
           content: [
             {
               type: 'text',
-              text:
-                'Analitza la imatge, i explica el seu contingut en '+language + ', per a una persona  cega. Estil de la resposta: '+styleResponse,
-               // 'Analiza la imagen, y explica su contenido para una persona de cinco años ciega.'
-              },
+              text: `Analitza la imatge, i explica el seu contingut en ${language}, per a una persona cega. Estil de la resposta: ${styleResponse}`,
+            },
             {
               type: 'image_url',
               image_url: {
@@ -96,34 +94,44 @@ function Home() {
       const data = await response.json();
       setLoading(false);
       setTextScan(data.choices[0].message.content);
-      // Handle the response data
     } catch (error) {
       console.error('Error analyzing image:', error);
     }
   };
-
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const onButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
-  //console.log(imagePreview);
+
+  const resetState = () => {
+    setTextScan('');
+    setImagePreview('');
+  };
+
   return (
     <ChakraProvider>
-      
       <Flex
         direction="column"
         align="center"
         justify="center"
         minH="100vh"
+        minW="100vw"
         position="relative"
-        //maxW='390px'
       >
-           <Text fontSize="2xl" fontWeight="bold" mt="4" >
-            IMG TO FACIL
-          </Text>
+        <Text
+          fontSize="2xl"
+          fontWeight="bold"
+          mt={4}
+          mb={4}
+          position="absolute"
+          top="0"
+          width="100%"
+          textAlign="center"
+        >
+          IMG 2 FACIL
+        </Text>
         {!imagePreview && (
           <Flex direction="column" align="center" justify="center" alignItems="center">
             <input
@@ -133,30 +141,35 @@ function Home() {
               onChange={handleImageUpload}
             />
             <IconButton
-              icon={<FiCamera color="white.300"  />}
+              icon={<FiCamera color="white.300" />}
               mt={4}
-              onClick={onButtonClick} // Llama a onButtonClick aquí
+              onClick={onButtonClick}
               aria-label="Upload Image"
               colorScheme="red"
-            >
-            </IconButton>
+            />
           </Flex>
         )}
         {imagePreview && (
-          
-           <Flex direction="column" align="center" justify="center" alignItems="center">
-        
-          
-           <HStack style={{maxWidth: '300px'}}>
-            
-             
-              <Select placeholder="Languages" mt={4} mb={4} onChange={handleChange}   >
+          <Flex direction="column" align="center" justify="center" alignItems="center">
+            <HStack style={{ maxWidth: '300px' }} mt={8}>
+              <Select
+                placeholder="Languages"
+                mt={4}
+                mb={4}
+                onChange={handleChange}
+                value={language}
+              >
                 <option value="Español">Español</option>
                 <option value="Catala">Català</option>
                 <option value="English">English</option>
               </Select>
-              <Select placeholder="Years" mt={4} mb={4} onChange={handleChangeYears}   >
-               
+              <Select
+                placeholder="Years"
+                mt={4}
+                mb={4}
+                onChange={handleChangeYears}
+                value={years}
+              >
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="40">40</option>
@@ -165,42 +178,47 @@ function Home() {
               <Button colorScheme="red" onClick={analyzeImage} isLoading={loading}>
                 GO!
               </Button>
-              </HStack>
-              {!textScan &&
-              
-              <Image mt={4} src={imagePreview} alt="Preview" maxW="300"  mb="1" />
-              }
-            
-              <Box style={{ backgroundImage: `url(${imagePreview})` , maxWidth: '300px', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}
-               
-                mt={1}
-               bgColor='black'
-             
-               mb="1" >
-                <div style={{
-                    margin: '0 auto',
-                    //padding: '2px',
-                    textAlign: 'justify',
-                    backgroundColor: 'rgba(77, 77, 77, 0.5)',
-                    borderRadius: '6px',
-                    color:'white'
-                  }}
-                  >
-              {textScan}
-              
-              
+            </HStack>
+            {!textScan && <Image mt={1} src={imagePreview} alt="Preview" maxW="300" mb="1" />}
+            <Box
+              style={{
+                backgroundImage: `url(${imagePreview})`,
+                maxWidth: '300px',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+              mt={1}
+              bgColor="black"
+              mb="1"
+            >
+              <div
+                style={{
+                  margin: '0 auto',
+                  textAlign: 'justify',
+                  backgroundColor: 'rgba(77, 77, 77, 0.5)',
+                  borderRadius: '6px',
+                  color: 'white',
+                }}
+              >
+                {textScan}
               </div>
-              
-              </Box>
-              {textScan && <AudioPlayer text={textScan} />}
-              {textScan &&
-              <Button mt={4} colorScheme="red" onClick={()=>{setTextScan('');setImagePreview('')}} >
-                Volver
-              </Button>
-}
-            </Flex>
+            </Box>
+
+            {textScan && (
+            <div>
+             <AudioPlayer text={textScan} />
+                {/* Otro contenido relacionado con textScan */
+             <Button mt={4} colorScheme="red" onClick={resetState}>
+               Volver
+           </Button>
+              }
+             </div>
+              )}
+           
+          </Flex>
         )}
-       </Flex>
+      </Flex>
     </ChakraProvider>
   );
 }
