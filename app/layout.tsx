@@ -14,9 +14,11 @@ export default function RootLayout({ children }) {
   return (
  
     <html lang="es">
+      <body >
     <div className={`inter ${"container"}`} style={{ margin: 'auto', fontWeight: '400' }}>
       {children}
     </div>
+    </body>
   </html>
     
   

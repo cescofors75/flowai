@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // Importa un componente spinner, aquí puedes usar cualquier spinner de tu elección
-import { Spinner } from '@chakra-ui/react'
+import { Spinner,Box } from '@chakra-ui/react'
 
 function AudioPlayer({ text }) {
   const [textLocale, setTextLocale] = useState("");
@@ -35,12 +35,14 @@ function AudioPlayer({ text }) {
   };
 
   return (
-    <div>
+    <Box my={2}>
       {isLoading && <Spinner />} {/* Muestra el spinner mientras isLoading sea true */}
-      {audioSrc && <audio controls src={audioSrc} autoPlay></audio>}
-    </div>
+      {audioSrc && <audio controls src={audioSrc} ></audio>}
+    </Box>
   );
 }
 
 export default AudioPlayer;
+
+//autoPlay
 

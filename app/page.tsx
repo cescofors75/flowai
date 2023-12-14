@@ -6,17 +6,29 @@ import {
   Image,
   Box,
   Flex,
-  IconButton
+  IconButton,
+  HStack
 } from '@chakra-ui/react';
 import { FiCamera } from 'react-icons/fi';
 import AudioPlayer from './components/AudioPlayer';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Select, Text } from '@chakra-ui/react';
 
 function Home() {
   const [image, setImage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
   const [textScan, setTextScan] = useState('');
+  const [language, setLanguage] = useState('catalan');
+  const [years, setYears] = useState('5');
+
+
+  const handleChange = (event) => {
+    setLanguage(event.target.value);
+  };
+
+  const handleChangeYears = (event) => {
+    setYears(event.target.value);
+  };
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -32,6 +44,8 @@ function Home() {
 
   const analyzeImage = async () => {
     setLoading(true);
+    console.log(language);
+    console.log(years);
     const api_key = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
     const payload = {
       model: 'gpt-4-vision-preview',
@@ -42,8 +56,9 @@ function Home() {
             {
               type: 'text',
               text:
-                //'Analitza la imatge, i explica el seu contingut per a una persona de cinc anys cega.',
-                'Analiza la imagen, y explica su contenido para una persona de cinco años ciega.'
+               // 'Analitza la imatge, i explica el seu contingut en '+language + ' per a una persona  cega. de '+years+' anys.',
+               // 'Analiza la imagen, y explica su contenido para una persona de cinco años ciega.'
+               'Analyze the image, and explain its content in '+language+' to a blind person who is '+years+ 'years old.'
             },
             {
               type: 'image_url',
@@ -92,7 +107,7 @@ function Home() {
         justify="center"
         h="100vh"
         position="relative"
-        maxW='390px'
+        //maxW='390px'
       >
         {!imagePreview && (
           <Flex direction="column" align="center" justify="center" alignItems="center">
@@ -115,17 +130,32 @@ function Home() {
         {imagePreview && (
           
            <Flex direction="column" align="center" justify="center" alignItems="center">
-           
+           <Text fontSize="lg" fontWeight="bold" mb="4" color="white">
+            IMG TO FACIL
+          </Text>
           
-           
+           <HStack>
             
+             
+              <Select placeholder="Select languages" mt={4} mb={4} onChange={handleChange}   >
+                <option value="Español">Español</option>
+                <option value="Catala">Català</option>
+                <option value="English">English</option>
+              </Select>
+              <Select placeholder="Select years" mt={4} mb={4} onChange={handleChangeYears}   >
+                <option value='5'>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="40">40</option>
+              </Select>
               <Button colorScheme="red" onClick={analyzeImage} isLoading={loading}>
-                Analyze Image
+                GO!
               </Button>
+              </HStack>
               {!textScan &&
               
               <Image mt={4} src={imagePreview} alt="Preview" maxW="350" maxH="100%" mb="4" />}
-              {textScan && <AudioPlayer text={textScan} />}
+            
               <Box style={{ backgroundImage: `url(${imagePreview})` , maxWidth: '350px', maxHeight: '100%', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}
                
                 mt={4}
@@ -147,6 +177,7 @@ function Home() {
               </div>
               
               </Box>
+              {textScan && <AudioPlayer text={textScan} />}
               {textScan &&
               <Button mt={4} colorScheme="red" onClick={()=>{setTextScan('');setImagePreview('')}} >
                 Volver
