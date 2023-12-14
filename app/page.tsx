@@ -46,6 +46,18 @@ function Home() {
     setLoading(true);
     console.log(language);
     console.log(years);
+    let styleResponse
+    if (years == '10') {
+      styleResponse = 'Per un nen , simple'
+    } else if (years == '20') {
+      styleResponse = 'Per un jove, detallada'
+    } else if (years == '40') {
+      styleResponse = 'Per un adult, comprensible'
+    } else if (years == '80') {
+      styleResponse = 'Per un vell, clara'
+    }
+
+
     const api_key = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
     const payload = {
       model: 'gpt-4-vision-preview',
@@ -56,10 +68,9 @@ function Home() {
             {
               type: 'text',
               text:
-               // 'Analitza la imatge, i explica el seu contingut en '+language + ' per a una persona  cega. de '+years+' anys.',
+                'Analitza la imatge, i explica el seu contingut en '+language + ', per a una persona  cega. Estil de la resposta: '+styleResponse,
                // 'Analiza la imagen, y explica su contenido para una persona de cinco años ciega.'
-               'Analyze the image, and explain its content in '+language+' to a blind person who is '+years+ 'years old.'
-            },
+              },
             {
               type: 'image_url',
               image_url: {
@@ -69,7 +80,7 @@ function Home() {
           ],
         },
       ],
-      max_tokens: 150,
+      max_tokens: 199,
     };
 
     try {
