@@ -12,6 +12,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { FiCamera } from 'react-icons/fi';
+import { ThemeSwitch } from './components/ThemeSwitch';
 import AudioPlayer from './components/AudioPlayer';
 
 function Home() {
@@ -73,6 +74,7 @@ function Home() {
               type: 'image_url',
               image_url: {
                 url: `data:image/jpeg;base64,${image}`,
+                detail: "low"
               },
             },
           ],
@@ -112,6 +114,7 @@ function Home() {
 
   return (
     <ChakraProvider>
+      
       <Flex
         direction="column"
         align="center"
@@ -120,18 +123,20 @@ function Home() {
         minW="100vw"
         position="relative"
       >
+       
         <Text
           fontSize="2xl"
           fontWeight="bold"
           mt={4}
-          mb={4}
+          
           position="absolute"
           top="0"
           width="100%"
           textAlign="center"
         >
           VisionHelper 1.0
-        </Text>
+        </Text> 
+        
         {!imagePreview && (
           <Flex direction="column" align="center" justify="center" alignItems="center">
             <input
@@ -206,18 +211,22 @@ function Home() {
             </Box>
 
             {textScan && (
-            <div>
+            <Box>
              <AudioPlayer text={textScan} />
-                {/* Otro contenido relacionado con textScan */
+                {
              <Button mt={4} colorScheme="red" onClick={resetState}>
                Back
            </Button>
               }
-             </div>
+             </Box>
               )}
            
           </Flex>
         )}
+      
+        <Box position="absolute" bottom="0" width="100%" textAlign="center">
+        <ThemeSwitch />
+        </Box>
       </Flex>
     </ChakraProvider>
   );

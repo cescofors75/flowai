@@ -25,7 +25,7 @@ export async function POST(req :NextRequest ) {
     });
 
     const buffer = Buffer.from(await response.arrayBuffer());
-    
+  
     // Creating and returning a NextResponse with the audio data
     return new NextResponse(buffer, {
       status: 200,
