@@ -112,15 +112,16 @@ function Home() {
   //console.log(imagePreview);
   return (
     <ChakraProvider>
+      
       <Flex
         direction="column"
         align="center"
         justify="center"
-        //h="100vh"
+        minH="100vh"
         position="relative"
         //maxW='390px'
       >
-           <Text fontSize="2xl" fontWeight="bold" mb="1" >
+           <Text fontSize="2xl" fontWeight="bold" mt="4" >
             IMG TO FACIL
           </Text>
         {!imagePreview && (
