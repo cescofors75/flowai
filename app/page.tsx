@@ -156,7 +156,8 @@ function Home() {
               </HStack>
               {!textScan &&
               
-              <Image mt={4} src={imagePreview} alt="Preview" maxW="300" maxH="100%" mb="1" />}
+              <Image mt={4} src={imagePreview} alt="Preview" maxW="300"  mb="1" />
+              }
             
               <Box style={{ backgroundImage: `url(${imagePreview})` , maxWidth: '300px', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}
                
