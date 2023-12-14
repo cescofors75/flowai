@@ -130,7 +130,7 @@ function Home() {
           width="100%"
           textAlign="center"
         >
-          IMG 2 FACIL
+          VisionHelper 1.0
         </Text>
         {!imagePreview && (
           <Flex direction="column" align="center" justify="center" alignItems="center">
@@ -210,7 +210,7 @@ function Home() {
              <AudioPlayer text={textScan} />
                 {/* Otro contenido relacionado con textScan */
              <Button mt={4} colorScheme="red" onClick={resetState}>
-               Volver
+               Back
            </Button>
               }
              </div>
