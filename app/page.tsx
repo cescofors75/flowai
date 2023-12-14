@@ -19,7 +19,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [textScan, setTextScan] = useState('');
   const [language, setLanguage] = useState('catalan');
-  const [years, setYears] = useState('5');
+  const [years, setYears] = useState('40');
 
 
   const handleChange = (event) => {
@@ -69,7 +69,7 @@ function Home() {
           ],
         },
       ],
-      max_tokens: 300,
+      max_tokens: 150,
     };
 
     try {
@@ -130,23 +130,24 @@ function Home() {
         {imagePreview && (
           
            <Flex direction="column" align="center" justify="center" alignItems="center">
-           <Text fontSize="lg" fontWeight="bold" mb="4" color="white">
+           <Text fontSize="2xl" fontWeight="bold" mb="1" >
             IMG TO FACIL
           </Text>
           
-           <HStack>
+           <HStack style={{maxWidth: '300px'}}>
             
              
-              <Select placeholder="Select languages" mt={4} mb={4} onChange={handleChange}   >
+              <Select placeholder="Languages" mt={4} mb={4} onChange={handleChange}   >
                 <option value="Español">Español</option>
                 <option value="Catala">Català</option>
                 <option value="English">English</option>
               </Select>
-              <Select placeholder="Select years" mt={4} mb={4} onChange={handleChangeYears}   >
-                <option value='5'>5</option>
+              <Select placeholder="Years" mt={4} mb={4} onChange={handleChangeYears}   >
+               
                 <option value="10">10</option>
-                <option value="15">15</option>
+                <option value="20">20</option>
                 <option value="40">40</option>
+                <option value="80">80</option>
               </Select>
               <Button colorScheme="red" onClick={analyzeImage} isLoading={loading}>
                 GO!
@@ -154,14 +155,14 @@ function Home() {
               </HStack>
               {!textScan &&
               
-              <Image mt={4} src={imagePreview} alt="Preview" maxW="350" maxH="100%" mb="4" />}
+              <Image mt={4} src={imagePreview} alt="Preview" maxW="350" maxH="100%" mb="2" />}
             
-              <Box style={{ backgroundImage: `url(${imagePreview})` , maxWidth: '350px', maxHeight: '100%', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}
+              <Box style={{ backgroundImage: `url(${imagePreview})` , maxWidth: '300px', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}
                
-                mt={4}
+                mt={1}
                bgColor='black'
              
-               mb="4" >
+               mb="2" >
                 <div style={{
                     margin: '0 auto',
                     padding: '2px',
