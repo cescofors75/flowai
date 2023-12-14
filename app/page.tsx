@@ -213,11 +213,11 @@ function Home() {
             {textScan && (
             <Box>
              <AudioPlayer text={textScan} />
-                {
-             <Button mt={4} colorScheme="red" onClick={resetState}>
+                
+             <Button mt={4} colorScheme="red" onClick={resetState} textAlign="left">
                Back
            </Button>
-              }
+              
              </Box>
               )}
            
