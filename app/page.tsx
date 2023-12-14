@@ -105,10 +105,13 @@ function Home() {
         direction="column"
         align="center"
         justify="center"
-        h="100vh"
+        //h="100vh"
         position="relative"
         //maxW='390px'
       >
+           <Text fontSize="2xl" fontWeight="bold" mb="1" >
+            IMG TO FACIL
+          </Text>
         {!imagePreview && (
           <Flex direction="column" align="center" justify="center" alignItems="center">
             <input
@@ -130,9 +133,7 @@ function Home() {
         {imagePreview && (
           
            <Flex direction="column" align="center" justify="center" alignItems="center">
-           <Text fontSize="2xl" fontWeight="bold" mb="1" >
-            IMG TO FACIL
-          </Text>
+        
           
            <HStack style={{maxWidth: '300px'}}>
             
@@ -155,17 +156,17 @@ function Home() {
               </HStack>
               {!textScan &&
               
-              <Image mt={4} src={imagePreview} alt="Preview" maxW="350" maxH="100%" mb="2" />}
+              <Image mt={4} src={imagePreview} alt="Preview" maxW="300" maxH="100%" mb="1" />}
             
               <Box style={{ backgroundImage: `url(${imagePreview})` , maxWidth: '300px', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}
                
                 mt={1}
                bgColor='black'
              
-               mb="2" >
+               mb="1" >
                 <div style={{
                     margin: '0 auto',
-                    padding: '2px',
+                    //padding: '2px',
                     textAlign: 'justify',
                     backgroundColor: 'rgba(77, 77, 77, 0.5)',
                     borderRadius: '6px',
