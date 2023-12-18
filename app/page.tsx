@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Button,
   Image,
@@ -15,6 +15,8 @@ import { FiCamera } from 'react-icons/fi';
 import { ThemeSwitch } from './components/ThemeSwitch';
 import AudioPlayer from './components/AudioPlayer';
 
+import MistralClient from '@mistralai/mistralai'
+
 function Home() {
   const [image, setImage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
@@ -22,8 +24,92 @@ function Home() {
   const [textScan, setTextScan] = useState('');
   const [language, setLanguage] = useState('Catala');
   const [years, setYears] = useState('20');
+  const [mistral, setMistral] = useState('')
 
   const fileInputRef = useRef(null);
+ /* useEffect(() => {
+    const mistralTest = async () => {
+      const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
+  
+      try {
+       // Realiza la solicitud a través de tu propio servidor proxy (http://localhost:3000)
+        const response = await fetch('/api/mistral-test', {
+        //  const response = await fetch('/api/local', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            apiKey,
+            model: 'mistral-small',
+            messages: [{ role: 'user', content: 'que significa el error P0033 ?' }],
+          }),
+       
+  })
+        
+        
+        const data = await response.json();
+        console.log('Data:', data);
+      } catch (error) {
+        console.error('An error occurred:', error);
+        return; // Agrega un return para evitar la ejecución adicional del console.log
+      }
+    };
+  
+    mistralTest();
+  }, []);*/
+
+
+  useEffect(() => {
+    const mistralTest = async () => {
+      
+  
+    /*  try {
+       // Realiza la solicitud a través de tu propio servidor proxy (http://localhost:3000)
+        const response = await fetch('/api/mistral-test', {
+       
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY,
+            model: 'mistral-small',
+            messages: [{ role: 'user', content: 'que significa el error P0033 ?' }],
+          }),
+          
+       
+  })
+        
+        
+        const data = await response.json();
+        console.log('Data:', data);
+        setMistral(data.responseMistral);
+      } catch (error) {
+        console.error('An error occurred:', error);
+        return; // Agrega un return para evitar la ejecución adicional del console.log
+      }*/
+      
+     // const client = new MistralClient({ apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY });
+    
+
+     const apiKey = process.env.MISTRAL_API_KEY;
+
+     const client = new MistralClient(apiKey);
+     
+     const chatResponse = await client.chat({
+       model: 'mistral-tiny',
+       messages: [{role: 'user', content: 'What is the best French cheese?'}],
+     });
+     
+     console.log('Chat:', chatResponse.choices[0].message.content);
+
+
+    };
+  
+    mistralTest();
+  }, []);
+  
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
@@ -137,6 +223,17 @@ function Home() {
         >
           VisionHelper 1.0
         </Text> 
+        <Text
+          fontSize="xs"
+         
+          mt={4}
+          
+         
+          width="80%"
+          textAlign="center"
+        >
+          {mistral}
+        </Text>
         
         {!imagePreview && (
           <Flex direction="column" align="center" justify="center" alignItems="center">
