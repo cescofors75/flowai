@@ -64,7 +64,7 @@ function Home() {
     const mistralTest = async () => {
       
   
-    /*  try {
+     try {
        // Realiza la solicitud a través de tu propio servidor proxy (http://localhost:3000)
         const response = await fetch('/api/mistral-test', {
        
@@ -88,21 +88,10 @@ function Home() {
       } catch (error) {
         console.error('An error occurred:', error);
         return; // Agrega un return para evitar la ejecución adicional del console.log
-      }*/
-      
-     // const client = new MistralClient({ apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY });
+      }
     
 
-     const apiKey = process.env.MISTRAL_API_KEY;
 
-     const client = new MistralClient(apiKey);
-     
-     const chatResponse = await client.chat({
-       model: 'mistral-tiny',
-       messages: [{role: 'user', content: 'What is the best French cheese?'}],
-     });
-     
-     console.log('Chat:', chatResponse.choices[0].message.content);
 
 
     };
@@ -124,7 +113,7 @@ function Home() {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      const base64Image = reader.result as string;
+      const base64Image = reader.result 
       setImage(base64Image.split(',')[1]);
       setImagePreview(base64Image);
       

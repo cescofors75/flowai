@@ -2,29 +2,27 @@
 //import OpenAI from "openai";
 import { NextResponse, NextRequest } from "next/server";
 import MistralClient from '@mistralai/mistralai'
-export async function POST(req :NextRequest ) {
-  const { apiKey, model, messages} = await req.json();
-
+export async function POST(req ) {
+ //const { apiKey} = await req.json();
+ const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
   // Handling the case where no text is provided
-  if (!apiKey) {
-    return new NextResponse(JSON.stringify({ error: "No ApiKey" }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
+  
 
   const client = new MistralClient(apiKey);
-try{
-  const chatResponse = await client.chat({
-    model: model,
-    messages: messages,
-    temperature: 0.2,
-    safe_mode:true
-  });
-  
-   // console.log('Chat:', chatResponse.choices[0].message.content);
+  try {
+    // Realizar la solicitud a la API de Mistral
+    const mistralResponse = await fetch("https://api.mistral.ai/v1/models", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+   
+    });
+    const responseData = await mistralResponse.json();
+    console.log('Chat:', responseData.data);
     // Creating and returning a NextResponse with the audio data
-    return new NextResponse(JSON.stringify({ responseMistral: chatResponse.choices[0].message.content }), {
+    return new NextResponse(JSON.stringify({ responseMistral: responseData.data }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
