@@ -3,7 +3,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import MistralClient from '@mistralai/mistralai'
 export async function POST(req  ) {
-  const { apiKey, model, messages} = await req.json();
+  const { apiKey, model, messages} = req.body;
 
   // Handling the case where no text is provided
   if (!apiKey) {

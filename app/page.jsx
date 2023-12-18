@@ -62,7 +62,7 @@ function Home() {
 
   useEffect(() => {
     const mistralTest = async () => {
-      
+      const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
   
      try {
        // Realiza la solicitud a través de tu propio servidor proxy (http://localhost:3000)
@@ -73,7 +73,7 @@ function Home() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY,
+            apiKey: apiKey,
             model: 'mistral-small',
             messages: [{ role: 'user', content: 'que significa el error P0033 ?' }],
           }),
