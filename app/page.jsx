@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useRef } from 'react';
 import {
-  Box, Flex, Text, ChakraProvider, Divider, Textarea, Button, Spinner, Grid, GridItem
+  Box, Flex, Text, ChakraProvider, Divider, Textarea, Button, Spinner, Grid, GridItem, HStack
 } from '@chakra-ui/react';
 import { ThemeSwitch } from './components/ThemeSwitch';
 
@@ -78,7 +78,7 @@ function Home() {
       const stream = await openai.chat.completions.create({
         model: 'gpt-4-1106-preview',
         messages: [{ role: "user", content: input },
-        { role: "system", content: 'speak spanish, profesional, maximun 3 lines, que puede estar de acuerdo o no con tu input de entrada. Y continuar con el tema o canviar de tema' }],
+        { role: "system", content: 'Respond in Spanish, professionally, within a maximum of three lines. The response may agree or disagree with the input provided. Continue with the current topic or smoothly transition to a new topic as needed.' }],
         temperature: 0.2,
         stream: true
       });
@@ -108,7 +108,7 @@ function Home() {
     try {
       const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
       const tokenStream = streamMistralChat(
-        [{ role: "system", content:  'speak spanish, profesional, maximun 3 lines, que puede estar de acuerdo o no con tu input de entrada. Y continuar con el tema o canviar de tema' },
+        [{ role: "system", content:  'Respond in Spanish, professionally, within a maximum of three lines. The response may agree or disagree with the input provided. Continue with the current topic or smoothly transition to a new topic as needed.' },
           { role: "user", content: input  }],
         { model: "mistral-small", temperature: 0.2 },
         {
@@ -138,7 +138,7 @@ function Home() {
     let currentInput = prompt;
   //console.log('prompt', prompt);
  // console.log('currentInput', currentInput);
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 10; i++) {
       const openaiResponse = await openaiTest(currentInput);
     //  console.log('openaiResponse', openaiResponse);
       const mistralResponse = await mistralTest(openaiResponse);
@@ -153,23 +153,28 @@ function Home() {
   };
 
   return (
-    <ChakraProvider>
+    <>
+    <Box position="absolute" top="0" width="100%" textAlign="center" mb={4}>
+<HStack>
+        <Text width="100%" fontSize="2xl" fontWeight="bold" mt={4} textAlign="center">
+          Mistral AI vs OpenAI - Conversation Demo
+        </Text>
+        <ThemeSwitch />
+        </HStack>
+    </Box>
+    <Box position="absolute" top="100" width="100%" textAlign="center" mb={4}>
     <Grid
-      templateColumns="repeat(3, 1fr)"
-      gap={6}
+        templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+      gap={4}
       align="center"
       justify="center"
       minH="100vh"
       minW="100vw"
       position="relative"
     >
-      <GridItem colSpan={3}>
-        <Text fontSize="2xl" fontWeight="bold" mt={4} textAlign="center">
-          Mistral AI vs OpenAI
-        </Text>
-      </GridItem>
+    
   
-      <GridItem colSpan={1}>
+      <GridItem >
       <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
         <Textarea
           placeholder="Escribe tu prompt aquí"
@@ -188,7 +193,7 @@ function Home() {
         </Box>
       </GridItem>
   
-      <GridItem colSpan={1}>
+      <GridItem >
         <Box overflowY="auto" maxHeight="300px"  border="2px solid gray">
           <Text color='green' fontSize="md">OpenAI Response:</Text>
           {isLoadingOpenai && <Spinner size="xs" color="green.500" ml={2} />}
@@ -198,7 +203,7 @@ function Home() {
         </Box>
       </GridItem>
   
-      <GridItem colSpan={1}>
+      <GridItem >
         <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
           <Text color='orange' fontSize="md">Mistral AI Response:</Text>
           {isLoadingMistral && <Spinner size="xs" color="orange.500" ml={2} />}
@@ -207,11 +212,13 @@ function Home() {
           </Text>
         </Box>
       </GridItem>
-  
+      </Grid>
+     </Box>
+     
       
   
       {showHistory && (
-        <GridItem colSpan={3}>
+        <Box position="relative" top="300" width="100%" textAlign="center" >
           <Box overflowY="auto" maxHeight="300px" border="1px solid gray" p={4}>
             <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
             {conversationHistory.map((entry, index) => (
@@ -221,24 +228,23 @@ function Home() {
               </Box>
             ))}
           </Box>
-        </GridItem>
+          <HStack mt={2}> 
+          <Button onClick={toggleHistory} colorScheme="teal" mb={4}>
+            {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
+          </Button>
+          <Button onClick={clearHistory} colorScheme="red" mb={4}>
+            Borrar Historial
+          </Button>
+          </HStack>
+          </Box>
       )}
-  <GridItem colSpan={3}>
-        <Divider my={4}/>
-        <Button onClick={toggleHistory} colorScheme="teal" mb={4}>
-          {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
-        </Button>
-        <Button onClick={clearHistory} colorScheme="red" mb={4}>
-          Borrar Historial
-        </Button>
-      </GridItem>
-      <GridItem colSpan={3}>
-        <Box position="absolute" bottom="0" width="100%" textAlign="center">
-          <ThemeSwitch />
-        </Box>
-      </GridItem>
-    </Grid>
-  </ChakraProvider>
+ 
+       
+     
+    
+    
+    </>
+  
   
   );
 }

@@ -1,7 +1,7 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
-  Box, Flex, Text, ChakraProvider, Divider, Textarea, Button
+  Box, Grid, GridItem, Text, Textarea, Button, SimpleGrid ,HStack
 } from '@chakra-ui/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
 import { streamMistralChat } from "mistral-edge";
@@ -15,18 +15,11 @@ function Home() {
     mistral: { time: 0, tokens: 0, speed: 0 },
     openai: { time: 0, tokens: 0, speed: 0 },
   });
-
+  const textareaRef = useRef(null);
   const calculateSpeed = (tokens, time) => {
     return time > 0 ? (tokens / time).toFixed(3) : 0;
   };
 
-  useEffect(() => {
-    // Removed the direct calls to mistralTest and openaiTest to allow manual triggering
-  }, []);
-
-  const handleInputChange = (event) => {
-    setPrompt(event.target.value);
-  };
 
   const handleGoClick = () => {
     mistralTest();
@@ -100,48 +93,76 @@ function Home() {
     }
   };
 
-  return (
-    <ChakraProvider>
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        minH="100vh"
-        minW="100vw"
-        position="relative"
-      >
-        <Text fontSize="2xl" fontWeight="bold" mt={4} position="absolute" top="0" width="100%" textAlign="center">
-          Mistral AI vs OpenAI
-        </Text>
+  const handleChange = (event) => {
+   
+    setPrompt(event.target.value)
+    // Ajustar automáticamente la altura
+    const textarea = textareaRef.current;
+    if (textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+};
 
+  return (
+    <>
+      <Box position="absolute" top="0" width="100%" textAlign="center" mb={4}>
+        <HStack>
+      <Text fontSize="2xl" fontWeight="bold" mt={4}  width="100%" textAlign="center">
+          Mistral AI vs OpenAI Test Speed
+        </Text>
+        <ThemeSwitch />
+        </HStack>
+      </Box>
+    
+<Box position="absolute" top="100" width="100%" textAlign="center" mb={4}>
+      <Grid
+    templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+    direction="column"
+    align="center"
+    justify="center"
+    minH="100vh"
+    minW="100vw"
+    position="relative"
+  >
+        
+        <GridItem >
         <Textarea
           placeholder="Escribe tu prompt aquí"
           value={prompt}
-          onChange={handleInputChange}
+         
           my={4}
           size="lg"
+          
+         
+          onChange={handleChange}
+          ref={textareaRef}
+          minHeight="unset"
+          overflow="hidden"
+          resize="none"
         />
         <Button onClick={handleGoClick} colorScheme="blue">Go</Button>
-
-        <Divider my={4}/>
-
-        <Text color='orange'>Mistral AI - Time: {performance.mistral.time} ms / Characters: {performance.mistral.tokens}  / Speed: {performance.mistral.speed} </Text>
+        </GridItem>
+       
+        <GridItem >
+        <Text fontSize="sm" as='b' color='orange'>Mistral AI - Time: {performance.mistral.time} ms / Characters: {performance.mistral.tokens}  / Speed: {performance.mistral.speed} </Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="left">
           {responseMistral}
         </Text>
-
-        <Divider my={4}/>
-
-        <Text color='green'>OpenAI - Time: {performance.openai.time} ms / Characters: {performance.openai.tokens} / Speed : {performance.openai.speed}</Text>
+        </GridItem>
+       
+        <GridItem >
+        <Text fontSize="sm" as='b' color='green'>OpenAI - Time: {performance.openai.time} ms / Characters: {performance.openai.tokens} / Speed : {performance.openai.speed}</Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="right">
           {responseOpenai}
         </Text>
-
-        <Box position="absolute" bottom="0" width="100%" textAlign="center">
-          <ThemeSwitch />
+        </GridItem>
+        </Grid>
+        
         </Box>
-      </Flex>
-    </ChakraProvider>
+       
+      
+        </>
   );
 }
 

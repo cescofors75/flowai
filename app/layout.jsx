@@ -1,7 +1,7 @@
 import React from 'react'
 import './globals.css'
 import { Roboto } from 'next/font/google'
-//import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import localFont from 'next/font/local'
 const myFont = localFont({ src: '../fonts/GeistMono-Medium.otf' })
 
@@ -17,10 +17,11 @@ export default function RootLayout({ children }) {
  
     <html lang="es">
       <body >
-      
+      <ChakraProvider>
     <div className={`${myFont.className} ${"container"}`} style={{ margin: 'auto', fontWeight: '400' }}>
       {children}
     </div>
+    </ChakraProvider>
     </body>
   </html>
     
