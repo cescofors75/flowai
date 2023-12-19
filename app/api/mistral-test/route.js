@@ -2,6 +2,7 @@
 //import OpenAI from "openai";
 import { NextResponse, NextRequest } from "next/server";
 import MistralClient from '@mistralai/mistralai'
+export const maxDuration = 25;
 export async function POST(req ) {
   const { apiKey, model, messages} = await req.json();
 //console.log(model, messages);

@@ -1,328 +1,251 @@
 'use client'
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  Button,
-  Image,
-  Box,
-  Flex,
-  IconButton,
-  HStack,
-  Text,
-  ChakraProvider,
-  Select,
+  Box, Flex, Text, ChakraProvider, Divider, Textarea, Button, Spinner, Grid, GridItem
 } from '@chakra-ui/react';
-import { FiCamera } from 'react-icons/fi';
 import { ThemeSwitch } from './components/ThemeSwitch';
-import AudioPlayer from './components/AudioPlayer';
 
-import MistralClient from '@mistralai/mistralai'
+import { streamMistralChat } from "mistral-edge";
+import OpenAI from 'openai';
+import StaticContentTextarea from './components/StaticContentTextarea'
 
 function Home() {
-  const [image, setImage] = useState('');
-  const [imagePreview, setImagePreview] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [textScan, setTextScan] = useState('');
-  const [language, setLanguage] = useState('Catala');
-  const [years, setYears] = useState('20');
-  const [mistral, setMistral] = useState('')
-
-  const fileInputRef = useRef(null);
- /* useEffect(() => {
-    const mistralTest = async () => {
-      const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
+  const [prompt, setPrompt] = useState('');
+  const [responseOpenAI, setResponseOpenAI] = useState('');
+  const [responseMistral, setResponseMistral] = useState('');
+  const [lastResponse, setLastResponse] = useState('');
+  const [isLoadingOpenai, setIsLoadingOpenai] = useState(false);
+  const [isLoadingMistral, setIsLoadingMistral] = useState(false);   
+  const [isLoading, setIsLoading] = useState(false); 
+  const [showHistory, setShowHistory] = useState(true);
+  const [conversationHistory, setConversationHistory] = useState([]);
+  const textareaRef = useRef(null);
   
-      try {
-       // Realiza la solicitud a través de tu propio servidor proxy (http://localhost:3000)
-        const response = await fetch('/api/mistral-test', {
-        //  const response = await fetch('/api/local', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            apiKey,
-            model: 'mistral-small',
-            messages: [{ role: 'user', content: 'que significa el error P0033 ?' }],
-          }),
-       
-  })
-        
-        
-        const data = await response.json();
-        console.log('Data:', data);
-      } catch (error) {
-        console.error('An error occurred:', error);
-        return; // Agrega un return para evitar la ejecución adicional del console.log
-      }
-    };
-  
-    mistralTest();
-  }, []);*/
 
-
-  useEffect(() => {
-    const mistralTest = async () => {
-      const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
-  
-     try {
-       // Realiza la solicitud a través de tu propio servidor proxy (http://localhost:3000)
-        const response = await fetch('/api/mistral-test', {
-       
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            apiKey: apiKey,
-            model: 'mistral-small',
-            messages: [{ role: 'user', content: 'que significa el error P0033 ?' }],
-          }),
-          
-       
-  })
-        
-        
-        const data = await response.json();
-        console.log('Data:', data);
-        setMistral(data.responseMistral);
-      } catch (error) {
-        console.error('An error occurred:', error);
-        return; // Agrega un return para evitar la ejecución adicional del console.log
-      }
-    
-
-
-
-
-    };
-  
-    mistralTest();
-  }, []);
-  
 
   const handleChange = (event) => {
-    setLanguage(event.target.value);
-  };
-
-  const handleChangeYears = (event) => {
-    setYears(event.target.value);
-  };
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      const base64Image = reader.result 
-      setImage(base64Image.split(',')[1]);
-      setImagePreview(base64Image);
-      
-    };
-  };
-
-  const analyzeImage = async () => {
-    setLoading(true);
-
-    let styleResponse;
-    if (years === '10') {
-      styleResponse = 'Per un nen , simple';
-    } else if (years === '20') {
-      styleResponse = 'Per un jove, detallada';
-    } else if (years === '40') {
-      styleResponse = 'Per un adult, comprensible';
-    } else if (years === '80') {
-      styleResponse = 'Per un vell, clara';
+   
+    setPrompt(event.target.value)
+    // Ajustar automáticamente la altura
+    const textarea = textareaRef.current;
+    if (textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
     }
+};
+  // Función para cargar el historial desde Local Storage
+  const loadHistory = () => {
+    const history = JSON.parse(localStorage.getItem('conversationHistory')) || [];
+    setConversationHistory(history);
+  };
 
-    const api_key = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-    const payload = {
-      model: 'gpt-4-vision-preview',
-      messages: [
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'text',
-             // text: `Analitza la imatge, i explica el seu contingut resumit en 3 frases i en ${language}, per a una persona cega. Estil de la resposta: ${styleResponse}`,
-              text: `Analyze the image, and explain its content in a summarized way in 3 sentences and in ${language}, for a visually impaired person. Response style: ${styleResponse}.`,
-            },
-            {
-              type: 'image_url',
-              image_url: {
-                url: `data:image/jpeg;base64,${image}`,
-                detail: "low"
-              },
-            },
-          ],
-        },
-      ],
-     max_tokens: 128,
-    };
+  // Función para alternar la visualización del historial
+  const toggleHistory = () => {
+    setShowHistory(!showHistory);
+    if (!showHistory) {
+      loadHistory();
+    }
+  };
+  const clearHistory = () => {
+    localStorage.removeItem('conversationHistory'); // Borra el historial de Local Storage
+    setConversationHistory([]); // Actualiza el estado para reflejar el cambio en la interfaz de usuario
+  };
 
+  const saveHistory = (openaiResponse, mistralResponse) => {
+    const history = JSON.parse(localStorage.getItem('conversationHistory')) || [];
+    history.push({ openaiResponse, mistralResponse });
+    localStorage.setItem('conversationHistory', JSON.stringify(history));
+  };
+
+  const updateHistory = (response, source) => {
+    setConversationHistory(prevHistory => [
+      { source, response },
+      ...prevHistory
+    ]);
+  };
+
+  const openaiTest = async (input) => {
+    setResponseOpenAI('');
+    setIsLoadingOpenai(true);
+    
+    let response = '';
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${api_key}`,
-        },
-        body: JSON.stringify(payload),
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true
       });
 
-      const data = await response.json();
-      setLoading(false);
-      setTextScan(data.choices[0].message.content);
+      const stream = await openai.chat.completions.create({
+        model: 'gpt-4-1106-preview',
+        messages: [{ role: "user", content: input },
+        { role: "system", content: 'speak spanish, profesional, maximun 3 lines, que puede estar de acuerdo o no con tu input de entrada. Y continuar con el tema o canviar de tema' }],
+        temperature: 0.2,
+        stream: true
+      });
+
+      for await (const chunk of stream) {
+        const deltaContent = chunk.choices[0]?.delta.content || '';
+        setResponseOpenAI(prev => prev + deltaContent);
+        
+        response += deltaContent;
+        
+        setLastResponse(prev => prev + deltaContent);
+      }
+      updateHistory(response, 'OpenAI');
     } catch (error) {
-      console.error('Error analyzing image:', error);
+      console.error('Error with OpenAI:', error);
+      setResponseOpenAI('Error with OpenAI');
     }
+    setIsLoadingOpenai(false);
+    return response;
   };
 
-  const onButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+  const mistralTest = async (input) => {
+    setResponseMistral('');
+    setIsLoadingMistral(true);
+  
+    let response = '';
+    try {
+      const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
+      const tokenStream = streamMistralChat(
+        [{ role: "system", content:  'speak spanish, profesional, maximun 3 lines, que puede estar de acuerdo o no con tu input de entrada. Y continuar con el tema o canviar de tema' },
+          { role: "user", content: input  }],
+        { model: "mistral-small", temperature: 0.2 },
+        {
+          apiKey: apiKey,
+          apiUrl: "https://corsproxy.io/?https://api.mistral.ai/v1/chat/completions",
+        }
+      );
+
+      for await (const token of tokenStream) {
+        setResponseMistral(prev => prev + token);
+        response += token;
+        setLastResponse(prev => prev + token);
+      }
+      updateHistory(response, 'Mistral');
+    } catch (error) {
+      console.error('An error occurred with Mistral:', error);
+      setResponseMistral('Error with Mistral');
     }
+    setIsLoadingMistral(false);
+    return response;
   };
 
-  const resetState = () => {
-    setTextScan('');
-    setImagePreview('');
+  const handleGoClick = async () => {
+    setIsLoading(true);
+    setResponseOpenAI('');
+    setResponseMistral('');
+    let currentInput = prompt;
+  //console.log('prompt', prompt);
+ // console.log('currentInput', currentInput);
+    for (let i = 0; i < 30; i++) {
+      const openaiResponse = await openaiTest(currentInput);
+    //  console.log('openaiResponse', openaiResponse);
+      const mistralResponse = await mistralTest(openaiResponse);
+   //     console.log('mistralResponse', mistralResponse);
+      currentInput = mistralResponse;
+      saveHistory(openaiResponse, mistralResponse); // Guardar en el historial
+
+      //console.log('currentInput', currentInput);
+    }
+  
+    setIsLoading(false);
   };
 
   return (
     <ChakraProvider>
-      
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        minH="100vh"
-        minW="100vw"
-        position="relative"
-      >
-       
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          mt={4}
-          
-          position="absolute"
-          top="0"
-          width="100%"
-          textAlign="center"
-        >
-          VisionHelper 1.0
-        </Text> 
-        <Text
-          fontSize="xs"
-         
-          mt={4}
-          
-         
-          width="80%"
-          textAlign="center"
-        >
-          {mistral}
+    <Grid
+      templateColumns="repeat(3, 1fr)"
+      gap={6}
+      align="center"
+      justify="center"
+      minH="100vh"
+      minW="100vw"
+      position="relative"
+    >
+      <GridItem colSpan={3}>
+        <Text fontSize="2xl" fontWeight="bold" mt={4} textAlign="center">
+          Mistral AI vs OpenAI
         </Text>
-        
-        {!imagePreview && (
-          <Flex direction="column" align="center" justify="center" alignItems="center">
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={handleImageUpload}
-            />
-            <IconButton
-              icon={<FiCamera color="white.300" />}
-              mt={4}
-              onClick={onButtonClick}
-              aria-label="Upload Image"
-              colorScheme="red"
-            />
-          </Flex>
-        )}
-        {imagePreview && (
-          <Flex direction="column" align="center" justify="center" alignItems="center">
-            <HStack style={{ maxWidth: '300px' }} mt={8}>
-              <Select
-                placeholder="Languages"
-                mt={4}
-                mb={4}
-                onChange={handleChange}
-                value={language}
-              >
-                <option value="Catala">Català</option>
-                <option value="Deutsch">Deutsch</option>
-                <option value="English">English</option>
-                <option value="Español">Español</option>
-                <option value="Français">Français</option>
-                <option value="Italiano">Italiano</option>
-                <option value="Português">Português</option>
-                
-              </Select>
-              <Select
-                placeholder="Years"
-                mt={4}
-                mb={4}
-                onChange={handleChangeYears}
-                value={years}
-              >
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="40">40</option>
-                <option value="80">80</option>
-              </Select>
-              <Button colorScheme="red" onClick={analyzeImage} isLoading={loading}>
-                GO!
-              </Button>
-            </HStack>
-            {!textScan && <Image mt={1} src={imagePreview} alt="Preview" maxW="300" mb="1" />}
-            <Box
-              style={{
-                backgroundImage: `url(${imagePreview})`,
-                maxWidth: '300px',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-              mt={1}
-              bgColor="black"
-              mb="1"
-            >
-              <div
-                style={{
-                  margin: '0 auto',
-                  textAlign: 'justify',
-                  backgroundColor: 'rgba(77, 77, 77, 0.5)',
-                  borderRadius: '6px',
-                  color: 'white',
-                }}
-              >
-                {textScan}
-              </div>
-            </Box>
-
-            {textScan && (
-            <Box>
-             <AudioPlayer text={textScan} />
-                
-             <Button mt={4} colorScheme="red" onClick={resetState} textAlign="left">
-               Back
-           </Button>
-              
-             </Box>
-              )}
-           
-          </Flex>
-        )}
-      
-        <Box position="absolute" bottom="0" width="100%" textAlign="center">
-        <ThemeSwitch />
+      </GridItem>
+  
+      <GridItem colSpan={1}>
+      <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
+        <Textarea
+          placeholder="Escribe tu prompt aquí"
+          value={prompt}
+          
+          my={4}
+          
+          isDisabled={isLoading}
+          onChange={handleChange}
+          ref={textareaRef}
+          minHeight="unset"
+          overflow="hidden"
+          resize="none"
+        />
+        <Button onClick={handleGoClick} colorScheme="blue" isDisabled={isLoading}>Go</Button>
         </Box>
-      </Flex>
-    </ChakraProvider>
+      </GridItem>
+  
+      <GridItem colSpan={1}>
+        <Box overflowY="auto" maxHeight="300px"  border="2px solid gray">
+          <Text color='green' fontSize="md">OpenAI Response:</Text>
+          {isLoadingOpenai && <Spinner size="xs" color="green.500" ml={2} />}
+          <Text fontSize="xs" mt={2} mb={4} textAlign="left">
+            {responseOpenAI}
+          </Text>
+        </Box>
+      </GridItem>
+  
+      <GridItem colSpan={1}>
+        <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
+          <Text color='orange' fontSize="md">Mistral AI Response:</Text>
+          {isLoadingMistral && <Spinner size="xs" color="orange.500" ml={2} />}
+          <Text fontSize="xs" mt={2} mb={4} textAlign="left">
+            {responseMistral}
+          </Text>
+        </Box>
+      </GridItem>
+  
+      
+  
+      {showHistory && (
+        <GridItem colSpan={3}>
+          <Box overflowY="auto" maxHeight="300px" border="1px solid gray" p={4}>
+            <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
+            {conversationHistory.map((entry, index) => (
+              <Box key={index} mt={2}>
+                
+                <StaticContentTextarea entry={entry} />
+              </Box>
+            ))}
+          </Box>
+        </GridItem>
+      )}
+  <GridItem colSpan={3}>
+        <Divider my={4}/>
+        <Button onClick={toggleHistory} colorScheme="teal" mb={4}>
+          {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
+        </Button>
+        <Button onClick={clearHistory} colorScheme="red" mb={4}>
+          Borrar Historial
+        </Button>
+      </GridItem>
+      <GridItem colSpan={3}>
+        <Box position="absolute" bottom="0" width="100%" textAlign="center">
+          <ThemeSwitch />
+        </Box>
+      </GridItem>
+    </Grid>
+  </ChakraProvider>
+  
   );
 }
 
 export default Home;
+/*
+<Text fontSize="sm">OpenAI: {entry.openaiResponse}</Text>
+              <Text fontSize="sm">Mistral: {entry.mistralResponse}</Text>
+              */
 
