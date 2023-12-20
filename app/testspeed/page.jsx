@@ -1,20 +1,23 @@
 'use client'
 
-import React, { useState, useRef, useCallback } from 'react';
-import { Box, Grid, Textarea, Button, Text, HStack, GridItem } from '@chakra-ui/react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image} from '@chakra-ui/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
+
 
 function Home() {
   const [prompt, setPrompt] = useState('');
   const [responses, setResponses] = useState({
     mistral: '',
     openai: '',
-    cohere: ''
+    cohere: '',
+    dalee: ''
   });
  
-  
+  const [image, setImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const textareaRef = useRef(null);
+  const [isLoadingDalee, setIsLoadingDalee] = useState(false);
 
   const [performance, setPerformance] = useState({
     mistral: { time: 0, tokens: 0, speed: 0 },
@@ -69,11 +72,47 @@ function Home() {
     }
   };
 
-  const handleGoClick = () => {
+
+
+
+
+  const handleGoClick = async() => {
+    setImage('');
+    setResponses({
+      mistral: '',
+      openai: '',
+      cohere: '',
+      dalee: ''
+    });
     testAPI('mistral', '/api/mistral');
     testAPI('openai', '/api/openai');
     testAPI('cohere', '/api/cohere');
-  };
+  // testAPI('dalee', '/api/dalee'); 
+  dalee();
+  }
+   
+const dalee = async () => {
+    setIsLoadingDalee(true);
+    const response =  await fetch('/api/dalee', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: prompt}),
+    });
+
+    
+      //console.log("Success");
+     
+      const data = await response.json();
+      //console.log(data);
+      const b64 = data.imageURL;
+      setImage(b64);
+      setIsLoadingDalee(false);
+   
+  }
+
+
 
   const handleChange = (event) => {
     setPrompt(event.target.value);
@@ -143,8 +182,23 @@ function Home() {
         <GridItem >
         <Text fontSize="sm" as='b' color='violet'>Cohere AI - Time: {performance.cohere.time} ms / Characters: {performance.cohere.tokens} / Speed : {performance.cohere.speed}</Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="left">
+        
         {responses.cohere}
         </Text>
+        </GridItem>
+        <GridItem >
+        <Text fontSize="sm" as='b' color='ligthblue'>Dale.e 3 - </Text>
+        {isLoadingDalee && <Text fontSize="xs" mt={4} width="80%" textAlign="left">Loading...</Text>}
+        {image &&
+        
+        <Image src={`data:image/jpeg;base64,${image}`} alt="Preview" maxW="300" mb="1" />
+       
+        
+        }
+        
+          
+        
+        
         </GridItem>
         </Grid>
         
@@ -155,6 +209,7 @@ function Home() {
 }
 
 export default Home;
+//
 
 
 
