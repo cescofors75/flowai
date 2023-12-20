@@ -6,8 +6,8 @@ export async function POST(req: Request) { //
  
   const body = JSON.stringify({
    
-    message:  prompt ,
-    model: 'command-light',
+    prompt:  prompt ,
+    model: 'command',
     //max_tokens: 300,
     //stop_sequences: [],
     temperature: 0.2,
@@ -15,7 +15,7 @@ export async function POST(req: Request) { //
     stream: true,
   });
  
-  const response = await fetch('https://api.cohere.ai/v1/chat', {
+  const response = await fetch('https://api.cohere.ai/v1/generate', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
