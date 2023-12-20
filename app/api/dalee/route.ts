@@ -4,13 +4,14 @@ import { NextResponse } from 'next/server';
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY
 });
-export const config = {
-  maxDuration: 25,
+/*export const config = {
+
   api: {
     responseLimit: false,
   },
-};
+};*/
 export const runtime = 'edge';
+export const maxDuration = 25
 
 export  async function POST(req:Request) {
     const { name } = await req.json();
