@@ -154,7 +154,7 @@ function Home() {
 
   return (
     <>
-    <Box position="absolute" top="0" width="100%" textAlign="center" mb={4}>
+    <Box position="absolute" top="0" width="100%" textAlign="center" p={2}>
 <HStack>
         <Text width="100%" fontSize="2xl" fontWeight="bold" mt={4} textAlign="center">
           Mistral AI vs OpenAI - Conversation Demo
@@ -170,11 +170,11 @@ function Home() {
       justify="center"
       minH="100vh"
       minW="100vw"
-      position="relative"
+     
     >
     
   
-      <GridItem >
+      <GridItem colSpan={3}>
       <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
         <Textarea
           placeholder="Escribe tu prompt aquí"
@@ -193,7 +193,7 @@ function Home() {
         </Box>
       </GridItem>
   
-      <GridItem >
+      <GridItem colSpan={3}>
         <Box overflowY="auto" maxHeight="300px"  border="2px solid gray">
           <Text color='green' fontSize="md">OpenAI Response:</Text>
           {isLoadingOpenai && <Spinner size="xs" color="green.500" ml={2} />}
@@ -203,7 +203,7 @@ function Home() {
         </Box>
       </GridItem>
   
-      <GridItem >
+      <GridItem colSpan={3}>
         <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
           <Text color='orange' fontSize="md">Mistral AI Response:</Text>
           {isLoadingMistral && <Spinner size="xs" color="orange.500" ml={2} />}
@@ -212,13 +212,14 @@ function Home() {
           </Text>
         </Box>
       </GridItem>
-      </Grid>
-     </Box>
      
-      
+   
+      <GridItem colSpan={3}>
+    
   
       {showHistory && (
-        <Box position="relative" top="300" width="100%" textAlign="center" >
+        
+          
           <Box overflowY="auto" maxHeight="300px" border="1px solid gray" p={4}>
             <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
             {conversationHistory.map((entry, index) => (
@@ -227,8 +228,15 @@ function Home() {
                 <StaticContentTextarea entry={entry} />
               </Box>
             ))}
-          </Box>
-          <HStack mt={2}> 
+          
+         
+        </Box>
+          
+         
+      )}
+  </GridItem>
+  <GridItem colSpan={3}>
+  <HStack mt={2}> 
           <Button onClick={toggleHistory} colorScheme="teal" mb={4}>
             {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
           </Button>
@@ -236,10 +244,9 @@ function Home() {
             Borrar Historial
           </Button>
           </HStack>
-          </Box>
-      )}
- 
-       
+          </GridItem>
+ </Grid>
+    </Box>
      
     
     

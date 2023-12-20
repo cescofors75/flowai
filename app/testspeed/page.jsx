@@ -1,115 +1,96 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Box, Grid, GridItem, Text, Textarea, Button, SimpleGrid ,HStack
-} from '@chakra-ui/react';
+
+import React, { useState, useRef, useCallback } from 'react';
+import { Box, Grid, Textarea, Button, Text, HStack, GridItem } from '@chakra-ui/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
-import { streamMistralChat } from "mistral-edge";
-import OpenAI from 'openai';
 
 function Home() {
   const [prompt, setPrompt] = useState('');
-  const [responseMistral, setResponseMistral] = useState('');
-  const [responseOpenai, setResponseOpenai] = useState('');
+  const [responses, setResponses] = useState({
+    mistral: '',
+    openai: '',
+    cohere: ''
+  });
+ 
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const textareaRef = useRef(null);
+
   const [performance, setPerformance] = useState({
     mistral: { time: 0, tokens: 0, speed: 0 },
     openai: { time: 0, tokens: 0, speed: 0 },
+    cohere: { time: 0, tokens: 0, speed: 0 }
   });
-  const textareaRef = useRef(null);
-  const calculateSpeed = (tokens, time) => {
-    return time > 0 ? (tokens / time).toFixed(3) : 0;
-  };
 
+  const calculateSpeed = useCallback((tokens, time) => {
+    return time > 0 ? (tokens / time).toFixed(3) : 0;
+  }, []);
+
+  const testAPI = async (apiName, endpoint) => {
+    const startTime = Date.now();
+    setIsLoading(true);
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const reader = response.body.getReader();
+      let responseText = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+  
+        // Aquí procesas cada chunk (que es un Uint8Array)
+        responseText += new TextDecoder().decode(value);
+        setResponses(prev => ({ ...prev, [apiName]: responseText }));
+        setPerformance(prev => ({
+          ...prev,
+          [apiName]: {
+            time: Date.now() - startTime,
+            tokens: responseText.length,
+            speed: calculateSpeed(responseText.length, Date.now() - startTime),
+          },
+        }));
+      }
+     
+
+
+
+
+    } catch (error) {
+      console.error(`${apiName} Fetch error:`, error);
+      setResponses(prev => ({ ...prev, [apiName]: `Error: ${error.message}` }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleGoClick = () => {
-    mistralTest();
-    openaiTest();
-  };
-
-  const mistralTest = async () => {
-    const startTime = Date.now();
-    try {
-      const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
-      const tokenStream = streamMistralChat(
-        [{ role: "user", content: prompt }],
-        { model: "mistral-small", temperature: 0.2 },
-        {
-          apiKey: apiKey,
-          apiUrl: "https://corsproxy.io/?https://api.mistral.ai/v1/chat/completions",
-        }
-      );
-
-      let fullResponse = "";
-      for await (const token of tokenStream) {
-        fullResponse += token;
-        setResponseMistral(fullResponse);
-        setPerformance(prev => ({
-          ...prev,
-          mistral: {
-            time: Date.now() - startTime,
-            tokens: fullResponse.length,
-            speed: calculateSpeed(fullResponse.length, Date.now() - startTime)
-          }
-        }));
-      }
-
-    } catch (error) {
-      console.error('An error occurred with Mistral:', error);
-    }
-  };
-
-  const openaiTest = async () => {
-    const startTime = Date.now();
-    try {
-      const openai = new OpenAI({
-        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, 
-        dangerouslyAllowBrowser: true
-      });
-
-      const stream = await openai.chat.completions.create({
-        model: 'gpt-4-1106-preview',
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.2,
-        stream: true
-      });
-
-      let data = '';
-      for await (const chunk of stream) {
-        const deltaContent = chunk.choices[0]?.delta.content || '';
-        data += deltaContent;
-        setResponseOpenai(data);
-        setPerformance(prev => ({
-          ...prev,
-          openai: {
-            time: Date.now() - startTime,
-            tokens: data.length,
-            speed: calculateSpeed(data.length, Date.now() - startTime)
-          }
-        }));
-      }
-
-    } catch (error) {
-      console.error('Error with OpenAI:', error);
-    }
+    testAPI('mistral', '/api/mistral');
+    testAPI('openai', '/api/openai');
+    testAPI('cohere', '/api/cohere');
   };
 
   const handleChange = (event) => {
-   
-    setPrompt(event.target.value)
-    // Ajustar automáticamente la altura
+    setPrompt(event.target.value);
     const textarea = textareaRef.current;
     if (textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
     }
-};
+  };
 
   return (
     <>
+     
       <Box position="absolute" top="0" width="100%" textAlign="center" mb={4}>
         <HStack>
       <Text fontSize="2xl" fontWeight="bold" mt={4}  width="100%" textAlign="center">
-          Mistral AI vs OpenAI Test Speed
+          Mistral AI vs OpenAI vs Cohere (Test Speed) v.0.1
         </Text>
         <ThemeSwitch />
         </HStack>
@@ -117,7 +98,7 @@ function Home() {
     
 <Box position="absolute" top="100" width="100%" textAlign="center" mb={4}>
       <Grid
-    templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+    templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
     direction="column"
     align="center"
     justify="center"
@@ -141,32 +122,40 @@ function Home() {
           overflow="hidden"
           resize="none"
         />
-        <Button onClick={handleGoClick} colorScheme="blue">Go</Button>
+         <Button onClick={handleGoClick} colorScheme="blue" isDisabled={isLoading}>
+        Go
+      </Button>
         </GridItem>
        
         <GridItem >
         <Text fontSize="sm" as='b' color='orange'>Mistral AI - Time: {performance.mistral.time} ms / Characters: {performance.mistral.tokens}  / Speed: {performance.mistral.speed} </Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="left">
-          {responseMistral}
+          {responses.mistral}
         </Text>
         </GridItem>
        
         <GridItem >
         <Text fontSize="sm" as='b' color='green'>OpenAI - Time: {performance.openai.time} ms / Characters: {performance.openai.tokens} / Speed : {performance.openai.speed}</Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="right">
-          {responseOpenai}
+          {responses.openai}
+        </Text>
+        </GridItem>
+        <GridItem >
+        <Text fontSize="sm" as='b' color='violet'>Cohere AI - Time: {performance.cohere.time} ms / Characters: {performance.cohere.tokens} / Speed : {performance.cohere.speed}</Text>
+        <Text fontSize="xs" mt={4} width="80%" textAlign="left">
+        {responses.cohere}
         </Text>
         </GridItem>
         </Grid>
         
         </Box>
-       
-      
-        </>
+     
+    </>
   );
 }
 
 export default Home;
+
 
 
 

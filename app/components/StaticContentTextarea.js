@@ -14,7 +14,7 @@ const StaticContentTextarea = ({ entry }) => {
     }, [entry]); // Dependencias para reajustar si el contenido de 'entry' cambia
 
     return (
-        <Box>
+        
         <Textarea
             backgroundColor='transparent'
             fontSize="sm"
@@ -25,7 +25,7 @@ const StaticContentTextarea = ({ entry }) => {
             resize="none"
             isReadOnly // Si solo es para mostrar el contenido y no para editar
         />
-        </Box>
+        
     );
 };
 
