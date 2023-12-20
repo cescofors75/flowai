@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image} from '@chakra-ui/react';
+import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image, Divider, Spinner} from '@chakra-ui/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
 
 
@@ -14,10 +14,12 @@ function Home() {
     dalee: ''
   });
  
-  const [image, setImage] = useState('');
+  const [imageDalee, setImageDalee] = useState('');
+  const [imageStability, setImageStability] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const textareaRef = useRef(null);
   const [isLoadingDalee, setIsLoadingDalee] = useState(false);
+  const [isLoadingStability, setIsLoadingStability] = useState(false);
 
   const [performance, setPerformance] = useState({
     mistral: { time: 0, tokens: 0, speed: 0 },
@@ -77,7 +79,8 @@ function Home() {
 
 
   const handleGoClick = async() => {
-    setImage('');
+    setImageDalee('');
+    setImageStability('');
     setResponses({
       mistral: '',
       openai: '',
@@ -89,6 +92,7 @@ function Home() {
     testAPI('cohere', '/api/cohere');
   // testAPI('dalee', '/api/dalee'); 
   dalee();
+  stability();
   }
    
 const dalee = async () => {
@@ -107,8 +111,28 @@ const dalee = async () => {
       const data = await response.json();
       //console.log(data);
       const b64 = data.imageURL;
-      setImage(b64);
+      setImageDalee(b64);
       setIsLoadingDalee(false);
+   
+  }
+  const stability = async () => {
+    setIsLoadingStability(true);
+    const response =  await fetch('/api/stability', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: prompt}),
+    });
+
+    
+      //console.log("Success");
+     
+      const data = await response.json();
+      //console.log(data);
+      const b64 = data.imageURL;
+      setImageStability(b64);
+      setIsLoadingStability(false);
    
   }
 
@@ -161,9 +185,11 @@ const dalee = async () => {
           overflow="hidden"
           resize="none"
         />
-         <Button onClick={handleGoClick} colorScheme="blue" isDisabled={isLoading}>
+         <Button onClick={handleGoClick} colorScheme="blue" isDisabled={isLoading} mb={2}>
         Go
       </Button>
+      
+        
         </GridItem>
        
         <GridItem >
@@ -187,11 +213,24 @@ const dalee = async () => {
         </Text>
         </GridItem>
         <GridItem >
-        <Text fontSize="sm" as='b' color='ligthblue'>Dale.e 3 - </Text>
-        {isLoadingDalee && <Text fontSize="xs" mt={4} width="80%" textAlign="left">Loading...</Text>}
-        {image &&
+        <br/><Text fontSize="sm" as='b' color='red.500'>Dale.e 3 - </Text>
+        {isLoadingDalee &&
+        <Spinner size="xs" color="red.500" ml={2} />
         
-        <Image src={`data:image/jpeg;base64,${image}`} alt="Preview" maxW="300" mb="1" />
+        }
+        {imageDalee &&
+        
+        <Image src={`data:image/jpeg;base64,${imageDalee}`} alt="Preview" maxW="300" mb="1" />
+       
+        
+        }
+        </GridItem>
+        <GridItem >
+        <Text fontSize="sm" as='b' color='red.500'>Stability AI XL - </Text>
+        {isLoadingStability && <Spinner size="xs" color="red.500" ml={2} />}
+        {imageStability &&
+        
+        <Image src={`data:image/jpeg;base64,${imageStability}`} alt="Preview" maxW="300" mb="1" />
        
         
         }
