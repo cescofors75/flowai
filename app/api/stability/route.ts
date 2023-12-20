@@ -2,13 +2,9 @@
 
 import { NextResponse } from 'next/server';
 
-export const config = {
-  maxDuration: 25,
-  api: {
-    responseLimit: false,
-  },
-};
+
 export const runtime = 'edge';
+export const maxDuration = 25
 
 export  async function POST(req:Request) {
     const { name } = await req.json();
