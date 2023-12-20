@@ -7,7 +7,7 @@ export async function POST(req: Request) { //
  
   const stream = streamMistralChat(
     [{ role: "user", content: prompt }],
-    { model: "mistral-small", temperature: 0.2 },
+    { model: "mistral-tiny", temperature: 0.2 },
     {
       apiKey: apiKey,
       apiUrl: "https://corsproxy.io/?https://api.mistral.ai/v1/chat/completions",

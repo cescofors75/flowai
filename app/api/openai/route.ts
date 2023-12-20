@@ -15,7 +15,7 @@ const openai = new OpenAI({
    
     // Ask OpenAI for a streaming completion given the prompt
     const response = await openai.chat.completions.create({
-      model: 'gpt-4-1106-preview',
+      model: 'gpt-3.5-turbo-1106',
       //max_tokens: 2000,
       stream: true,
       messages: [{ role: "user", content: prompt }]
