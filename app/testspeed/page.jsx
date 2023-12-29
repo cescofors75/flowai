@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image, Divider, Spinner} from '@chakra-ui/react';
+import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image, Divider, Spinner, Avatar} from '@chakra-ui/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
 
 
@@ -193,6 +193,12 @@ const dalee = async () => {
         </GridItem>
        
         <GridItem >
+        <Avatar
+              size="sm"
+              src={`./france.png`}
+             
+              mr={3}
+            />
         <Text fontSize="sm" as='b' color='orange'>Mistral AI - Time: {performance.mistral.time} ms / Characters: {performance.mistral.tokens}  / Speed: {performance.mistral.speed} </Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="left">
           {responses.mistral}
@@ -200,12 +206,24 @@ const dalee = async () => {
         </GridItem>
        
         <GridItem >
+        <Avatar
+              size="sm"
+              src={`./usa.png`}
+             
+              mr={3}
+            />
         <Text fontSize="sm" as='b' color='green'>OpenAI - Time: {performance.openai.time} ms / Characters: {performance.openai.tokens} / Speed : {performance.openai.speed}</Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="right">
           {responses.openai}
         </Text>
         </GridItem>
         <GridItem >
+        <Avatar
+              size="sm"
+              src={`./canada.png`}
+             
+              mr={3}
+            />
         <Text fontSize="sm" as='b' color='violet'>Cohere AI - Time: {performance.cohere.time} ms / Characters: {performance.cohere.tokens} / Speed : {performance.cohere.speed}</Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="left">
         
@@ -213,6 +231,12 @@ const dalee = async () => {
         </Text>
         </GridItem>
         <GridItem >
+        <Avatar
+              size="sm"
+              src={`./usa.png`}
+             
+              mr={3}
+            />
         <br/><Text fontSize="sm" as='b' color='red.500'>Dale.e 3 - </Text>
         {isLoadingDalee &&
         <Spinner size="xs" color="red.500" ml={2} />
@@ -226,6 +250,12 @@ const dalee = async () => {
         }
         </GridItem>
         <GridItem >
+        <Avatar
+              size="sm"
+              src={`./india.png`}
+             
+              mr={3}
+            />
         <Text fontSize="sm" as='b' color='red.500'>Stability AI XL - </Text>
         {isLoadingStability && <Spinner size="xs" color="red.500" ml={2} />}
         {imageStability &&

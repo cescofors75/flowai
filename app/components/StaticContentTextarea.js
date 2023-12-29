@@ -3,7 +3,7 @@ import { Textarea, Box } from '@chakra-ui/react';
 
 const StaticContentTextarea = ({ entry }) => {
     const textareaRef = useRef(null);
-
+console.log(entry);
     useEffect(() => {
         // Ajustar la altura inicialmente basada en el contenido
         const textarea = textareaRef.current;
@@ -18,7 +18,7 @@ const StaticContentTextarea = ({ entry }) => {
         <Textarea
             backgroundColor='transparent'
             fontSize="sm"
-            value={`${entry.source}: ${entry.response}`}
+            value={`${entry.userQuestion}: ${entry.openaiResponse}`}
             ref={textareaRef}
             minHeight="unset"
             overflow="hidden"

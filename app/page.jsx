@@ -1,13 +1,17 @@
+
 'use client'
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 import {
-  Box, Flex, Text, ChakraProvider, Divider, Textarea, Button, Spinner, Grid, GridItem, HStack
+  Box,  Text, Textarea, Button, Spinner, Grid, GridItem, HStack
 } from '@chakra-ui/react';
 import { ThemeSwitch } from './components/ThemeSwitch';
 
-import { streamMistralChat } from "mistral-edge";
+//import { streamMistralChat } from "mistral-edge";
 import OpenAI from 'openai';
 import StaticContentTextarea from './components/StaticContentTextarea'
+
+
+
 
 function Home() {
   const [prompt, setPrompt] = useState('');
@@ -20,9 +24,58 @@ function Home() {
   const [showHistory, setShowHistory] = useState(true);
   const [conversationHistory, setConversationHistory] = useState([]);
   const textareaRef = useRef(null);
+  const [threadId, setThreadId] = useState('');
+  const [runId, setRunId] = useState('');
+  const assitantId = 'asst_VnXbM4b2rQaFj7xsGJn3LtT9'
+
+
+
   
 
-
+  useEffect(() => {
+    const apiUrl = '/api';
+  
+    const postRequest = async (url, body) => {
+      const response = await fetch(`${apiUrl}${url}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    };
+  
+    const createThread = async () => {
+      const data = await postRequest('/thread', {});
+    //  console.log('Thread created:', data);
+      setThreadId(data.id)
+      return data.id;
+    };
+  
+   /* const firstRunAssistant = async (threadId) => {
+      const data = await postRequest('/assistant/run', {
+        threadId,
+        assistantId: assitantId, // Asegúrate de que 'assistantId' esté definido en algún lugar
+        instructions: 'Hola',
+      });
+      console.log('Assistant run:', data);
+        setRunId(data.id)
+    };*/
+  
+    const initAssistant = async () => {
+      try {
+        const threadId = await createThread();
+       // await firstRunAssistant(threadId);
+      } catch (err) {
+        console.error('Error al inicializar el asistente:', err);
+      }
+    };
+  
+    initAssistant();
+  }, []); // Asegúrate de definir cualquier dependencia aquí si es necesario
+  
   const handleChange = (event) => {
    
     setPrompt(event.target.value)
@@ -51,10 +104,16 @@ function Home() {
     setConversationHistory([]); // Actualiza el estado para reflejar el cambio en la interfaz de usuario
   };
 
-  const saveHistory = (openaiResponse, mistralResponse) => {
+  const saveHistory = (openaiResponse, userQuestion) => {
+   // console.log('saveHistory');
+    //console.log(openaiResponse);
+    //console.log(mistralResponse);
     const history = JSON.parse(localStorage.getItem('conversationHistory')) || [];
-    history.push({ openaiResponse, mistralResponse });
+    history.push({ userQuestion, openaiResponse });
     localStorage.setItem('conversationHistory', JSON.stringify(history));
+   // console.log(history);
+    setConversationHistory(history);
+
   };
 
   const updateHistory = (response, source) => {
@@ -100,165 +159,208 @@ function Home() {
     return response;
   };
 
-  const mistralTest = async (input) => {
-    setResponseMistral('');
-    setIsLoadingMistral(true);
-  
-    let response = '';
-    try {
-      const apiKey = process.env.NEXT_PUBLIC_MISTRAL_API_KEY;
-      const tokenStream = streamMistralChat(
-        [{ role: "system", content:  'Respond in Spanish, professionally, within a maximum of three lines. The response may agree or disagree with the input provided. Continue with the current topic or smoothly transition to a new topic as needed.' },
-          { role: "user", content: input  }],
-        { model: "mistral-small", temperature: 0.2 },
-        {
-          apiKey: apiKey,
-          apiUrl: "https://corsproxy.io/?https://api.mistral.ai/v1/chat/completions",
-        }
-      );
-
-      for await (const token of tokenStream) {
-        setResponseMistral(prev => prev + token);
-        response += token;
-        setLastResponse(prev => prev + token);
-      }
-      updateHistory(response, 'Mistral');
-    } catch (error) {
-      console.error('An error occurred with Mistral:', error);
-      setResponseMistral('Error with Mistral');
-    }
-    setIsLoadingMistral(false);
-    return response;
-  };
 
   const handleGoClick = async () => {
     setIsLoading(true);
+    saveHistory( prompt,'user: ');
     setResponseOpenAI('');
-    setResponseMistral('');
-    let currentInput = prompt;
-  //console.log('prompt', prompt);
- // console.log('currentInput', currentInput);
-    for (let i = 0; i < 10; i++) {
-      const openaiResponse = await openaiTest(currentInput);
-    //  console.log('openaiResponse', openaiResponse);
-      const mistralResponse = await mistralTest(openaiResponse);
-   //     console.log('mistralResponse', mistralResponse);
-      currentInput = mistralResponse;
-      saveHistory(openaiResponse, mistralResponse); // Guardar en el historial
+  
+
+    await fetch ('/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ threadId: threadId, content : prompt })
+        })
+        .then(res => res.json())
+        .then(data => {
+         console.log('New message');
+        })
+        .catch(err => {
+            console.log('err', err);
+        });
+
+    let run_Id
+            const data = await fetch('/api/assistant/run', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ threadId: threadId, assistantId: assitantId, instructions: 'Hola'})
+              
+            }).then(res => res.json())
+            .then(data => {
+             console.log('First run');
+             console.log('Assistant run:', data.id);
+             setRunId(data.id)
+                run_Id = data.id
+            })
+            .catch(err => {
+                console.log('err', err);
+            });
+            //console.log('Assistant run:', data);
+              
+          
+
+   let runStatus 
+
+    await fetch ('/api/thread/run', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ threadId: threadId, runId: run_Id})
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Run OK');
+            runStatus = data;
+            console.log(runStatus);
+        })
+        .catch(err => {
+            console.log('err', err);
+        });
+        
+        let lastMessageForRun
+
+        while (runStatus.status !== "completed") {
+             await new Promise((resolve) => setTimeout(resolve, 1000));
+            // runStatus = await openai.beta.threads.runs.retrieve(threadId, run_Id);
+          await fetch ('/api/thread/run', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ threadId: threadId, runId: run_Id})
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Run continued');
+                    runStatus = data;
+                })
+                .catch(err => {
+                    console.log('err', err);
+                });             //console.log(runStatus);
+           }
+        
+       let messages
+           await fetch (`/api/messages?threadId=${threadId}`, { // Get messages
+
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log('Messages OK');
+                messages=data.messages.data;
+            })
+            .catch(err => {
+                console.log('err', err);
+            });
+           
+            console.log(messages);
+
+           lastMessageForRun = messages
+    .filter(
+      (message) => message.run_id === run_Id && message.role === "assistant"
+    )
+    console.log(lastMessageForRun[0].content[0].text.value);
+    //setResponseOpenAI(responseOpenAI+'\n user: '+ prompt +'\n'+ 'AI: '+lastMessageForRun[0].content[0].text.value);
+
+    if (lastMessageForRun) setResponseOpenAI(lastMessageForRun[0].content[0].text.value);
+      //const openaiResponse = await openaiTest(prompt);
+    
+
+     saveHistory(lastMessageForRun[0].content[0].text.value,'Assitant: '); // Guardar en el historial
 
       //console.log('currentInput', currentInput);
-    }
+    
   
     setIsLoading(false);
+    setPrompt('');
   };
 
   return (
     <>
-    <Box position="absolute" top="0" width="100%" textAlign="center" p={2}>
-<HStack>
-        <Text width="100%" fontSize="2xl" fontWeight="bold" mt={4} textAlign="center">
-          Mistral AI vs OpenAI - Conversation Demo
+    <Box position="absolute" top="0" width="100%" textAlign="center" p={4} bg="gray.800">
+      <HStack>
+        <Text width="100%" fontSize="3xl" fontWeight="bold" color="teal.300">
+          Asistentes OpenAI - Demostración de Conversación
         </Text>
         <ThemeSwitch />
-        </HStack>
+      </HStack>
     </Box>
-    <Box position="absolute" top="100" width="100%" textAlign="center" mb={4}>
-    <Grid
-        templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
-      gap={4}
-      align="center"
-      justify="center"
-      minH="100vh"
-      minW="100vw"
-     
-    >
-    
   
-      <GridItem colSpan={3}>
-      <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
-        <Textarea
-          placeholder="Escribe tu prompt aquí"
-          value={prompt}
-          
-          my={4}
-          
-          isDisabled={isLoading}
-          onChange={handleChange}
-          ref={textareaRef}
-          minHeight="unset"
-          overflow="hidden"
-          resize="none"
-        />
-        <Button onClick={handleGoClick} colorScheme="blue" isDisabled={isLoading}>Go</Button>
-        </Box>
-      </GridItem>
+    <Box position="absolute" top="20" width="100%" p={4} textAlign="center" bg="gray.900" color="gray.100">
+      <Grid
+        templateColumns="repeat(1, 1fr)"
+        gap={6}
+        align="center"
+        justify="center"
+      >
+        <GridItem>
+          <HStack mt={2} spacing={4}>
+            <Button onClick={toggleHistory} colorScheme="purple" variant="solid">
+              {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
+            </Button>
+            <Button onClick={clearHistory} colorScheme="orange" variant="outline">
+              Borrar Historial
+            </Button>
+          </HStack>
+        </GridItem>
   
-      <GridItem colSpan={3}>
-        <Box overflowY="auto" maxHeight="300px"  border="2px solid gray">
+        {showHistory && (
+          <GridItem>
+            <Box bg="gray.700" p={4} boxShadow="inner" borderRadius="md">
+              <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
+              {conversationHistory.map((entry, index) => (
+                <Box key={index} mt={2} bg="gray.600" p={2} borderRadius="sm">
+                  <StaticContentTextarea entry={entry} />
+                </Box>
+              ))}
+            </Box>
+          </GridItem>
+        )}
+  
+        <GridItem>
+          <Box bg="gray.700" p={4} boxShadow="inner" borderRadius="md">
+            <Textarea
+              placeholder="Escribe tu prompt aquí"
+              value={prompt}
+              my={4}
+              isDisabled={isLoading}
+              onChange={handleChange}
+              ref={textareaRef}
+              minHeight="unset"
+              overflow="hidden"
+              resize="none"
+              bg="gray.600"
+              color="gray.200"
+            />
+            <Button onClick={handleGoClick} colorScheme="blue" isLoading={isLoading}>Enviar</Button>
+          </Box>
+        </GridItem>
+      </Grid>
+    </Box>
+  </>
+  
+  
+  
+  
+  );
+            }
+
+export default Home;
+/*
+  <GridItem colSpan={3}>
+        <Box >
           <Text color='green' fontSize="md">OpenAI Response:</Text>
           {isLoadingOpenai && <Spinner size="xs" color="green.500" ml={2} />}
           <Text fontSize="xs" mt={2} mb={4} textAlign="left">
             {responseOpenAI}
           </Text>
         </Box>
-      </GridItem>
-  
-      <GridItem colSpan={3}>
-        <Box overflowY="auto" maxHeight="300px" border="2px solid gray">
-          <Text color='orange' fontSize="md">Mistral AI Response:</Text>
-          {isLoadingMistral && <Spinner size="xs" color="orange.500" ml={2} />}
-          <Text fontSize="xs" mt={2} mb={4} textAlign="left">
-            {responseMistral}
-          </Text>
-        </Box>
-      </GridItem>
-     
-   
-      <GridItem colSpan={3}>
-    
-  
-      {showHistory && (
-        
-          
-          <Box overflowY="auto" maxHeight="300px" border="1px solid gray" p={4}>
-            <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
-            {conversationHistory.map((entry, index) => (
-              <Box key={index} mt={2}>
-                
-                <StaticContentTextarea entry={entry} />
-              </Box>
-            ))}
-          
-         
-        </Box>
-          
-         
-      )}
-  </GridItem>
-  <GridItem colSpan={3}>
-  <HStack mt={2}> 
-          <Button onClick={toggleHistory} colorScheme="teal" mb={4}>
-            {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
-          </Button>
-          <Button onClick={clearHistory} colorScheme="red" mb={4}>
-            Borrar Historial
-          </Button>
-          </HStack>
-          </GridItem>
- </Grid>
-    </Box>
-     
-    
-    
-    </>
-  
-  
-  );
-}
-
-export default Home;
-/*
-<Text fontSize="sm">OpenAI: {entry.openaiResponse}</Text>
-              <Text fontSize="sm">Mistral: {entry.mistralResponse}</Text>
-              */
-
+      </GridItem>*/

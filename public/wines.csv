@@ -1,0 +1,312 @@
+id,ean,title,description,name,size,type,price,color,DO,blocked
+970,8429617065103,Marta violet,"Muscat, Xarel.lo y Macabeo de agricultura ecológica. Joven, sin crianza. Frutal, amable y largo.",Marta violet,750ml,Muscat,18.5,blanco,DO PENEDÈS,true
+971,8410855200111,Can matons,"Pansa blanca (Xarel.lo). Joven, sin crianza.
+Cremoso, seco y amplio",Can matons,750ml,Pansa blanca,21,blanco,DO ALELLA,true
+972,8410631220104,Mireia,"Gewurztramminer, Muscat y Sauvignon blanc. Joven, sin crianza. Sedoso, meloso y afrutado",Mireia,750ml,Gewürztraminer,19,blanco,DO PENEDÈS,true
+1010,8429484001402,El marido de mi amiga,"Tempranillo blanco, Malvasía y Sauvignon blanc. Joven, sin crianza.
+Muy afrutado, semi dulce y voluminoso.",El marido de mi amiga  Rioja,750ml,Tempranillo blanco,17.5,blanco,DOC RIOJA,true
+1011,8436011563463,La niña de mis ojos,"Sauvignon blanco y Verdejo. Joven, sin crianza
+Afrutado, amable y semi dulce",La niña de mis ojos,750ml,Sauvignon blanc,19.5,blanco,DOC RIOJA,true
+1012,8437011931351,12 Lunas,"Chardonnay y Gewurstraminer. Crianza de 4 meses con sus lías
+Sedoso, graso y fresco",12 Lunas  DO Somontano,750ml,Chardonnay,19,blanco,DO SOMONTANO,true
+1013,8423014210432,Gómez Cruzado,"85% Viura y Tempranillo blanco . Crianza de 5 meses en barrica de roble y depósitos.
+Voluminoso, con cuerpo y agradable. 92 Parker",Gómez Cruzado 2 año  Rioja,750ml,Viura,19,blanco,DOC RIOJA,true
+1014,8427334121751,Godeval,"100% Godello. Joven sin crianza.
+Aromático, delicado y elegante.",Godeval  DO Valdeorras,750ml,Godello,24.5,blanco,DO VALDEORRAS,true
+1015,8437003293061,Terras vellas,"100% Albariño. Joven sin crianza,
+Afrutado, mineral, amplio y gastronómico",Terras vellas  DO Rías baixas.,750ml,Albariño,23,blanco,DO RÍAS BAIXAS,true
+1016,8420612840009,La huida,"100% Albariño. Joven sin crianza,
+Sabroso, suave y largo",La huida  DO Rías baixas,750ml,Albariño,18.5,blanco,DO RÍAS BAIXAS,true
+1017,8437008356075,Lolo,"100% Albariño. Joven sin crianza,
+Fresco, elegante y persistente",Lolo  DO Rías baixas,750ml,Albariño,19.9,blanco,DO RÍAS BAIXAS,true
+1019,8410868430019,Qué no falte,"100% Verdejo. Joven sin crianza,
+Suave, fresco y vivo",Qué no falte  Do Rueda,750ml,Verdejo,17,blanco,DO RUEDA,true
+1021,8437004016430,K-naia,"85% verdejo y Sauvignon blanc .Joven sin crianza.
+Fresco, ligero y agradable",Knaia  DO Rueda,750ml,Verdejo,15,blanco,DO RUEDA,true
+1022,8437000205258,Tremendus Clarete,"Viura y Garnacha. Crianza sobre sus lías
+Fresco, elegante y largo",Tremendus Clarete,750ml,Garnacha,13.5,rosado,DOC RIOJA,true
+1023,8437000121442,Pradorey rosado,"Tempranillo y Merlot. Fermentado  y criado 3 meses en barrica de roble.
+Elegante, cremoso, largo y gastronómico.",Pradorey rosado  DO Ribera del duero,750ml,Tempranillo,19.5,rosado,DO RIBERA DEL DUERO,true
+1024,8436020950117,Espelt Moscatell,"Moscatel de Alejandría de agricultura ecológica.
+Vino dulce natural.
+Dulce, suave y elegante.",Espelt Moscatell  DO Emporda,500ml,Moscatel,15,dulce,DO EMPORDÀ,true
+1025,8431353100543,Pedro Ximenez Viña 98,"Envejece 4 años por el sistema criaderas y soleras
+Dulce, persistente y equilibrado.",Pedro Ximenez Viña 98  DO Jerez,750ml,Pedro Ximenez,23.5,dulce,DO JEREZ,true
+1055,7798108620079,Nuna Malbec,"Malbec de agricultura ecológica y biodinámica.
+Crianza en tinas de cemento
+Vegano, afrutado y con estructura",Nuna Malbec  Argentina,750ml,Malbec,21.5,tinto,ARGENTINA,true
+1056,843700020511,Senda de Haro,"70% Tempranillo y Garnacha
+Crianza de 6 meses sobre lías y 15 meses en barrica de roble.
+Amplio, redondo y final largo",Senda de Haro Crianza  DOC RIoja,750ml,Tempranillo,18,tinto,DOC RIOJA,true
+1057,8436579341558,Hacienda el olmo,"100% Tempranillo
+Crianza de 12 meses en barrica de roble
+Goloso, sabroso y equilibrado",Hacienda el olmo CZA DOC RIOJA,750ml,Tempranillo,14.5,tinto,DOC RIOJA,true
+1058,8423014212337,Kármán,"90% Garnacha y Tempranillo
+Crianza durante 8 meses en depósitos.
+Aromático, fresco y frutal.
+90 Parker",Kármán  DOC Rioja,750ml,Garnacha,14.5,tinto,DOC RIOJA,true
+1059,8437005412354,Campo Burgo,"100% Tempranillo
+Joven sin crianza
+Frutoso, equilibrado  y fresco",Campo Burgo  DOC Rioja,750ml,Tempranillo,13.5,tinto,DOC RIOJA,true
+1060,8437000121244,Adaro,"Tempranillo de agricultura ecológica
+Crianza de 15 meses de barrica de roble francés
+Sabroso, largo y elegante.",Adaro  DO Ribera del duero,750ml,Tempranillo,32,tinto,DO RIBERA DEL DUERO,true
+1061,8437003294167,Cillar,"Tempranillo
+Joven, sin crianza
+Fruta, sabroso y fresco",Cillar  DO RIbera del duero,750ml,Tempranillo,18.5,tinto,DO RIBERA DEL DUERO,true
+1062,8429655065103,Ser vivo y natural,"Tempranillo de agricultura ecológica
+Joven, natural, sin sulfitos añadidos.
+Fresco, de largo paso y equilibrado",Ser vivo y natural  DO Ribera del duero,750ml,Tempranillo,17.5,tinto,DO RIBERA DEL DUERO,true
+1063,8437009095225,Losada,"100% Méncia
+Crianza de 10 meses en barrica de roble.
+Fresco, sedoso y con cuerpo",Losada  DO Bierzo,750ml,Mencía,22,tinto,DO BIERZO,true
+1064,8437006033503,Habla del silencio,"Syrah, Cabernert Sauvignon y Tempranillo
+6 mese en toneles de roble francés.
+amplio, fresco y redondo",Habla del silencio  IGP Extremadura,750ml,Syrah,19.9,tinto,IGP EXTREMADURA,true
+1065,8436598730128,Botijo rojo,"Garnacha de agricultura ecológica. 
+10 meses de crianza en depósitos de hormigón
+Intenso, afrutado y fresco. 
+91 Parker",Botijo rojo  IGP Valdejalón,750ml,Garnacha,18.5,tinto,IGP VALDEJALÓN,true
+1066,8411106089691,Abadal Matís,"Cabernet Sauvignon, Mandó y Merlot.
+Crianza en barrica durante 10 meses.
+Elegante, largo y balsámico.",Abadal Matís  DO Pla de bages,750ml,Cabernet Sauvignon,20.5,tinto,DO PLA DE BAGES,true
+1067,8437008807331,Brunus,"Cariñena, Garnacha y Syrah.
+12 meses de crianza en barrica.
+Untuoso, especiado y largo",Brunus  DO Montsant,750ml,Cariñena,25,tinto,DO MONTSANT,true
+1068,8437013683203,Sileo,"Garnacha y Cariñena
+Crianza en barrica durante 9 meses
+Potente, elegante y expresivo",Sileo  DO Montsant,750ml,Garnacha,19,tinto,DO MONTSANT,true
+1069,8437003284892,La negra flor,"Garnacha negra y Syrah
+Crianza de 8 meses en tinas de acero inoxidable.
+Fresco, equilibrado y largo",La negra flor  DO Terra alta,750ml,Garnacha,17,tinto,DO TERRA ALTA,true
+1070,8410631310003,Chateldon reserva,"Cabernet Sauvignon de agricultura ecológica
+14 meses de crianza en roble y 2 años en botella.
+Suave, largo y agradable",Chateldon reserva  DO Penedès,750ml,Cabernet Sauvignon,20.5,tinto,DO PENEDÈS,true
+1071,8410113712769,Atrium Merlot,"Merlot de agricultura ecológica
+6 meses de crianza en barrica
+Redondo, pleno y persistente.",Atrium Merlot  DO Penedès,750ml,Merlot,19.8,tinto,DO PENEDÈS,true
+1072,8437002364205,Babalà eixerit,"Lledoner (Garnacha) tinta y roja
+4 meses de crianza con sus lías y chips de roble.
+Aromático, fácil de beber y goloso.",Babalà eixerit  DO Emporta,750ml,Garnacha,18,tinto,DO EMPORDÀ,true
+1073,8412307203688,Cap de creus corall,"Cariñena y Garnacha
+Joven sin crianza
+Goloso, fresco y especiado",Cap de creus corall  DO Empordà,750ml,Cariñena,18,tinto,DO EMPORDÀ,true
+1074,8437009753248,Llepafils,"100% Garnacha
+Joven sin crianza
+Frutal, directo y graso",Llepafils  DO Emporda,750ml,Garnacha,14.5,tinto,DO EMPORDÀ,true
+1075,8437017304999,Remirez de Ganuza,"80% Viura, Malvasía y Garnacha
+Crianza de 10 meses en barrica nuevas de roble francés.
+Sabroso, voluminoso y largo.
+92 Parker",Remirez de Ganuza bl  DOC Rioja,750ml,Viura,46,blanco,DOC RIOJA,true
+1076,8437015051222,La canal del rojo,"Garnacha d viñas muy viejas.
+15 meses en toneles de roble francés.
+Intenso, delicado, fresco y minera.",La canal del rojo  DO Rioja,750ml,Garnacha,69.5,tinto,DOC RIOJA,true
+1079,8437015051228,Perfume de Sonsierra,"100% Tempranillo.
+17 meses en barricas nuevas de roble francés.
+Carnoso, potente, exuberante y gastronómico.
+",Perfume de Sonsierra  DOC Rioja,750ml,Tempranillo,41,tinto,DOC RIOJA,true
+1080,8436557310927,Malleolus,"100% Tempranillo.
+Crianza en barrica durante 8 meses.
+Potente, sedoso y envolvente. Un clásico. 93 Parker",Malleolus  DO Ribera del duero,750ml,Tempranillo,53.5,tinto,DO RIBERA DEL DUERO,true
+1081,8437019820060,Pagos de Anguix,"Tempranillo. Crianza en barrica nueva durante 18 meses
+Fresco, untuoso y goloso. 
+93 Parker.",Pagos de Anguix  DO Ribera del duero,750ml,Tempranillo,29.8,tinto,DO RIBERA DEL DUERO,true
+1082,8437006281119,Punto Geodésico,"Tempranillo.
+Crianza en barrica durante 12 meses.
+Sabroso, expresivo y persistente.
+",Punto Geodésico  DO Ribera del duero,750ml,Tempranillo,42,tinto,DO RIBERA DEL DUERO,true
+1083,8414132211890,Prior de scala dei,"Garnacha, Cariñena, Cabernet Sauvignon y Syrah.
+Crianza en barrica durante 12 meses.
+Con cuerpo, sedoso y lago. 
+91 Parker",Prior de scala dei  DOQ Priorat,750ml,Garnacha,36.5,tinto,DOQ PRIORAT,true
+1084,8410743046531,Aires de Garbet,"100% Garnacha
+15 meses de crianza en barrica de roble.
+Sedoso, intenso y persistente.
+94 Peñin",Aires de Garbet  DO Emporda,750ml,Garnacha,65,tinto,DO EMPORDÀ,true
+1091,8413831001009,Duc de foix,"Xarel.lo. Con notas de color paja, con un aroma varietal y pequeños matices de vainilla y coco, con un paladar cremoso y persistente.",Duc de foix,750ml,Xarel.lo,2.75,blanco,DO PENEDÈS,true
+1093,8436011560851,Altanza Lealtanza,"Sauvignon blanc. En nariz destacan las notas de hierba recién cortada y cáscara de limón, mientras que su paso por boca resulta voluminoso y de final persistente",Altanza Lealtanza,750ml,Sauvignon blanc,3,blanco,DOC RIOJA,true
+1094,8413423380017,Ramón Bilbao,Verdejo .Intenso en nariz con aromas de frutas cítricas y tropicales. En boca es fresco con presencia de acidez equilibrada con un final untuoso.Puntuación 90 Peñín,Ramón Bilbao,750ml,Verdejo,3,blanco,DO RUEDA,true
+1095,8436557311153,Emilio Moro Finca Resalso,Tempranillo. Maduro y con buena acidez.,Emilio Moro Finca Resalso,750ml,Tempranillo,3,tinto,DOC RIBERA DEL DUERO,true
+1097,8436011560097,Altanza Edulis,"100 % Tempranillo
+Es un vino afrutado y sabroso. Fácil de beber y equilibrado.",Altanza Edulis,750ml,Tempranillo,3,tinto,DOC RIOJA,true
+1110,1231231231231,Monkey say monkey do,"100% Trepat de viñas muy viejas. Crianza en barrica durante 24 meses. Complejo, maduro y persistente.  Aspecto visual:
+Limpio, brillante, color rubí intenso con ribete violáceo.
+
+Nariz:
+Muy mineral, con claras notas balsámicas a sotobosque mediterráneo, flor de azahar y piel de naranja. Aromas primarios a fresas de bosque, frambuesa y mora negra.
+
+Boca:
+Se acentúa el raspón con notas vegetales refrescantes, buena acidez y taninos maduros.
+
+Un vino en evolución que se prevé un aumento de la complejidad en al menos entre siete y diez años.
+
+Maridaje:
+Todo tipo de carnes, guisos, jamón y quesos curados, también puede acompañar pescados grasos a las brasa y ensaladas complejas.",Monkey say monkey do,750ml,Trepat,42,tinto,Lloret de mar,true
+1111,1231231231234,La Creu de Sant Pere,"85% Garnacha, Cariñena y Pedro Ximénez. Crianza en barrica durante 14 meses. Amable, maduro y vivo. ",La Creu de Sant Pere,750ml,Garnacha,46,tinto,Lloret de mar,true
+1112,1231231231235,El Drac roig,"95% Garnacha y variedades blancas. Crianza en tinas de inox durante 6 meses con su lías. Frutal, fresco y sedoso",El Drac roig,750ml,Garnacha,29,tinto,Lloret de mar,true
+1113,1111111111111,Sisquera,"Garnacha, Joven sin crianza. Afrutado, fresco y agradable.",Sisquera,750ml,Garnacha,13,rosado,DO TERRA ALTA,true
+1114,8422763220860,Marco real,"100% Garnacha, Joven sin crianza. Delicado , redondo y fresco",Marco real,750ml,Garnacha,16,rosado,DO NAVARRA,true
+1115,8429617065301,Fragància de Marta,"Xarel.lo, Sauvignon blanco, Pinot noir, Joven sin crianza, equilibrado , gustoso y largo. Ecólogico",Fragància de Marta,750ml,Xarel.lo,20.25,rosado,DO PENEDÈS,true
+1116,8410062717143,Chivite las fincas,"Garnacha y tempranillo. Crianza en depósitos de acero inoxidable. Untuoso, persitente y delicado",Chivite las fincas,750ml,Garnacha,20.5,rosado,DO NAVARRA,true
+1120,8437015144085,Sommos Gewurztraminer,"100% Gewurztraminer, 4 meses de crianza en barricas con sus lías.  Graso, elegante y largo",Sommos Gewurztraminer,750ml,Gewurztraminer,19.5,blanco,DO SOMONTANO,true
+1121,8437006776189,"Pradorey ","Albillo, verdejo. 5 meses de crianza en cemento y 5 más en barricas. Sedoso, amplio y persistente.","Pradorey ",750ml,Verdejo,20.5,blanco,VT CATILLA Y LEÓN,true
+1122,8437008963174,Menade la misión,"Verdejo de agricultura ecológica y viñas prefiloxérica, 10 meses de crianza en barricas de roble. Envolvente , sabroso y estructurado. ",Menade la misión,750ml,Verdejo,35.5,blanco,VT CATILLA Y LEÓN,true
+1123,8437012660007,Nivarius,"100% Tempranillo blanco, 4 meses de crianza con sus lías. Seco, fresco y equilibrado.",Nivarius,750ml,Tempranillo,15.75,tinto,DOC RIOJA,true
+1124,8437008487021,A coro lías,"100% Godello, 5 meses de crianza con sus lías. Complejo, redondo y persistente.",A coro lías,750ml,Godello,40.5,blanco,DO VALDEORRAS,true
+1125,8410743044131,Collection,Chardonnay y Sauvignon blanc. Breve en crianza en barricas nuevas de acacia,Collection,750ml,Chardonnay,20.5,blanco,DO EMPORDÀ,true
+1126,1231231233211,Sisquera,"Garnacha blanca, macabeo.
+Joven sin crianza.
+Afrutado, fresco y suave.",Sisquera,750ml,Garnacha,13,blanco,DO TERRA ALTA,true
+1127,2222222222222,Solpost,"100% Garnacha blanca, 5 meses de crianza en barricas con sus lías. Elegante, voluminoso y largo.",Solpost,750ml,Garnacha,21,blanco,DO MONTSANT,true
+1128,2222222222221,Entre 2,"100% Parellada. 6 meses de crianza con sus lías. Fino, equilibrado y fresco.",Enre 2,750ml,Parellada,18.5,blanco,DO CONCA DE BARBERA,true
+1129,8437015051000,"Proelio ","Garnacha, tempranillo y maturana. 12 meses en barrica de roble.  Elegante, fresco y complejo","Proelio ",750ml,Garnacha,18.5,tinto,DOC RIOJA,true
+1130,8414606328727,Bocca 9 meses,"100% Tempranillo, 9 meses de crianza en barrica. Goloso, fresco y mineral",Bocca 9 meses,750ml,Tempranillo,18,tinto,DO RIBERA DEL DUERO,true
+1131,8425851202403,Alquez,"100% Garnacha de viñas viejas, 10 meses de crianza en barricas. Sabroso, carnoso y mineral.",Alquez,750ml,Garnacha,21,tinto,DO CALATAYUD,true
+1132,8437011931283,Grillo,"Syrah, Cabernet, Garnacha y Merlot. 13 meses de crianza en barricas. Voluminoso, redondo y largo.
+",Grillo,750ml,Syrah,41.5,tinto,DO SOMONTANO,true
+1133,8412423121408,Zarihs,"100% Syrah, 12 meses de crianza en barricas. Intenso, redondo y especiado. ",Zarihs,750ml,Syrah,26.8,tinto,DO CAMPO DE BORJA,true
+1134,8437010036064,Museum,"100% Tempranillo, crianza de 22 meses en barrica de roble y 15 más en botella. Intenso, elegante y señorial.",Museum,750ml,Tempranillo,22.75,tinto,DO CIGALES,true
+1135,8437009095263,Pajaro rojo,"100% Mencía. Crianza de 6 meses en barrica de roble. Delicado, fresco y juvenil",Pajaro rojo,750ml,Mencía,19,tinto,DO BIERZO,true
+1136,8410388009168,Sericis,"Monastrell, 14 meses de crianza en barricas de roble francés. Redondo, sedoso y espaciado. Vegano",Sericis,750ml,Monastrell,19.5,tinto,DO ALICANTE,true
+1137,5555555555555,Anima del priorat,"Cariñena, Garnacha , Syrah y Cabernet. 6 meses de crianza en depósitos de acero y cemento. Afrutado, mineral y profundo",Anima del priorat,750ml,Cariñena,26.5,tinto,DOQ PRIORAT,true
+1138,6666666666666,Siana,"Garnacha y Cariñena. 9 meses de crianza. Redondo, agradable y largo.",Siana,750ml,Garnacha,20.5,tinto,DO MONTSANT,true
+1139,8423101830024,Clot d'Illa,"80% Syrah y Garnacha. 8 meses de crianza. Mineral, elegante y con cuerpo",Clot d'Illa,750ml,Syrah,24,tinto,DO EMPORDÀ,true
+1140,8437002135249,Indispensable,"Cabernet, Merlot, Cariñena y Syrah. Joven sin crianza. Freso , agradable y equilibrado.",Indispensable,750ml,Cabernet,15.5,tinto,DO EMPORDÀ,true
+1141,888888888888,"Sisquera ","Garnacha negra y Syrah.
+Joven sin crianza. Afrutado, fresco y largo.","Sisquera ",750ml,Garnacha,13,tinto,DO TERRA ALTA,true
+1142,8028938011082,Montepulciano d'abruzzo,"100% Montepulciano . 
+Crianza en depósitos de acero inoxidable. Suave, pleno y equilibrado.",Montepulciano d'abruzzo,750ml,Montepulciano,22.5,tinto,ITALIA,true
+1143,8024650040140,Chianti classico -,"95% Sangiovese y Canaiolo.
+Crianza de 12 meses en barricas de roble.
+Seco, intenso y persistente.
+",Chianti classico -,750ml,Sangiovese,26,tinto,ITALIA,true
+1144,1111112222225,"Brunello Montalcino ","100% Sangiovese de agricultura ecológica. Crianza de 3 años en barrica y un año en botella.
+Elegante, vigoroso y largo. 93 Parker","Brunello Montalcino ",750ml,Sangiovese,68,tinto,ITALIA,true
+1145,9876543210123,Passiari Feudo Arancio,"Nero d'avola. Crianza en barrica durante 6 meses y otros 6 meses en acero. Suave, jugoso y elegante.",Passiari Feudo Arancio,750ml,Nero d'Avola,18.5,tinto,ITALIA,true
+1146,7899877899878,Lambrusco Rosso,"Lambrusco Grasparossa, Espumoso dulce, afrutado, limpio y buena acidez.",Lambrusco Rosso,750ml,Lambrusco Grasparossa,14,tinto,ITALIA,true
+1147,3214569878526,Lambrusco Rosato,"Lambrusco Salamino.
+Espumoso dulce, afrutado , limpio y buena acidez",Lambrusco Rosato,750ml,Lambrusco Salamino,14,rosado,ITALIA,true
+1148,9999999999999,Bianco di Ciccio,"80% Trebbiano d'Albruzzo y Chardonnay.
+Joven sin crianza.
+Fino, fresco y armónico",Bianco di Ciccio,750ml,Trebbiano d'Albruzzo,20.5,blanco,ITALIA,true
+1149,8436557310866,Emilio Moro,"100% Tempranillo.
+9 meses de crianza en barrica.
+Goloso, fresco y mineral.",Emilio Moro,750ml,Tempranillo,33.5,tinto,DO RIBERA DEL DUERO,true
+1151,4566544566545,Blanc de Vanessa,"100% Xarel·lo.
+Viñedos de entre 5 y 80 años.
+Suelos de arenisca y piedras calizas.
+Aspecto visual: Limpio, amarillo pálido.
+Aspecto olfativo: Aromas intensos, a fruta de hueso como melocotón, pera. Amables notas a tostados como bollería y pan tostado. Notas cítricas como limón y piel de limón.
+Aspecto gustativo: Muy amable, untuoso, elegante. Se remarcan los tostados y frutas.
+Muy buena acidez.
+
+Maridaje:
+Peces a la brasa, verduras incluso carne a la brasa. Con pasta acompaña a prácticamente todo tipo de elaboraciones",Blanc de Vanessa,750ml,Xarel.lo,31,blanco,Lloret de mar,true
+1152,3333333333333,Triangle Místic,"Aspecto visual:
+Color rojo rubí con tonos teja en la herradura.
+De capa baja.
+
+Nariz:
+Fruta roja licorosa, extremadamente balsámico y muy mineral.
+Notas en sotobosque mediterráneo con aromas a plantas aromáticas, setas.
+Aromas a tabaco y cacao negro.
+Boca:
+Largo, profundo con una mineralidad extraordinaria. Taninos redondos con notas herbáceas frescas.
+Maridaje:
+Todo tipo de carnes y caza. Ahumados, confitados y todo tipo de asados.",Triangle Místic,750ml,Garnacha,48,tinto,Lloret de mar,true
+1154,9999999999997,King Kong," Aspecto visual:
+Vino de intensidad baja, ribete violáceo
+Aspecto olfativo:
+Aromas primarios a frutos rojos intensos, grosella, frambuesa, fresas de bosque y
+cereza rojo. Parte vegetal que aporta mucha frescura. Fruta negra como cereza y
+ciruela.
+Aspecto gustativo:
+Se remarca la verticalidad y tensión que le aporta el raspón. Los frutos rojos y negros
+se mezclan para aportar notas balsámicas en bajo-bosque mediterráneo.
+
+Maridaje: Todo tipo de carnes, pescados y arroces de carne, platos donde resalte el umami",King Kong,750ml,Trepat,48,tinto,Lloret de mar,true
+1155,4444444444444,A 4 Grapes,"Garnacha Negra (70%) Garnacha Blanca (15 %) Macabeo (10%) moscatel de grano menudo (5%).
+Aspecto visual:
+Limpio, de color pálido con reflejos rubí.
+Nariz:
+Aromas primarios a frutos rojos como fresas, cereza roja, y piruleta. Vino en evolución
+Boca:
+Se remarcan los frutos rojos, notas tropicales como el melocotón y plátano. Ligero volumen en boca dada su parte de crianza. Notas balsámicas.
+Maridaje:
+Sushi y todo tipo de pescado, carnes blancas, ensaladas, pasta. En postre marida con pasteles con frutas y cremas.
+",A 4 Grapes,750ml,Garnacha,18,rosado,Lloret de mar,true
+1156,1,El Carnaval de les Ànimes Perdudes Magnum,"100% Garnacha tinta
+Aspecto visual:
+Ligero color rosado intenso, color salmón o piel de cebolla.
+Aspecto olfativo:
+Extremadamente aromático, frutas tropicales como el melocotón, lichis, papaya,
+fresa y pétalos de rosas.
+Aspecto gustativo:
+Leve sensación alcohólica, se marcan las frutas tropicales, toques salinos en el
+retrogusto.
+Maridaje:
+Ensaladas de verano, platos de pasta, pescados y paellas",El Carnaval de les Ànimes Perdudes Magnum,1500ml,Garnacha,39,rosado,Lloret de mar,true
+1162,,Pétalos,"Pétalos es idóneo para acercarse a conocer su original estilo de vinos, y se elabora con la uva tinta mencía en un 90% y se complementa variedades blancas, de viñas en empinadas laderas muy pizarrosas, a elevada altitud, y que realiza una crianza de unos 12 meses entre tinas y barricas de roble.
+
+De color amoratado profundo, rojo cardenalicio. Delicioso aroma frutal, de moras, arándanos y ciruelas negras, con un fondo de fresitas de bosque, y un toque ahumado de cedro y regaliz. Boca fresca y vivaz, con un cuerpo medio, vibrante acidez que equilibra su grado y un final de gratas notas herbáceas. Muy fluido y placentero, con persistente y marcada mineralidad.",Pétalos,750ml,Mencía,24,tinto,DO BIERZO,false
+1163,,Pétalos,"Pétalos es idóneo para acercarse a conocer su original estilo de vinos, y se elabora con la uva tinta mencía en un 90% y se complementa variedades blancas, de viñas en empinadas laderas muy pizarrosas, a elevada altitud, y que realiza una crianza de unos 12 meses entre tinas y barricas de roble.
+
+De color amoratado profundo, rojo cardenalicio. Delicioso aroma frutal, de moras, arándanos y ciruelas negras, con un fondo de fresitas de bosque, y un toque ahumado de cedro y regaliz. Boca fresca y vivaz, con un cuerpo medio, vibrante acidez que equilibra su grado y un final de gratas notas herbáceas. Muy fluido y placentero, con persistente y marcada mineralidad.",Pétalos,750ml,Mencía,24,rosado,DO GETARIAKO TXAKOLINA,false
+1166,,Regina,"Garnacha, crianza de 7 meses",Regina,750ml,Garnacha,29.2,rosado,DO MONTSANT,true
+1167,,Aurora d'Espiells,Pinot noir i Xarel.lo de agricultura ecológica,Aurora d'Espiells,750ml,Pinot noir,18.5,rosado,DO PENEDÈS,true
+1168,,Eguíluz,"100% Tempranillo, crianza durante 12 a 14 meses en botas de roble",Eguíluz,750ml,Tempranillo,17.5,tinto,DOC RIOJA,true
+1169,,Sommos Colección,"100% Merlot, Crianza durante 12 meses en botas de roble francés",Sommos Colección,750ml,Merlot,27.9,tinto,DO SOMONTANO,true
+1170,,Pagos de Anguix Costalara,"Tempranillo, crianza durante 12 meses en botas de roble",Pagos de Anguix Costalara,750ml,Tempranillo,32.9,tinto,DO RIBERA DEL DUERO,true
+1171,,Mibal roble,"Tempranillo, crianza durante 10 meses en botas de roble",Mibal roble,750ml,Tempranillo,18.5,tinto,DO RIBERA DEL DUERO,true
+1172,,Gallinita ciega,"Tempranillo, crianza durante 9 meses en botas de roble francés",Gallinita ciega,750ml,Tempranillo,18.5,tinto,DO RIBERA DEL DUERO,true
+1173,,Turons de Vallcorba,"Cabernet Sauvignon, crianza durante 20 meses en barricas de roble",Turons de Vallcorba,750ml,Cabernet Sauvignon,28.9,tinto,DO COSTERS DEL SEGRE,true
+1174,,Abadal 3.9,"Cabernet Sauvignon y Syrah, crianza durante 12 meses en barricas de roble",Abadal 3.9,750ml,Cabernet Sauvignon,39.9,tinto,DO PLA DE BAGES,true
+1175,,Clos del Bou,"65% Garnacha, Cariñera y Cabernet Sauvignon. Crianza durante 8 meses en barricas de roble",Clos del Bou,750ml,Garnacha,19.9,tinto,DOQ PRIORAT,true
+1186,,Tocat de l'Ala,"Garnacha, Cariñerna y Sirah.
+Crianza durante 4 mese en botas de roble.",Tocat de l'Ala,750ml,Garnacha,22.8,tinto,DO EMPORDÀ,true
+1187,,Pur,"Syrah, Garnacha, Cabernet Sauvignon.
+Crianza durante 3 meses en botas de roble francés.",Pur,750ml,Syrah,22.75,tinto,DO EMPORDÀ,true
+1188,,Puntiapart,"Cabernet Sauvignon , Samsó.
+Crianza durante 13 meses en barricas de roble",Puntiapart,750ml,Cabernet Sauvignon,24.9,tinto,DO EMPORDÀ,true
+1189,,Clos Adrien de Terra Remota,"90% Syrah y 10% Garnacha de agricultura ecológica.
+Crianza durante 24 meses en botas de roble.",Clos Adrien de Terra Remota,750ml,Syrah,65,tinto,DO EMPORDÀ,true
+1190,,Lafous El Sender,"Garnacha negra, Syrah y Morenillo.
+Crianza durante 3 meses en botas de roble francés",Lafous El Sender,750ml,Garnacha,23,tinto,DO TERRA ALTA,true
+1191,,Onna,"Tempranillo, Syrah de agricultura ecológica.
+Crianza de 3 meses en botas.",Onna,750ml,Tempranillo,19.5,tinto,DO PENEDÈS,true
+1192,,Casa Vella d'Espiellls,"Cabernet Sauvignon. 
+Crianza durante 12 meses en botas de roble y 2 años en la botella.",Casa Vella d'Espiellls,750ml,Cabernet Sauvignon,22,tinto,DO PENEDÈS,true
+1193,,Volador,"Garnacha, Cariñena.
+Crianza de 6 meses en depósitos de cemento.",Volador,750ml,Garnacha,19.8,tinto,DO MONTSANT,true
+1194,,Dido La Universal,"100% Garancha,
+Crianza durante 4 meses en botas de roble.",Dido La Universal,750ml,Garnacha,27,tinto,DO MONTSANT,true
+1195,,Abadia de Poble,"Trepat, Garrut , Garnacha.
+Crianza durante 12 meses en barricas de roble",Abadia de Poble,750ml,Trepat,33.2,tinto,DO CONCA DE BARBERA,true
+1219,,Tocat de l'Ala,"Garnacha blanca, Macabeo.
+Crianza de 3 a 4 meses con sus lías. ",Tocat de l'Ala,750ml,Garnacha,22,blanco,DO EMPORDÀ,true
+1220,,Microvins,"Cariñena blanca de viñas centenarias.
+Crianza de 3 meses en barricas de roble y castaño",Microvins,750ml,Cariñena,34.9,blanco,DO EMPORDÀ,true
+1221,,Mas Oller mar,"80% Picapoll, 20% Malvasia .
+Reposado con sus lias.",Mas Oller mar,750ml,Picapoll,22.75,blanco,DO EMPORDÀ,true
+1222,,Xot dels Aspers,"Garnacha blanca, Sauvignon blanco , picapoll.
+Fermentado y envejecido en botas de roble durante 4 meses",Xot dels Aspers,750ml,Garnacha,26.5,blanco,DO EMPORDÀ,true
+1223,,Flor de Xarel.lo d'Espiells,100% Xarel.lo de agricultura ecológica. Joven sin crianza.,Flor de Xarel.lo d'Espiells,750ml,Xarel.lo,19.5,blanco,DO PENEDÈS,true
+1224,,Miranda d'Espiells,100% Chardonnay de agricultura ecológica. Joven sin crianza.,Miranda d'Espiells,750ml,Chardonnay,20.5,blanco,DO PENEDÈS,true
+1225,,De Llevant,Malvasía de agricultura ecológica . Crianza de 6 meses en ánforas,De Llevant,750ml,Malvasía,21.5,blanco,DO PENEDÈS,true
+1226,,La Fou els Amelers," Garnacha blanca. Crianza de 6 meses, con sus lías, en depósitos de hormigón.",La Fou els Amelers,750ml,Garnacha blanca,27.5,blanco,DO TERRA ALTA,true
+1227,,L' Efecte volador,"Garnacha blanca. en 
+Crianza de 5 meses en depósitos de acero",L' Efecte volador,750ml,Garnacha blanca,19.8,blanco,DO MONTSANT,true
+1228,,Dido,"Macabeo, Garnacha blanca , Xarel.lo de agricultura ecológica.  Crianza durante 10 meses en botas de roble francés.",Dido,750ml,Macabeo,34.9,blanco,DO MONTSANT,true
+1229,,Abadal,"100% Picapoll.
+Crianza durante 3 meses con sus lías.",Abadal,750ml,Picapoll,23.9,blanco,DO PLA DE BAGES,true
+1230,,Les Brugueres,"Garnacha blanca.
+Crianza durante 5 meses con sus lías.",Les Brugueres,750ml,Garnacha blanca,31,blanco,DOQ PRIORAT,true
+1231,,La tortuga veloz,"100% Verdejo de agricultura ecológica.
+Crianza durante 4 meses con sus lías.",La tortuga veloz,750ml,Verdejo,19.8,blanco,DO RUEDA,true
+1232,,El canto del grillo,"100% Chardonnay.
+Crianza durante  6 meses en botas de roble con sus lías.",El canto del grillo,750ml,Chardonnay,39.5,blanco,DO SOMONTANO,true
+1233,,Terras Gauda O rosal,"70% Albariño, Caiño i Loureiro.
+Joven sin crianza.",Terras Gauda O rosal,750ml,Albariño,24.8,blanco,DO RIAS BAIXAS,true
+1234,,La mar,"97% Caíño blanco, albariño y Loureiro. Crianza durante 6 meses en depósitos con sus lías.",La mar,750ml,"Caíño ",37,blanco,DO RIAS BAIXAS,true
+1235,,Emilio Moro El Zarzal,"100% Godello.
+Crianza durante 8 meses en botas de roble con sus lías.",Emilio Moro El Zarzal,750ml,Godello,27.5,blanco,DO BIERZO,true
