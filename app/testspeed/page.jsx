@@ -153,7 +153,7 @@ const dalee = async () => {
       <Box position="absolute" top="0" width="100%" textAlign="center" mb={4}>
         <HStack>
       <Text fontSize="2xl" fontWeight="bold" mt={4}  width="100%" textAlign="center">
-          Mistral AI vs OpenAI vs Cohere (Test Speed) v.0.1
+          Test Speed v.0.2
         </Text>
         <ThemeSwitch />
         </HStack>

@@ -2,7 +2,7 @@
 'use client'
 import React, { useState, useRef, useEffect} from 'react';
 import {
-  Box,  Text, Textarea, Button, Spinner, Grid, GridItem, HStack
+  Box,  Text, Textarea, Button, Spinner, Grid, GridItem, HStack, useColorMode
 } from '@chakra-ui/react';
 import { ThemeSwitch } from './components/ThemeSwitch';
 
@@ -283,74 +283,97 @@ function Home() {
     setPrompt('');
   };
 
+  const { colorMode } = useColorMode();
+  const bgColor = { light: 'gray.100', dark: 'gray.800' };
+  const color = { light: 'gray.800', dark: 'gray.100' };
+  const secondaryColor = { light: 'white', dark: 'gray.700' };
+
   return (
     <>
-    <Box position="absolute" top="0" width="100%" textAlign="center" p={4} bg="gray.800">
-      <HStack>
-        <Text width="100%" fontSize="3xl" fontWeight="bold" color="teal.300">
-          Asistentes OpenAI - Demostración de Conversación
-        </Text>
-        <ThemeSwitch />
-      </HStack>
-    </Box>
-  
-    <Box position="absolute" top="20" width="100%" p={4} textAlign="center" bg="gray.900" color="gray.100">
-      <Grid
-        templateColumns="repeat(1, 1fr)"
-        gap={6}
-        align="center"
-        justify="center"
+      <Box
+        position="absolute"
+        top="0"
+        width="100%"
+        textAlign="center"
+        p={4}
+        bg={bgColor[colorMode]}
+        color={color[colorMode]}
       >
-        <GridItem>
-          <HStack mt={2} spacing={4}>
-            <Button onClick={toggleHistory} colorScheme="purple" variant="solid">
-              {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
-            </Button>
-            <Button onClick={clearHistory} colorScheme="orange" variant="outline">
-              Borrar Historial
-            </Button>
-          </HStack>
-        </GridItem>
-  
-        {showHistory && (
+        <HStack>
+          <Text width="100%" fontSize="3xl" fontWeight="bold">
+            Asistentes OpenAI - Demostración de Conversación
+          </Text>
+          <ThemeSwitch />
+        </HStack>
+      </Box>
+
+      <Box
+        position="absolute"
+        top="20"
+        width="100%"
+        p={4}
+        textAlign="center"
+        bg={bgColor[colorMode]}
+        color={color[colorMode]}
+      >
+        <Grid
+          templateColumns="repeat(1, 1fr)"
+          gap={6}
+          align="center"
+          justify="center"
+        >
           <GridItem>
-            <Box bg="gray.700" p={4} boxShadow="inner" borderRadius="md">
-              <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
-              {conversationHistory.map((entry, index) => (
-                <Box key={index} mt={2} bg="gray.600" p={2} borderRadius="sm">
-                  <StaticContentTextarea entry={entry} />
-                </Box>
-              ))}
+            <HStack mt={2} spacing={4}>
+              <Button onClick={toggleHistory} colorScheme="teal" variant="solid">
+                {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
+              </Button>
+              <Button onClick={clearHistory} colorScheme="red" variant="outline">
+                Borrar Historial
+              </Button>
+            </HStack>
+          </GridItem>
+
+          {showHistory && (
+            <GridItem>
+              <Box bg={secondaryColor[colorMode]} p={4} boxShadow="md" borderRadius="md">
+                <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
+                {conversationHistory.map((entry, index) => (
+  <Box key={index} mt={2} bg={bgColor[colorMode]} p={2} borderRadius="sm" color={color[colorMode]}>
+    {/* Asegúrate de que estás accediendo a las propiedades específicas del objeto y no al objeto completo */}
+    <Text> {entry.userQuestion}: {entry.openaiResponse}</Text> {/* Accede a la propiedad userQuestion */}
+  
+  </Box>
+))}
+              </Box>
+            </GridItem>
+          )}
+
+          <GridItem>
+            <Box bg={secondaryColor[colorMode]} p={4} boxShadow="md" borderRadius="md">
+              <Textarea
+                placeholder="Escribe tu prompt aquí"
+                value={prompt}
+                my={4}
+                isDisabled={isLoading}
+                onChange={handleChange}
+                minHeight="unset"
+                overflow="hidden"
+                resize="none"
+                bg={bgColor[colorMode]}
+                color={color[colorMode]}
+              />
+              <Button onClick={handleGoClick} colorScheme="blue" isLoading={isLoading}>Enviar</Button>
             </Box>
           </GridItem>
-        )}
-  
-        <GridItem>
-          <Box bg="gray.700" p={4} boxShadow="inner" borderRadius="md">
-            <Textarea
-              placeholder="Escribe tu prompt aquí"
-              value={prompt}
-              my={4}
-              isDisabled={isLoading}
-              onChange={handleChange}
-              ref={textareaRef}
-              minHeight="unset"
-              overflow="hidden"
-              resize="none"
-              bg="gray.600"
-              color="gray.200"
-            />
-            <Button onClick={handleGoClick} colorScheme="blue" isLoading={isLoading}>Enviar</Button>
-          </Box>
-        </GridItem>
-      </Grid>
-    </Box>
-  </>
-  
-  
-  
-  
+        </Grid>
+      </Box>
+    </>
   );
+  
+  
+  
+  
+  
             }
 
 export default Home;
