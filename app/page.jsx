@@ -9,7 +9,7 @@ import { ThemeSwitch } from './components/ThemeSwitch';
 //import { streamMistralChat } from "mistral-edge";
 import OpenAI from 'openai';
 import StaticContentTextarea from './components/StaticContentTextarea'
-
+import Typewriter from './components/Typewriter'
 
 
 
@@ -123,41 +123,7 @@ function Home() {
     ]);
   };
 
-  const openaiTest = async (input) => {
-    setResponseOpenAI('');
-    setIsLoadingOpenai(true);
-    
-    let response = '';
-    try {
-      const openai = new OpenAI({
-        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-        dangerouslyAllowBrowser: true
-      });
 
-      const stream = await openai.chat.completions.create({
-        model: 'gpt-4-1106-preview',
-        messages: [{ role: "user", content: input },
-        { role: "system", content: 'Respond in Spanish, professionally, within a maximum of three lines. The response may agree or disagree with the input provided. Continue with the current topic or smoothly transition to a new topic as needed.' }],
-        temperature: 0.2,
-        stream: true
-      });
-
-      for await (const chunk of stream) {
-        const deltaContent = chunk.choices[0]?.delta.content || '';
-        setResponseOpenAI(prev => prev + deltaContent);
-        
-        response += deltaContent;
-        
-        setLastResponse(prev => prev + deltaContent);
-      }
-      updateHistory(response, 'OpenAI');
-    } catch (error) {
-      console.error('Error with OpenAI:', error);
-      setResponseOpenAI('Error with OpenAI');
-    }
-    setIsLoadingOpenai(false);
-    return response;
-  };
 
 
   const handleGoClick = async () => {
@@ -340,8 +306,18 @@ function Home() {
                 {conversationHistory.map((entry, index) => (
   <Box key={index} mt={2} bg={bgColor[colorMode]} p={2} borderRadius="sm" color={color[colorMode]}>
     {/* Asegúrate de que estás accediendo a las propiedades específicas del objeto y no al objeto completo */}
-    <Text> {entry.userQuestion}: {entry.openaiResponse}</Text> {/* Accede a la propiedad userQuestion */}
+    <Text> {entry.userQuestion}</Text> {/* Accede a la propiedad userQuestion */}
+    {
+  entry.userQuestion === 'user: ' ? (
+    <Text>{entry.openaiResponse}</Text>
+  ) :(
+    <Typewriter text={entry.openaiResponse} />
+   
   
+  ) 
+}
+
+    
   </Box>
 ))}
               </Box>

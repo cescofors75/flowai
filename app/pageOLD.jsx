@@ -62,7 +62,7 @@ function Home() {
       ...prevHistory
     ]);
   };
-
+/*
   const openaiTest = async (input) => {
     setResponseOpenAI('');
     setIsLoadingOpenai(true);
@@ -97,7 +97,7 @@ function Home() {
     }
     setIsLoadingOpenai(false);
     return response;
-  };
+  };*/
 
   const mistralTest = async (input) => {
     setResponseMistral('');
