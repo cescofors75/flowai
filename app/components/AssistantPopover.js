@@ -1,9 +1,16 @@
 'use client'
 import React, { useState, useEffect, useRef} from 'react';
 import {
-  Box, Text, Textarea, Button, useColorMode, Popover, PopoverTrigger, PopoverContent, IconButton, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Box, Text, Textarea, Button, useColorMode, Popover, PopoverTrigger, PopoverContent, IconButton, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Portal
 } from '@chakra-ui/react';
-import { ChatIcon } from '@chakra-ui/icons';
+import { ChatIcon, DeleteIcon } from '@chakra-ui/icons';
 import Typewriter from './Typewriter'
 // Componente Popover para el asistente
 const AssistantPopover = () => {
@@ -20,6 +27,10 @@ const AssistantPopover = () => {
   const bgColor = { light: 'gray.100', dark: 'gray.800' };
   const color = { light: 'gray.800', dark: 'gray.100' };
   const secondaryColor = { light: 'white', dark: 'gray.700' };
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+
+
   useEffect(() => {
     const apiUrl = '/api';
   
@@ -54,6 +65,10 @@ const AssistantPopover = () => {
   
     initAssistant();
   }, []);
+
+  useEffect(() => {
+    clearHistory();
+  }, [onOpen]);
 
   const clearHistory = () => {
     localStorage.removeItem('conversationHistory'); // Borra el historial de Local Storage
@@ -197,68 +212,72 @@ const AssistantPopover = () => {
   const handleChange = (event) => {
     setPrompt(event.target.value);
   };
-
   return (
-    <Popover>
-      <PopoverTrigger>
-        <IconButton
-          icon={<ChatIcon />}
-          position="fixed"
-          bottom="1rem"
-          right="1rem"
-          zIndex="popover"
-          variant="solid"
-          colorScheme="teal"
-        />
-      </PopoverTrigger>
-      <PopoverContent color={color[colorMode]} bg={bgColor[colorMode]}>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverHeader>Assistant Bacocat</PopoverHeader>
-        <PopoverBody>
-        {showHistory && (
-           
-              <Box bg={secondaryColor[colorMode]} p={4} boxShadow="md" borderRadius="md">
-                <Text fontSize="md" fontWeight="bold">Messages:</Text>
-                {conversationHistory.map((entry, index) => (
-  <Box key={index} mt={2} bg={bgColor[colorMode]} p={2} borderRadius="sm" color={color[colorMode]}>
-    {/* Asegúrate de que estás accediendo a las propiedades específicas del objeto y no al objeto completo */}
-    <Text> {entry.userQuestion}</Text> {/* Accede a la propiedad userQuestion */}
-    {
-  entry.userQuestion === 'user: ' ? (
-    <Text>{entry.openaiResponse}</Text>
-  ) :(
-    <Typewriter text={entry.openaiResponse} />
-   
-  
-  ) 
-}
+    <>
+      <IconButton
+        ref={btnRef}
+        icon={<ChatIcon />}
+        aria-label='Asistente'
+        variant="solid"
+        colorScheme="teal"
+        position="fixed"
+        bottom="1rem"
+        right="1rem"
+        zIndex='1000'
+        onClick={onOpen}
+      />
 
-    
-  </Box>
-))}
-              </Box>
-           
-          )}
-          <Textarea
-            placeholder="Escribe tu prompt aquí"
-            value={prompt}
-            isDisabled={isLoading}
-            onChange={handleChange}
-            minHeight="unset"
-            overflow="hidden"
-            resize="none"
-            bg={bgColor[colorMode]}
-            color={color[colorMode]}
-            mt={1}
-           
-          />
-          <Button onClick={handleGoClick} colorScheme="blue" isLoading={isLoading} width="full" my={2}>
-            Enviar
-          </Button>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent color={color[colorMode]} bg={bgColor[colorMode]}>
+          <DrawerCloseButton />
+          <DrawerHeader>Assistant Bacocat</DrawerHeader>
+
+          <DrawerBody>
+            {/* Contenido del drawer */}
+            <Box>
+              {showHistory && (
+                <Box bg={secondaryColor[colorMode]} p={4} boxShadow="md" borderRadius="md">
+                  <Text fontSize="md" fontWeight="bold">Messages:
+                    <IconButton icon={<DeleteIcon />} onClick={clearHistory} colorScheme="blue" size="xs" ml={2} />
+                  </Text>
+                  {conversationHistory.map((entry, index) => (
+                    <Box key={index} mt={2} bg={bgColor[colorMode]} p={2} borderRadius="sm" color={color[colorMode]}>
+                      <Text> {entry.userQuestion}</Text>
+                      {entry.userQuestion === 'user: ' ? (
+                        <Text>{entry.openaiResponse}</Text>
+                      ) : (
+                        <Typewriter text={entry.openaiResponse} />
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              )}
+              <Textarea
+                placeholder="Escribe tu prompt aquí"
+                value={prompt}
+                isDisabled={isLoading}
+                onChange={handleChange}
+                minHeight="unset"
+                overflow="hidden"
+                resize="none"
+                bg={bgColor[colorMode]}
+                color={color[colorMode]}
+                mt={1}
+              />
+              <Button onClick={handleGoClick} colorScheme="blue" isLoading={isLoading} width="full" my={2}>
+                Enviar
+              </Button>
+            </Box>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 };
 export default AssistantPopover;

@@ -343,8 +343,9 @@ function Home() {
             </Box>
           </GridItem>
         </Grid>
-        <AssistantPopover />
+       
       </Box>
+      <AssistantPopover />
     </>
   );
   
