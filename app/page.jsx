@@ -259,15 +259,15 @@ function Home() {
       <Box
         position="absolute"
         top="0"
-        width="100%"
+        width="100vw"
         textAlign="center"
-        p={4}
+        p={1}
         bg={bgColor[colorMode]}
         color={color[colorMode]}
       >
         <HStack>
-          <Text width="100%" fontSize="3xl" fontWeight="bold">
-            Asistentes OpenAI - Demostración de Conversación
+          <Text  fontSize="xl" fontWeight="bold">
+          Assitant  OpenAI - Demo 
           </Text>
           <ThemeSwitch />
         </HStack>
@@ -276,8 +276,8 @@ function Home() {
       <Box
         position="absolute"
         top="20"
-        width="100%"
-        p={4}
+        width="100vw"
+        p={1}
         textAlign="center"
         bg={bgColor[colorMode]}
         color={color[colorMode]}
@@ -289,12 +289,12 @@ function Home() {
           justify="center"
         >
           <GridItem>
-            <HStack mt={2} spacing={4}>
-              <Button onClick={toggleHistory} colorScheme="teal" variant="solid">
-                {showHistory ? 'Cerrar Historial' : 'Ver Historial'}
+            <HStack mt={2} spacing={1}>
+              <Button  onClick={toggleHistory} colorScheme="teal" variant="solid">
+                {showHistory ? 'Close' : 'Open'}
               </Button>
               <Button onClick={clearHistory} colorScheme="red" variant="outline">
-                Borrar Historial
+                Clean
               </Button>
             </HStack>
           </GridItem>
@@ -302,7 +302,7 @@ function Home() {
           {showHistory && (
             <GridItem>
               <Box bg={secondaryColor[colorMode]} p={4} boxShadow="md" borderRadius="md">
-                <Text fontSize="md" fontWeight="bold">Historial de Conversación:</Text>
+                <Text fontSize="md" fontWeight="bold">Messages:</Text>
                 {conversationHistory.map((entry, index) => (
   <Box key={index} mt={2} bg={bgColor[colorMode]} p={2} borderRadius="sm" color={color[colorMode]}>
     {/* Asegúrate de que estás accediendo a las propiedades específicas del objeto y no al objeto completo */}
