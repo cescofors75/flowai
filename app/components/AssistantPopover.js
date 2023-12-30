@@ -1,38 +1,25 @@
-
 'use client'
-import React, { useState, useRef, useEffect} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import {
-  Box,  Text, Textarea, Button, Spinner, Grid, GridItem, HStack, useColorMode
+  Box, Text, Textarea, Button, useColorMode, Popover, PopoverTrigger, PopoverContent, IconButton, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody
 } from '@chakra-ui/react';
-import { ThemeSwitch } from './components/ThemeSwitch';
-
-//import { streamMistralChat } from "mistral-edge";
-import OpenAI from 'openai';
-import StaticContentTextarea from './components/StaticContentTextarea'
-import Typewriter from './components/Typewriter'
-import AssistantPopover from './components/AssistantPopover'
-
-
-
-function Home() {
+import { ChatIcon } from '@chakra-ui/icons';
+import Typewriter from './Typewriter'
+// Componente Popover para el asistente
+const AssistantPopover = () => {
   const [prompt, setPrompt] = useState('');
   const [responseOpenAI, setResponseOpenAI] = useState('');
-  const [responseMistral, setResponseMistral] = useState('');
-  const [lastResponse, setLastResponse] = useState('');
-  const [isLoadingOpenai, setIsLoadingOpenai] = useState(false);
-  const [isLoadingMistral, setIsLoadingMistral] = useState(false);   
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
+  const { colorMode } = useColorMode();
   const [showHistory, setShowHistory] = useState(true);
   const [conversationHistory, setConversationHistory] = useState([]);
   const textareaRef = useRef(null);
   const [threadId, setThreadId] = useState('');
   const [runId, setRunId] = useState('');
   const assitantId = 'asst_VnXbM4b2rQaFj7xsGJn3LtT9'
-
-
-
-  
-
+  const bgColor = { light: 'gray.100', dark: 'gray.800' };
+  const color = { light: 'gray.800', dark: 'gray.100' };
+  const secondaryColor = { light: 'white', dark: 'gray.700' };
   useEffect(() => {
     const apiUrl = '/api';
   
@@ -50,20 +37,11 @@ function Home() {
   
     const createThread = async () => {
       const data = await postRequest('/thread', {});
-    //  console.log('Thread created:', data);
+    
       setThreadId(data.id)
-     // return data.id;
+     
     };
-  
-   /* const firstRunAssistant = async (threadId) => {
-      const data = await postRequest('/assistant/run', {
-        threadId,
-        assistantId: assitantId, // Asegúrate de que 'assistantId' esté definido en algún lugar
-        instructions: 'Hola',
-      });
-      console.log('Assistant run:', data);
-        setRunId(data.id)
-    };*/
+ 
   
     const initAssistant = async () => {
       try {
@@ -75,57 +53,21 @@ function Home() {
     };
   
     initAssistant();
-  }, []); // Asegúrate de definir cualquier dependencia aquí si es necesario
-  
-  const handleChange = (event) => {
-   
-    setPrompt(event.target.value)
-    // Ajustar automáticamente la altura
-    const textarea = textareaRef.current;
-    if (textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
-    }
-};
-  // Función para cargar el historial desde Local Storage
-  const loadHistory = () => {
-    const history = JSON.parse(localStorage.getItem('conversationHistory')) || [];
-    setConversationHistory(history);
-  };
+  }, []);
 
-  // Función para alternar la visualización del historial
-  const toggleHistory = () => {
-    setShowHistory(!showHistory);
-    if (!showHistory) {
-      loadHistory();
-    }
-  };
   const clearHistory = () => {
     localStorage.removeItem('conversationHistory'); // Borra el historial de Local Storage
     setConversationHistory([]); // Actualiza el estado para reflejar el cambio en la interfaz de usuario
   };
-
   const saveHistory = (openaiResponse, userQuestion) => {
-   // console.log('saveHistory');
-    //console.log(openaiResponse);
-    //console.log(mistralResponse);
-    const history = JSON.parse(localStorage.getItem('conversationHistory')) || [];
-    history.push({ userQuestion, openaiResponse });
-    localStorage.setItem('conversationHistory', JSON.stringify(history));
-   // console.log(history);
-    setConversationHistory(history);
-
-  };
-
-  const updateHistory = (response, source) => {
-    setConversationHistory(prevHistory => [
-      { source, response },
-      ...prevHistory
-    ]);
-  };
-
-
-
+   
+     const history = JSON.parse(localStorage.getItem('conversationHistory')) || [];
+     history.push({ userQuestion, openaiResponse });
+     localStorage.setItem('conversationHistory', JSON.stringify(history));
+   
+     setConversationHistory(history);
+ 
+   };
 
   const handleGoClick = async () => {
     setIsLoading(true);
@@ -241,7 +183,7 @@ function Home() {
       //const openaiResponse = await openaiTest(prompt);
     
 
-     saveHistory(lastMessageForRun[0].content[0].text.value,'Assitant: '); // Guardar en el historial
+     saveHistory(lastMessageForRun[0].content[0].text.value,'Baco: '); // Guardar en el historial
 
       //console.log('currentInput', currentInput);
     
@@ -249,65 +191,39 @@ function Home() {
     setIsLoading(false);
     setPrompt('');
   };
+    // Aquí iría la lógica para procesar la solicitud...
+  
 
-  const { colorMode } = useColorMode();
-  const bgColor = { light: 'gray.100', dark: 'gray.800' };
-  const color = { light: 'gray.800', dark: 'gray.100' };
-  const secondaryColor = { light: 'white', dark: 'gray.700' };
+  const handleChange = (event) => {
+    setPrompt(event.target.value);
+  };
 
   return (
-    <>
-      <Box
-        position="absolute"
-        top="0"
-        width="100vw"
-        textAlign="center"
-        p={1}
-        bg={bgColor[colorMode]}
-        color={color[colorMode]}
-      >
-        <HStack>
-          <Text  fontSize="xl" fontWeight="bold">
-          Assitant  Bacocat
-          </Text>
-          <ThemeSwitch />
-        </HStack>
-      </Box>
-
-      <Box
-        position="absolute"
-        top="20"
-        width="100vw"
-        p={1}
-        textAlign="center"
-        bg={bgColor[colorMode]}
-        color={color[colorMode]}
-      >
-        <Grid
-          templateColumns="repeat(1, 1fr)"
-          gap={6}
-          align="center"
-          justify="center"
-        >
-          <GridItem>
-            <HStack mt={2} spacing={1}>
-              <Button  onClick={toggleHistory} colorScheme="teal" variant="solid">
-                {showHistory ? 'Close' : 'Open'}
-              </Button>
-              <Button onClick={clearHistory} colorScheme="red" variant="outline">
-                Clean
-              </Button>
-            </HStack>
-          </GridItem>
-
-          {showHistory && (
-            <GridItem>
+    <Popover>
+      <PopoverTrigger>
+        <IconButton
+          icon={<ChatIcon />}
+          position="fixed"
+          bottom="1rem"
+          right="1rem"
+          zIndex="popover"
+          variant="solid"
+          colorScheme="teal"
+        />
+      </PopoverTrigger>
+      <PopoverContent color={color[colorMode]} bg={bgColor[colorMode]}>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverHeader>Assistant Bacocat</PopoverHeader>
+        <PopoverBody>
+        {showHistory && (
+           
               <Box bg={secondaryColor[colorMode]} p={4} boxShadow="md" borderRadius="md">
                 <Text fontSize="md" fontWeight="bold">Messages:</Text>
                 {conversationHistory.map((entry, index) => (
   <Box key={index} mt={2} bg={bgColor[colorMode]} p={2} borderRadius="sm" color={color[colorMode]}>
-   
-    <Text> {entry.userQuestion}</Text> 
+    {/* Asegúrate de que estás accediendo a las propiedades específicas del objeto y no al objeto completo */}
+    <Text> {entry.userQuestion}</Text> {/* Accede a la propiedad userQuestion */}
     {
   entry.userQuestion === 'user: ' ? (
     <Text>{entry.openaiResponse}</Text>
@@ -322,57 +238,27 @@ function Home() {
   </Box>
 ))}
               </Box>
-            </GridItem>
+           
           )}
-
-          <GridItem>
-            <Box bg={secondaryColor[colorMode]} p={4} boxShadow="md" borderRadius="md">
-              <Textarea
-                placeholder="Escribe tu prompt aquí"
-                value={prompt}
-                my={4}
-                isDisabled={isLoading}
-                onChange={handleChange}
-                minHeight="unset"
-                overflow="hidden"
-                resize="none"
-                bg={bgColor[colorMode]}
-                color={color[colorMode]}
-              />
-              <Button onClick={handleGoClick} colorScheme="blue" isLoading={isLoading}>Enviar</Button>
-            </Box>
-          </GridItem>
-        </Grid>
-        <AssistantPopover />
-      </Box>
-    </>
+          <Textarea
+            placeholder="Escribe tu prompt aquí"
+            value={prompt}
+            isDisabled={isLoading}
+            onChange={handleChange}
+            minHeight="unset"
+            overflow="hidden"
+            resize="none"
+            bg={bgColor[colorMode]}
+            color={color[colorMode]}
+            mt={1}
+           
+          />
+          <Button onClick={handleGoClick} colorScheme="blue" isLoading={isLoading} width="full" my={2}>
+            Enviar
+          </Button>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   );
-  
-  
-  
-  
-  
-            }
-
-export default Home;
-/*
-  <GridItem colSpan={3}>
-        <Box >
-          <Text color='green' fontSize="md">OpenAI Response:</Text>
-          {isLoadingOpenai && <Spinner size="xs" color="green.500" ml={2} />}
-          <Text fontSize="xs" mt={2} mb={4} textAlign="left">
-            {responseOpenAI}
-          </Text>
-        </Box>
-      </GridItem>*/
-
-
-
-
-
-      /*
-
-      
-        
-
-        */
+};
+export default AssistantPopover;
