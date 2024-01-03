@@ -16,6 +16,7 @@
     "@supabase/supabase-js": "^2.39.2",
     "ai": "^2.2.29",
     "autoprefixer": "10.4.16",
+    "cohere-ai": "^7.6.2",
     "debug": "^4.3.4",
     "encoding": "^0.1.13",
     "framer-motion": "^10.16.16",

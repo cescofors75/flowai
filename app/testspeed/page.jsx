@@ -8,6 +8,8 @@ import { ThemeSwitch } from '../components/ThemeSwitch';
 function Home() {
   const [prompt, setPrompt] = useState('');
   const [responses, setResponses] = useState({
+    cohereWebSearch: '',
+    localstream: '',
     mistral: '',
     openai: '',
     cohere: '',
@@ -20,17 +22,88 @@ function Home() {
   const textareaRef = useRef(null);
   const [isLoadingDalee, setIsLoadingDalee] = useState(false);
   const [isLoadingStability, setIsLoadingStability] = useState(false);
+  
 
   const [performance, setPerformance] = useState({
     mistral: { time: 0, tokens: 0, speed: 0 },
     openai: { time: 0, tokens: 0, speed: 0 },
-    cohere: { time: 0, tokens: 0, speed: 0 }
+    cohere: { time: 0, tokens: 0, speed: 0 },
+    localstream: { time: 0, tokens: 0, speed: 0 },
+    cohereWebSearch: { time: 0, tokens: 0, speed: 0 },
   });
 
   const calculateSpeed = useCallback((tokens, time) => {
     return time > 0 ? (tokens / time).toFixed(3) : 0;
   }, []);
-
+  const testAPIMultiple = async (apiName, endpoint) => {
+    const startTime = Date.now();
+    setIsLoading(true);
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const reader = response.body.getReader();
+      let responseText = '';
+  
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+  
+        // Convert the Uint8Array to a string
+        const chunkStr = new TextDecoder().decode(value);
+  
+        try {
+          // Attempt to parse the chunk as JSON
+          const chunkObj = JSON.parse(chunkStr);
+  console.log(chunkObj);
+          // Handle based on the type
+          if (chunkObj.type === 'text-generation') {
+            responseText += chunkObj.data;  // Append the text-generation data
+          } else if (chunkObj.type === 'search-results') {
+            // Process and format the search-result data as needed
+            responseText += `\n\n Search Results: \n`;
+            chunkObj.data.forEach (function (item, index) {
+              responseText += `\n\n Url: ${item} \n`;	
+            });
+            //responseText += `\n\n Url: ${chunkObj.data[0]} \n`;	
+              
+          }
+  
+          // Update the responses and performance states
+          setResponses(prev => ({ ...prev, [apiName]: responseText }));
+          setPerformance(prev => ({
+            ...prev,
+            [apiName]: {
+              time: Date.now() - startTime,
+              tokens: responseText.length,
+              speed: calculateSpeed(responseText.length, Date.now() - startTime),
+            },
+          }));
+  
+        } catch (parseError) {
+          console.error(`Error parsing JSON from chunk at position ${chunkStr.length}:`, parseError);
+          // Optionally, log the problematic chunk for debugging
+          console.log("Problematic chunk:", chunkStr);
+          // Decide how to handle the error. For example, you might want to break out of the loop,
+          // or you might want to skip this chunk and continue.
+          continue; // or break; depending on your error handling strategy
+        }
+      }
+    } catch (error) {
+      console.error(`${apiName} Fetch error:`, error);
+      setResponses(prev => ({ ...prev, [apiName]: `Error: ${error.message}` }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  
+  
   const testAPI = async (apiName, endpoint) => {
     const startTime = Date.now();
     setIsLoading(true);
@@ -82,14 +155,18 @@ function Home() {
     setImageDalee('');
     setImageStability('');
     setResponses({
+      cohereWebSearch: '',
+      localstream: '',
       mistral: '',
       openai: '',
       cohere: '',
       dalee: ''
     });
+    testAPI('localstream', '/api/localstream');
     testAPI('mistral', '/api/mistral');
     testAPI('openai', '/api/openai');
     testAPI('cohere', '/api/cohere');
+    testAPIMultiple('cohereWebSearch', '/api/cohereWebSearch');
   // testAPI('dalee', '/api/dalee'); 
   dalee();
   stability();
@@ -228,6 +305,31 @@ const dalee = async () => {
         <Text fontSize="xs" mt={4} width="80%" textAlign="left">
         
         {responses.cohere}
+        </Text>
+        </GridItem>
+        <GridItem >
+        <Avatar
+              size="sm"
+              src={`./canada.png`}
+             
+              mr={3}
+            />
+        <Text fontSize="sm" as='b' color='violet'>Cohere AI  WEB SEARCH- Time: {performance.cohereWebSearch.time} ms / Characters: {performance.cohereWebSearch.tokens} / Speed : {performance.cohereWebSearch.speed}</Text>
+        <Text fontSize="xs" mt={4} width="80%" textAlign="left">
+        
+        {responses.cohereWebSearch}
+        </Text>
+        </GridItem>
+        <GridItem >
+        <Avatar
+              size="sm"
+              src={``}
+             
+              mr={3}
+            />
+        <Text fontSize="sm" as='b' color='green'>Local- Time: {performance.localstream.time} ms / Characters: {performance.localstream.tokens} / Speed : {performance.localstream.speed}</Text>
+        <Text fontSize="xs" mt={4} width="80%" textAlign="right">
+          {responses.localstream}
         </Text>
         </GridItem>
         <GridItem >

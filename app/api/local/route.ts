@@ -2,10 +2,10 @@
 import { NextResponse, NextRequest } from "next/server";
 
 export  async function POST(req: NextRequest) {
-  const { apiKey } = await req.json();
+ // const { apiKey } = await req.json();
 
   // Verificar si se proporcionó una clave de API
-  if (!apiKey) {
+  /*if (!apiKey) {
     return new NextResponse(
       JSON.stringify({ error: "No se proporcionó una clave de API" }),
       {
@@ -13,8 +13,8 @@ export  async function POST(req: NextRequest) {
         headers: { "Content-Type": "application/json" },
       }
     );
-  }
-
+  }*/
+//console.log('APIIIII')
   try {
     // Realizar la solicitud a la API de Mistral
     const mistralResponse = await fetch("http://localhost:1234/v1/chat/completions", {
@@ -24,11 +24,11 @@ export  async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         messages: [
-          { role: "system", content: "Siempre responde en rimas." },
-          { role: "user", content: "Preséntate." },
+          { role: "system", content: "Sommelier " },
+          { role: "user", content: "Que vino marida con Pizza" },
         ],
-        temperature: 0.7,
-        max_tokens: -1,
+        temperature: 0.2,
+        max_tokens: 40,
         stream: false,
       }),
     });

@@ -16,6 +16,7 @@ type Business = {
 export default function PostPage({ params }: { params: Params }) {
   const [postId, setPostId] = useState('');
   const [business, setBusiness] = useState<Business[]>([]);
+  const [local, setLocal] = useState('');
 
   const getBusiness = async () => {
     try {
@@ -37,12 +38,31 @@ export default function PostPage({ params }: { params: Params }) {
       console.log(error);
     }
   };
+
+  const getLocal = async () => {
+    try {
+      const data = await fetch('../api/local', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
+      }).then((res) => res.json())
+      
+      console.log(data)
+      setLocal(data.responseMistral)
+    } catch (error) {
+      console.log(error)
+    }
+
+  };
  
 
   useEffect(() => {
     
 
     getBusiness();
+    getLocal()
   }, [params]);
 
   return (
@@ -55,11 +75,13 @@ export default function PostPage({ params }: { params: Params }) {
           <p>{bus.city}</p>
           <p>{bus.products}</p>
           <p>{bus.mail}</p>
+          **************************
          
-
+{local}
           {/* Additional business details can be added here */}
         </div>
       ))}
+ 
       <AssistantPopover />
     </div>
   );
