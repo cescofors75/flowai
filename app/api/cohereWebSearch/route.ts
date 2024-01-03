@@ -4,7 +4,7 @@ import { StreamingTextResponse} from 'ai';
 const cohere = new CohereClient({
   token: process.env.NEXT_PUBLIC_COHERE_API_KEY, // Make sure this is a server-side variable only!
 });
-//export const runtime = 'nodejs';
+export const runtime = 'edge';
 
 export async function POST(req: NextRequest) {
   // Extract the `prompt` from the body of the request
@@ -54,8 +54,9 @@ export async function POST(req: NextRequest) {
             if (chunk.eventType === "text-generation") {
               controller.enqueue(JSON.stringify({
                 type: 'text-generation',
-                data: chunk.text.toString()
+                data: chunk.text
               }));
+             // console.log(chunk.text);
             }
            /* if (chunk.eventType === "search-results") {
               chunk.documents.forEach((doc) => {

@@ -35,6 +35,7 @@ function Home() {
   const calculateSpeed = useCallback((tokens, time) => {
     return time > 0 ? (tokens / time).toFixed(3) : 0;
   }, []);
+ 
   const testAPIMultiple = async (apiName, endpoint) => {
     const startTime = Date.now();
     setIsLoading(true);
@@ -49,61 +50,30 @@ function Home() {
       }
       const reader = response.body.getReader();
       let responseText = '';
-  
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
   
-        // Convert the Uint8Array to a string
-        const chunkStr = new TextDecoder().decode(value);
-        console.log(chunkStr);
-      // const chunkStrClean = chunkStr.split('{"type":"text-generation","data":"')[1].split('"}')[0];
-      // console.log(chunkStrClean);
-      
-      
-      //const parts = chunkStr.split('}{');
-      //console.log(parts);
-
-      //let objetos = parts.map(elemento => (elemento));
-        try {
-          // Attempt to parse the chunk as JSON
-         // objetos.forEach(function (item, index) {
-          const chunkObj = JSON.parse(chunkStr);
-  //console.log(chunkObj);
-          // Handle based on the type
-          if (chunkObj.type === 'text-generation') {
-            responseText += chunkObj.data;  // Append the text-generation data
-          } /*else if (chunkObj.type === 'search-results') {
-            // Process and format the search-result data as needed
-            responseText += `\n\n Search Results: \n`;
-            chunkObj.data.forEach (function (item, index) {
-              responseText += item + '\n';	
-            });
-            
-              
-          }*/
-  
-          // Update the responses and performance states
-          setResponses(prev => ({ ...prev, [apiName]: responseText }));
-          setPerformance(prev => ({
-            ...prev,
-            [apiName]: {
-              time: Date.now() - startTime,
-              tokens: responseText.length,
-              speed: calculateSpeed(responseText.length, Date.now() - startTime),
-            },
-          }));
-        }
-         catch (parseError) {
-          console.error(`Error parsing JSON from chunk at position ${chunkStr.length}:`, parseError);
-          // Optionally, log the problematic chunk for debugging
-          console.log("Problematic chunk:", chunkStr);
-          // Decide how to handle the error. For example, you might want to break out of the loop,
-          // or you might want to skip this chunk and continue.
-          continue; // or break; depending on your error handling strategy
-        }
-      
+        // Aquí procesas cada chunk (que es un Uint8Array)
+        //responseText += new TextDecoder().decode(value);
+        const chunkStr  = new TextDecoder().decode(value);
+        const chunkObj = JSON.parse(chunkStr);
+        responseText += chunkObj.data
+        setResponses(prev => ({ ...prev, [apiName]: responseText }));
+        setPerformance(prev => ({
+          ...prev,
+          [apiName]: {
+            time: Date.now() - startTime,
+            tokens: responseText.length,
+            speed: calculateSpeed(responseText.length, Date.now() - startTime),
+          },
+        }));
       }
+     
+
+
+
+
     } catch (error) {
       console.error(`${apiName} Fetch error:`, error);
       setResponses(prev => ({ ...prev, [apiName]: `Error: ${error.message}` }));
@@ -111,7 +81,6 @@ function Home() {
       setIsLoading(false);
     }
   };
-  
   
   
   const testAPI = async (apiName, endpoint) => {
@@ -134,6 +103,7 @@ function Home() {
   
         // Aquí procesas cada chunk (que es un Uint8Array)
         responseText += new TextDecoder().decode(value);
+      
         setResponses(prev => ({ ...prev, [apiName]: responseText }));
         setPerformance(prev => ({
           ...prev,
