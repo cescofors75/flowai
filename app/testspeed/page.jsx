@@ -36,51 +36,9 @@ function Home() {
     return time > 0 ? (tokens / time).toFixed(3) : 0;
   }, []);
  
-  const testAPIMultiple = async (apiName, endpoint) => {
-    const startTime = Date.now();
-    setIsLoading(true);
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const reader = response.body.getReader();
-      let responseText = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-  
-        // Aquí procesas cada chunk (que es un Uint8Array)
-        //responseText += new TextDecoder().decode(value);
-        const chunkStr  = new TextDecoder().decode(value);
-        const chunkObj = JSON.parse(chunkStr);
-        responseText += chunkObj.data
-        setResponses(prev => ({ ...prev, [apiName]: responseText }));
-        setPerformance(prev => ({
-          ...prev,
-          [apiName]: {
-            time: Date.now() - startTime,
-            tokens: responseText.length,
-            speed: calculateSpeed(responseText.length, Date.now() - startTime),
-          },
-        }));
-      }
-     
+ 
 
 
-
-
-    } catch (error) {
-      console.error(`${apiName} Fetch error:`, error);
-      setResponses(prev => ({ ...prev, [apiName]: `Error: ${error.message}` }));
-    } finally {
-      setIsLoading(false);
-    }
-  };
   
   
   const testAPI = async (apiName, endpoint) => {
@@ -142,11 +100,11 @@ function Home() {
       cohere: '',
       dalee: ''
     });
-    testAPI('localstream', '/api/localstream');
+   // testAPI('localstream', '/api/localstream');
     testAPI('mistral', '/api/mistral');
     testAPI('openai', '/api/openai');
     testAPI('cohere', '/api/cohere');
-    testAPIMultiple('coherewebsearch', '/api/coherewebsearch');
+    testAPI('coherewebsearch', '/api/coherewebsearch');
   // testAPI('dalee', '/api/dalee'); 
   dalee();
   stability();
