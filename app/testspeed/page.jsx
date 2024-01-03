@@ -68,7 +68,7 @@ function Home() {
             // Process and format the search-result data as needed
             responseText += `\n\n Search Results: \n`;
             chunkObj.data.forEach (function (item, index) {
-              responseText += `\n\n Url: ${item} \n`;	
+              responseText += `${item}`;	
             });
             //responseText += `\n\n Url: ${chunkObj.data[0]} \n`;	
               
