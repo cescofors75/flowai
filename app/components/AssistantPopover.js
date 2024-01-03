@@ -111,7 +111,7 @@ const AssistantPopover = () => {
                 headers: {
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ threadId: threadId, assistantId: assitantId, instructions: 'Profesional mecanica de coches y accesorios 4x4'})
+                body: JSON.stringify({ threadId: threadId, assistantId: assitantId, instructions: 'Asistente Bacocat'})
               
             }).then(res => res.json())
             .then(data => {

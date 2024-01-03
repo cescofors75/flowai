@@ -154,7 +154,7 @@ function Home() {
                 headers: {
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ threadId: threadId, assistantId: assitantId, instructions: 'Profesional mecanica de coches y accesorios 4x4'})
+                body: JSON.stringify({ threadId: threadId, assistantId: assitantId, instructions: 'Asistente Bacocat'})
               
             }).then(res => res.json())
             .then(data => {
@@ -345,7 +345,7 @@ function Home() {
         </Grid>
        
       </Box>
-      <AssistantPopover />
+     
     </>
   );
   
@@ -356,24 +356,3 @@ function Home() {
             }
 
 export default Home;
-/*
-  <GridItem colSpan={3}>
-        <Box >
-          <Text color='green' fontSize="md">OpenAI Response:</Text>
-          {isLoadingOpenai && <Spinner size="xs" color="green.500" ml={2} />}
-          <Text fontSize="xs" mt={2} mb={4} textAlign="left">
-            {responseOpenAI}
-          </Text>
-        </Box>
-      </GridItem>*/
-
-
-
-
-
-      /*
-
-      
-        
-
-        */
