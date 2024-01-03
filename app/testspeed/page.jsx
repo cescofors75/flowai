@@ -68,7 +68,7 @@ function Home() {
             // Process and format the search-result data as needed
             responseText += `\n\n Search Results: \n`;
             chunkObj.data.forEach (function (item, index) {
-              responseText += `${item}`;	
+              responseText += item + '\n';	
             });
             //responseText += `\n\n Url: ${chunkObj.data[0]} \n`;	
               
@@ -277,7 +277,7 @@ const dalee = async () => {
               mr={3}
             />
         <Text fontSize="sm" as='b' color='orange'>Mistral AI - Time: {performance.mistral.time} ms / Characters: {performance.mistral.tokens}  / Speed: {performance.mistral.speed} </Text>
-        <Text fontSize="xs" mt={4} width="80%" textAlign="left">
+        <Text fontSize="xs" mt={4} width="80%" textAlign="left" style={{whiteSpace: 'pre-wrap'}}>
           {responses.mistral}
         </Text>
         </GridItem>
@@ -290,7 +290,7 @@ const dalee = async () => {
               mr={3}
             />
         <Text fontSize="sm" as='b' color='green'>OpenAI - Time: {performance.openai.time} ms / Characters: {performance.openai.tokens} / Speed : {performance.openai.speed}</Text>
-        <Text fontSize="xs" mt={4} width="80%" textAlign="right">
+        <Text fontSize="xs" mt={4} width="80%" textAlign="right" style={{whiteSpace: 'pre-wrap'}}>
           {responses.openai}
         </Text>
         </GridItem>
@@ -302,7 +302,7 @@ const dalee = async () => {
               mr={3}
             />
         <Text fontSize="sm" as='b' color='violet'>Cohere AI - Time: {performance.cohere.time} ms / Characters: {performance.cohere.tokens} / Speed : {performance.cohere.speed}</Text>
-        <Text fontSize="xs" mt={4} width="80%" textAlign="left">
+        <Text fontSize="xs" mt={4} width="80%" textAlign="left" style={{whiteSpace: 'pre-wrap'}}>
         
         {responses.cohere}
         </Text>
@@ -315,7 +315,7 @@ const dalee = async () => {
               mr={3}
             />
         <Text fontSize="sm" as='b' color='violet'>Cohere AI  WEB SEARCH- Time: {performance.cohereWebSearch.time} ms / Characters: {performance.cohereWebSearch.tokens} / Speed : {performance.cohereWebSearch.speed}</Text>
-        <Text fontSize="xs" mt={4} width="80%" textAlign="left">
+        <Text fontSize="xs" mt={4} width="80%" textAlign="left" style={{whiteSpace: 'pre-wrap'}}>
         
         {responses.cohereWebSearch}
         </Text>
@@ -328,7 +328,7 @@ const dalee = async () => {
               mr={3}
             />
         <Text fontSize="sm" as='b' color='green'>Local- Time: {performance.localstream.time} ms / Characters: {performance.localstream.tokens} / Speed : {performance.localstream.speed}</Text>
-        <Text fontSize="xs" mt={4} width="80%" textAlign="right">
+        <Text fontSize="xs" mt={4} width="80%" textAlign="right" style={{whiteSpace: 'pre-wrap'}}>
           {responses.localstream}
         </Text>
         </GridItem>
