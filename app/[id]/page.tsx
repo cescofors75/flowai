@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import AssistantPopover from '../components/AssistantPopover';
-
+import { supabase } from '../supabase/client';
 type Business = {
   name: string;
   id: string;
@@ -22,28 +22,19 @@ export default function PostPage({ params }: { params: Params }) {
       if (params.id) {
         setPostId(params.id);
 
-        const response = await fetch(`../api/supabase/getBusiness`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ nameNoSpace: params.id })
-        });
+        const { data } = await supabase
+        .from('bussines')
+        .select('*')
+        .eq('name_no_space', params.id.toLowerCase())
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        //console.log(data.data);
-        // Check if data is an array
+       
         
-          setBusiness(data.data);
+          setBusiness(data);
       
       }
-    } catch (e) {
+    } catch (error) {
       // Catch any errors during the fetch process
-     
+      console.log(error);
     }
   };
  
