@@ -57,19 +57,19 @@ export async function POST(req: NextRequest) {
                 data: chunk.text.toString()
               }));
             }
-            if (chunk.eventType === "search-results") {
+           /* if (chunk.eventType === "search-results") {
               chunk.documents.forEach((doc) => {
                 searchResults.push(doc.url); // Guarda la URL en el arreglo
               });
-            }
+            }*/
           }
           // Enqueue todos los resultados de búsqueda al final
-          if(searchResults.length > 0){
+         /* if(searchResults.length > 0){
             controller.enqueue(JSON.stringify({
               type: 'search-results',
               data: searchResults
             }));
-          }
+          }*/
           controller.close(); // Asegúrate de cerrar el controlador al final
         })().catch(error => {
           // Manejo de errores

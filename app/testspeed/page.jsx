@@ -8,7 +8,7 @@ import { ThemeSwitch } from '../components/ThemeSwitch';
 function Home() {
   const [prompt, setPrompt] = useState('');
   const [responses, setResponses] = useState({
-    cohereWebSearch: '',
+    coherewebsearch: '',
     localstream: '',
     mistral: '',
     openai: '',
@@ -29,7 +29,7 @@ function Home() {
     openai: { time: 0, tokens: 0, speed: 0 },
     cohere: { time: 0, tokens: 0, speed: 0 },
     localstream: { time: 0, tokens: 0, speed: 0 },
-    cohereWebSearch: { time: 0, tokens: 0, speed: 0 },
+    coherewebsearch: { time: 0, tokens: 0, speed: 0 },
   });
 
   const calculateSpeed = useCallback((tokens, time) => {
@@ -56,23 +56,32 @@ function Home() {
   
         // Convert the Uint8Array to a string
         const chunkStr = new TextDecoder().decode(value);
-  
+        console.log(chunkStr);
+      // const chunkStrClean = chunkStr.split('{"type":"text-generation","data":"')[1].split('"}')[0];
+      // console.log(chunkStrClean);
+      
+      
+      //const parts = chunkStr.split('}{');
+      //console.log(parts);
+
+      //let objetos = parts.map(elemento => (elemento));
         try {
           // Attempt to parse the chunk as JSON
+         // objetos.forEach(function (item, index) {
           const chunkObj = JSON.parse(chunkStr);
-  console.log(chunkObj);
+  //console.log(chunkObj);
           // Handle based on the type
           if (chunkObj.type === 'text-generation') {
             responseText += chunkObj.data;  // Append the text-generation data
-          } else if (chunkObj.type === 'search-results') {
+          } /*else if (chunkObj.type === 'search-results') {
             // Process and format the search-result data as needed
             responseText += `\n\n Search Results: \n`;
             chunkObj.data.forEach (function (item, index) {
               responseText += item + '\n';	
             });
-            //responseText += `\n\n Url: ${chunkObj.data[0]} \n`;	
+            
               
-          }
+          }*/
   
           // Update the responses and performance states
           setResponses(prev => ({ ...prev, [apiName]: responseText }));
@@ -84,8 +93,8 @@ function Home() {
               speed: calculateSpeed(responseText.length, Date.now() - startTime),
             },
           }));
-  
-        } catch (parseError) {
+        }
+         catch (parseError) {
           console.error(`Error parsing JSON from chunk at position ${chunkStr.length}:`, parseError);
           // Optionally, log the problematic chunk for debugging
           console.log("Problematic chunk:", chunkStr);
@@ -93,6 +102,7 @@ function Home() {
           // or you might want to skip this chunk and continue.
           continue; // or break; depending on your error handling strategy
         }
+      
       }
     } catch (error) {
       console.error(`${apiName} Fetch error:`, error);
@@ -155,7 +165,7 @@ function Home() {
     setImageDalee('');
     setImageStability('');
     setResponses({
-      cohereWebSearch: '',
+      coherewebsearch: '',
       localstream: '',
       mistral: '',
       openai: '',
@@ -166,7 +176,7 @@ function Home() {
     testAPI('mistral', '/api/mistral');
     testAPI('openai', '/api/openai');
     testAPI('cohere', '/api/cohere');
-    testAPIMultiple('cohereWebSearch', '/api/cohereWebSearch');
+    testAPIMultiple('coherewebsearch', '/api/coherewebsearch');
   // testAPI('dalee', '/api/dalee'); 
   dalee();
   stability();
@@ -314,10 +324,10 @@ const dalee = async () => {
              
               mr={3}
             />
-        <Text fontSize="sm" as='b' color='violet'>Cohere AI  WEB SEARCH- Time: {performance.cohereWebSearch.time} ms / Characters: {performance.cohereWebSearch.tokens} / Speed : {performance.cohereWebSearch.speed}</Text>
+        <Text fontSize="sm" as='b' color='violet'>Cohere AI  WEB SEARCH- Time: {performance.coherewebsearch.time} ms / Characters: {performance.coherewebsearch.tokens} / Speed : {performance.coherewebsearch.speed}</Text>
         <Text fontSize="xs" mt={4} width="80%" textAlign="left" style={{whiteSpace: 'pre-wrap'}}>
         
-        {responses.cohereWebSearch}
+        {responses.coherewebsearch}
         </Text>
         </GridItem>
         <GridItem >
