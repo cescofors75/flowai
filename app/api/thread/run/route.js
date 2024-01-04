@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runCheck } from "../../../utils/OpenAI";
+import { runCheck } from "../../utils/OpenAI";
 
 //run the assistant
 export async function POST(req) {

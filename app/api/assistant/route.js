@@ -3,7 +3,7 @@ import {
   createAssistant,
   getAssistant,
   deleteAssistant,
-} from "../../utils/OpenAI";
+} from "../utils/OpenAI";
 
 
 //api to hande creation of simple assistant

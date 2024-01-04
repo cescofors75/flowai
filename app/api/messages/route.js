@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createMessage, getMessages } from "../../utils/OpenAI";
+import { createMessage, getMessages } from "../utils/OpenAI";
 
 //create new messag
 export async function POST(req) {

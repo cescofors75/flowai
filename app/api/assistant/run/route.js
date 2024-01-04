@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runCheck, runAssistant } from "../../../utils/OpenAI";
+import { runCheck, runAssistant } from "../../utils/OpenAI";
 
 
 //export const runtime ='edge'

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createThread, getThread, deleteThread } from "../../utils/OpenAI";
+import { createThread, getThread, deleteThread } from "../utils/OpenAI";
 
 //create new thread
 export async function POST() {
