@@ -534,7 +534,7 @@ export default Home;
       styleResponse = 'Per un vell, clara';
     }
 
-    const api_key = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+    const api_key = process.env.OPENAI_API_KEY;
     const payload = {
       model: 'gpt-4-vision-preview',
       messages: [

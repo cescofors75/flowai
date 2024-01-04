@@ -17,7 +17,7 @@ export  async function POST(req:Request) {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: process.env.NEXT_PUBLIC_API_KEY_STABILITY_AI,
+            Authorization: process.env.API_KEY_STABILITY_AI,
           },
           body: JSON.stringify({
             // ... (the rest of the parameters)

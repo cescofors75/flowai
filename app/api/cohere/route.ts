@@ -19,7 +19,7 @@ export async function POST(req: Request) { //
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_COHERE_API_KEY}`,
+      Authorization: `Bearer ${process.env.COHERE_API_KEY}`,
     },
     body,
   });

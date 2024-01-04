@@ -4,7 +4,7 @@ import { IconButton, SimpleGrid, Box, Link , Text} from '@chakra-ui/react'
 import { ArrowLeftIcon } from '@chakra-ui/icons'
 import NextLink from 'next/link'
 
-import { supabase } from '../supabase/client'
+//import { supabase } from '../supabase/client'
 
 import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
@@ -14,8 +14,8 @@ import { useEffect, useState } from 'react'
 
 function lloret () {
 
-  const [data, setData] = useState([])
- 
+  const [data, setData] = useState({})
+ /*
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await supabase
@@ -25,8 +25,31 @@ function lloret () {
       setData(data)
     }
     fetchData()
-  }, [])
+  }, [])*/
 
+  useEffect(() => {
+
+    const fetchData = async () => {
+    const res = await fetch('../api/supabase',{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+
+
+
+
+    })
+
+  const data = await res.json()
+    
+//console.log(data)
+
+   setData(data)
+  }
+    fetchData()
+  }, [])
   return (
     
 
@@ -48,7 +71,7 @@ function lloret () {
       <Box className={styles.containerI}>
         <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={10}>
 
-          {data.map(product => (
+        {data.length >0 && data.map(product => (
             <Box key={product.id}>
               <PrizeCard name={product.name} id={product.id} city={product.city} />
 
@@ -63,3 +86,7 @@ function lloret () {
 }
 
 export default lloret
+
+/*
+ 
+          */

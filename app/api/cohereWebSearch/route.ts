@@ -2,7 +2,7 @@
 
 import { StreamingTextResponse } from 'ai';
 const cohere = new CohereClient({
-  token: process.env.NEXT_PUBLIC_COHERE_API_KEY, // Make sure this is a server-side variable only!
+  token: process.env.COHERE_API_KEY, // Make sure this is a server-side variable only!
 });
 
 
@@ -79,7 +79,7 @@ export async function POST(req: Request) { //
     headers: {
       'Content-Type': 'application/json',
       accept: 'application/json',
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_COHERE_API_KEY}`,
+      Authorization: `Bearer ${process.env.COHERE_API_KEY}`,
     },
     body,
   })
