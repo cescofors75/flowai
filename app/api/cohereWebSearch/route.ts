@@ -1,3 +1,52 @@
+import { StreamingTextResponse, CohereStream } from 'ai';
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function middleware(req: NextRequest) {
+  // Only allow POST requests
+  if (req.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    // Extract the `prompt` from the body of the request
+    const { prompt } = await req.json();
+
+    const body = JSON.stringify({
+      message: prompt,
+      model: 'command',
+      temperature: 0.2,
+      stream: true,
+      connectors: [{ id: "web-search" }]
+    });
+
+    const response = await fetch('https://api.cohere.ai/v1/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${process.env.COHERE_API_KEY}`,
+      },
+      body,
+    });
+
+    // Handle non-OK responses
+    if (!response.ok) {
+      return new Response('Error from Cohere API', { status: response.status });
+    }
+
+    const stream = CohereStream(response);
+
+    // Respond with the stream
+    return new StreamingTextResponse(stream);
+  } catch (error) {
+    // Handle any other errors
+    return new Response('Internal Server Error', { status: 500 });
+  }
+}
+
+
 /*import { CohereClient } from 'cohere-ai';
 
 import { StreamingTextResponse } from 'ai';
@@ -55,39 +104,3 @@ export async function POST(req: Request) {
       }
     }))
   }*/
-
-  import { StreamingTextResponse, CohereStream } from 'ai';
- 
-export async function POST(req: Request) { //
-  // Extract the `prompt` from the body of the request
-  const { prompt } = await req.json();
- 
-  const body = JSON.stringify({
-   
-    message:  prompt ,
-    model: 'command',
-    //max_tokens: 300,
-    //stop_sequences: [],
-    temperature: 0.2,
-    //return_likelihoods: 'NONE',
-    stream: true,
-    connectors: [{ id: "web-search" }]
-  });
- 
-  const response = await fetch('https://api.cohere.ai/v1/chat', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      accept: 'application/json',
-      Authorization: `Bearer ${process.env.COHERE_API_KEY}`,
-    },
-    body,
-  })
- const stream = CohereStream(response);
- 
-  // Check for errors
-
-
-  // Respond with the stream
-  return new StreamingTextResponse(stream);
-}
