@@ -4,7 +4,7 @@ import { IconButton, SimpleGrid, Box, Link , Text} from '@chakra-ui/react'
 import { ArrowLeftIcon } from '@chakra-ui/icons'
 import NextLink from 'next/link'
 
-//import { supabase } from '../supabase/client'
+
 
 import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'

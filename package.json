@@ -18,6 +18,7 @@
     "autoprefixer": "10.4.16",
     "cohere-ai": "^7.6.2",
     "debug": "^4.3.4",
+    "dotenv": "^16.3.1",
     "encoding": "^0.1.13",
     "framer-motion": "^10.16.16",
     "mistral-edge": "^0.0.6",
