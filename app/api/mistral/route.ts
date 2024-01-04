@@ -1,6 +1,8 @@
 import { StreamingTextResponse} from 'ai';
 import { streamMistralChat } from "mistral-edge";
 const apiKey = process.env.MISTRAL_API_KEY;
+export const maxDuration = 25
+
 export async function POST(req: Request) { //
   // Extract the `prompt` from the body of the request
   const { prompt } = await req.json();

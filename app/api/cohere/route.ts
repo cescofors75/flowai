@@ -1,5 +1,5 @@
 import { StreamingTextResponse, CohereStream } from 'ai';
- 
+export const maxDuration = 25
 export async function POST(req: Request) { //
   // Extract the `prompt` from the body of the request
   const { prompt } = await req.json();

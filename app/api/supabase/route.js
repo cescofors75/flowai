@@ -19,12 +19,6 @@ const fetchData = async () => {
 export async function GET() {
   //const { text } = await req.json();
  
-  
-  // Handling the case where no text is provided
- 
-
-
-
   try {
     const response = await  fetchData()
  
