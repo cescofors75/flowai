@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import AssistantPopover from '../components/AssistantPopover';
-import { supabase } from '../supabase/client';
+//import { supabase } from '../supabase/client';
 type Business = {
   name: string;
   id: string;
@@ -17,7 +17,7 @@ export default function PostPage({ params }: { params: Params }) {
   const [postId, setPostId] = useState('');
   const [business, setBusiness] = useState<Business[]>([]);
   const [local, setLocal] = useState('');
-
+/*
   const getBusiness = async () => {
     try {
       if (params.id) {
@@ -37,7 +37,7 @@ export default function PostPage({ params }: { params: Params }) {
       // Catch any errors during the fetch process
       console.log(error);
     }
-  };
+  };*/
 
   const getLocal = async () => {
     try {
@@ -59,30 +59,35 @@ export default function PostPage({ params }: { params: Params }) {
  
 
   useEffect(() => {
-    
+    setPostId(params.id);
 
-    getBusiness();
+   // getBusiness();
     getLocal()
   }, [params]);
 
   return (
     <div>
-      <div>The ID of this post is: {postId}</div>
-      
-      { business.map((bus) => (
-        <div key={bus.id}>
-          <h3>{bus.name}</h3>
-          <p>{bus.city}</p>
-          <p>{bus.products}</p>
-          <p>{bus.mail}</p>
-          **************************
+      <div>The ID of this post is: {postId}
+      <br/>
+      **************************
+      <br/>
          
-{local}
-          {/* Additional business details can be added here */}
-        </div>
-      ))}
+         {local}
+         </div>
+      
+    
  
       <AssistantPopover />
     </div>
   );
 }
+/*  { business.map((bus) => (
+        <div key={bus.id}>
+          <h3>{bus.name}</h3>
+          <p>{bus.city}</p>
+          <p>{bus.products}</p>
+          <p>{bus.mail}</p>
+         
+         
+        </div>
+      ))} */
