@@ -1,14 +1,11 @@
 import { StreamingTextResponse, CohereStream } from 'ai';
-import { NextRequest, NextResponse } from 'next/server';
 
-export async function middleware(req: NextRequest) {
+export async function POST(req: Request) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 });
   }
-}
 
-export async function POST(req: Request) {
   try {
     // Extract the `prompt` from the body of the request
     const { prompt } = await req.json();
@@ -45,6 +42,7 @@ export async function POST(req: Request) {
     return new Response('Internal Server Error', { status: 500 });
   }
 }
+
 
 
 /*import { CohereClient } from 'cohere-ai';
