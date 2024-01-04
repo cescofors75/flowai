@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import AssistantPopover from '../components/AssistantPopover';
 //import { supabase } from '../supabase/client';
+
+export const runtime = 'edge';
+
 type Business = {
   name: string;
   id: string;

@@ -3,7 +3,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image, Divider, Spinner, Avatar} from '@chakra-ui/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
-
+export const runtime = 'edge';
 
 function Home() {
   const [prompt, setPrompt] = useState('');

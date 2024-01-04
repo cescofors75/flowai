@@ -7,7 +7,7 @@ export async function POST(req: Request) { //
   const body = JSON.stringify({
    
     prompt:  prompt ,
-    model: 'command-light',
+    model: 'command',
     //max_tokens: 300,
     //stop_sequences: [],
     temperature: 0.2,

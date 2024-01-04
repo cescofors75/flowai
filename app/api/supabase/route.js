@@ -8,7 +8,8 @@ import { NextResponse, NextRequest } from "next/server";
     auth: { persistSession: false },
   }
 )
-
+export const maxDuration = 25
+export const runtime = 'edge';
 const fetchData = async () => {
   const { data } = await supabase
     .from('bussines')
