@@ -22,8 +22,8 @@ export async function POST(req: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${process.env.COHERE_API_KEY}`,
+        Accept: 'application/json',
+        Authorization: `Bearer ${process.env.COHERE_API_KEY}`,
       },
       body,
     });

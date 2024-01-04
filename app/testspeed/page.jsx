@@ -168,7 +168,7 @@ function Home() {
       cohere: '',
       dalee: ''
     });
-   testAPI('localstream', '/api/localstream');
+   //testAPI('localstream', '/api/localstream');
    testAPI('mistral', '/api/mistral');
     testAPI('openai', '/api/openai');
    testAPI('cohere', '/api/cohere');
