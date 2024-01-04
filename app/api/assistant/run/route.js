@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
-import { runCheck, runAssistant } from "../../utils/OpenAI";
 
+import { OpenAI } from "openai";
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
+const runAssistant = async ({ assistantId, threadId, instructions }) => {
+  const run = await openai.beta.threads.runs.create(threadId, {
+    assistant_id: assistantId,
+    instructions: instructions,
+  });
+  return run;
+};
 //export const runtime ='edge'
 //run the assistant
 export async function POST(req) {

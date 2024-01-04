@@ -1,9 +1,30 @@
 import { NextResponse } from "next/server";
-import {
-  createAssistant,
-  getAssistant,
-  deleteAssistant,
-} from "../utils/OpenAI";
+import { OpenAI } from "openai";
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const createAssistant = async ({ name, instructions, fileId }) => {
+  const assistant = await openai.beta.assistants.create({
+    name: name,
+    instructions: instructions,
+    tools: [{ type: "code_interpreter" }],
+    model: "gpt-4-1106-preview",
+    file_ids: fileId && [fileId],
+  });
+
+  return assistant;
+
+};
+
+const getAssistant = async (assistantId) => {
+  const assistant = await openai.beta.assistants.retrieve(assistantId);
+  return assistant;
+};
+const deleteAssistant = async (assistantId) => {
+  const response = await openai.beta.assistants.del(assistantId);
+  return response;
+};
+
 
 
 //api to hande creation of simple assistant

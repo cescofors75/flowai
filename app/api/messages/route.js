@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
-import { createMessage, getMessages } from "../utils/OpenAI";
 
+import { OpenAI } from "openai";
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const createMessage = async ({ threadId, content }) => {
+  const messages = await openai.beta.threads.messages.create(threadId, {
+    role: "user",
+    content: content,
+  });
+  return messages;
+};
+const getMessages = async (threadId) => {
+  const messages = await openai.beta.threads.messages.list(threadId);
+  return messages;
+};
 //create new messag
 export async function POST(req) {
   const { threadId, content } = await req.json();

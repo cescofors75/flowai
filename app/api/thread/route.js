@@ -1,6 +1,25 @@
 import { NextResponse } from "next/server";
-import { createThread, getThread, deleteThread } from "../utils/OpenAI";
+import { OpenAI } from "openai";
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const createThread = async () => {
+  const thread = await openai.beta.threads.create();
+  return thread;
+};
+
+//get thread
+const getThread = async (threadId) => {
+  const thread = await openai.beta.threads.retrieve(threadId);
+  return thread;
+};
+
+//delete thread
+const deleteThread = async (threadId) => {
+  const response = await openai.beta.threads.del(threadId);
+  return response;
+};
 //create new thread
 export async function POST() {
   try {
