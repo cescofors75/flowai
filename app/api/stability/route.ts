@@ -8,7 +8,7 @@ export const maxDuration = 25
 
 export  async function POST(req:Request) {
     const { name } = await req.json();
-  console.log(name)
+  //console.log(name)
     try {
       const response = await fetch(
         "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
