@@ -1,8 +1,9 @@
 import { StreamingTextResponse, CohereStream } from 'ai';
+import { NextResponse, NextRequest } from "next/server";
 export const maxDuration = 25
 export const runtime = 'edge';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 });
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
 
     // Handle non-OK responses
     if (!response.ok) {
-      return new Response('Error from Cohere API', { status: response.status });
+      return new NextResponse(JSON.stringify( { status: response.status }));
     }
 
     const stream = CohereStream(response);
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
     return new StreamingTextResponse(stream);
   } catch (error) {
     // Handle any other errors
-    return new Response('Internal Server Error', { status: 500 });
+    return new NextResponse(JSON.stringify({ status: 500 }));
   }
 }
 
