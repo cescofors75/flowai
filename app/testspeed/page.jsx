@@ -12,8 +12,7 @@ export default function Page() {
     localstream: '',
     mistral: '',
     openai: '',
-    cohere: '',
-    dalee: ''
+    cohere: ''
   });
  
   const [imageDalee, setImageDalee] = useState('');
@@ -99,10 +98,9 @@ export default function Page() {
       localstream: '',
       mistral: '',
       openai: '',
-      cohere: '',
-      dalee: ''
+      cohere: ''
     });
-   testAPI('localstream', '/api/localstream');
+   //testAPI('localstream', '/api/localstream');
    testAPI('mistral', '/api/mistral');
     testAPI('openai', '/api/openai');
    testAPI('cohere', '/api/cohere');
