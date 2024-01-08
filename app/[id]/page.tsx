@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import AssistantPopover from '../components/AssistantPopover';
-//import { supabase } from '../supabase/client';
+import { getBusiness } from '../functions/supabase'
 
-export const runtime = 'edge';
+
+
 
 type Business = {
   name: string;
@@ -17,32 +18,55 @@ type Business = {
 };
 
 export default function PostPage({ params }: { params: Params }) {
+  
   const [postId, setPostId] = useState('');
   const [business, setBusiness] = useState<Business[]>([]);
-  const [local, setLocal] = useState('');
-/*
-  const getBusiness = async () => {
-    try {
-      if (params.id) {
-        setPostId(params.id);
+ 
 
-        const { data } = await supabase
-        .from('bussines')
-        .select('*')
-        .eq('name_no_space', params.id.toLowerCase())
 
-       
-        
-          setBusiness(data);
-      
-      }
-    } catch (error) {
-      // Catch any errors during the fetch process
-      console.log(error);
+
+  async function  getBusinessI(id: string)  {
+    const dataBusiness = await getBusiness(id)
+    return (dataBusiness)
     }
-  };*/
 
-  const getLocal = async () => {
+  useEffect(() => {
+    
+    setPostId(params.id)
+    
+    getBusinessI(params.id ).then((data) => {
+    setBusiness(data)
+    })
+
+
+  }, [params]);
+
+  return (
+    <div>
+      <div>The ID of this post is: {postId}
+      <br/>
+      **************************
+      <br/>
+         
+      {business &&  business.map((bus) => (
+        <div key={bus.id}>
+          <h3>{bus.name}</h3>
+          <p>{bus.city}</p>
+          <p>{bus.products}</p>
+          <p>{bus.mail}</p>
+         
+         
+        </div>
+      ))} 
+         </div>
+      
+    
+ 
+      <AssistantPopover />
+    </div>
+  );
+}
+/*   const getLocal = async () => {
     try {
       const data = await fetch('../api/local', {
         method: 'POST',
@@ -58,39 +82,4 @@ export default function PostPage({ params }: { params: Params }) {
       console.log(error)
     }
 
-  };
- 
-
-  useEffect(() => {
-    setPostId(params.id);
-
-   // getBusiness();
-    getLocal()
-  }, [params]);
-
-  return (
-    <div>
-      <div>The ID of this post is: {postId}
-      <br/>
-      **************************
-      <br/>
-         
-         {local}
-         </div>
-      
-    
- 
-      <AssistantPopover />
-    </div>
-  );
-}
-/*  { business.map((bus) => (
-        <div key={bus.id}>
-          <h3>{bus.name}</h3>
-          <p>{bus.city}</p>
-          <p>{bus.products}</p>
-          <p>{bus.mail}</p>
-         
-         
-        </div>
-      ))} */
+  }; */

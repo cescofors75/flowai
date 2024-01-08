@@ -13,3 +13,19 @@ export async function businessList() {
 
   return data;
 }
+export async function getBusiness(id) {
+  console.log("id", id);
+  const res = await fetch("../api/supabaseGetBusiness", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ id }),
+  });
+
+  const data = await res.json();
+  console.log("data", data);
+
+  return data;
+}

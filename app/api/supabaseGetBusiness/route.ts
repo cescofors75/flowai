@@ -9,19 +9,26 @@ import { NextResponse, NextRequest } from "next/server";
   }
 )
 export const maxDuration = 25
-export const runtime = 'edge';
-const fetchData = async () => {
+//export const runtime = 'edge';
+
+
+async function fetchData(id:string) {
   const { data } = await supabase
     .from('bussines')
-    .select('id, name, city')
-
+    .select('id, name, city,products,mail')
+    .eq('name_no_space', id.toLowerCase())
+    console.log("data", data)
   return data
 }
-export async function GET() {
-  //const { text } = await req.json();
- 
+
+
+
+export async function POST(req:NextRequest) {
+  const { id } = await req.json();
+  console.log("id", id)
+  
   try {
-    const response = await  fetchData()
+    const response = await  fetchData(id)
  
  // aqui response es un array y quiero devolverlo como json
   const jsonData = JSON.stringify(response)

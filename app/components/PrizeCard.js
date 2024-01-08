@@ -19,7 +19,7 @@ export function PrizeCard (datos) {
       <div className={styles.cardInner}>
         <div className={styles.cardFront}>
           <Flex>
-            <Avatar size='2xl' src={`https://fwhlcijbnqstdjgowqvm.supabase.co/storage/v1/object/public/avatars/${id}.jpg?`} />
+            <Avatar size='2xl' src={`https://fwhlcijbnqstdjgowqvm.supabase.co/storage/v1/render/image/public/avatars/${id}.jpg?width=150&height=150`} />
             <Box ml='3'>
               <Text fontWeight='bold'>
                 {name}
@@ -38,7 +38,7 @@ export function PrizeCard (datos) {
             justifyContent='center'
             width='100%'
             py={12}
-            bgImage={`https://fwhlcijbnqstdjgowqvm.supabase.co/storage/v1/object/public/avatars/${id}.jpg`}
+            bgImage={`https://fwhlcijbnqstdjgowqvm.supabase.co/storage/v1/render/image/public/avatars/${id}.jpg`}
             bgPosition='center'
             bgRepeat='no-repeat'
             mb={2}
