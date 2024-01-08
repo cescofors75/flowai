@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 import { OpenAI } from "openai";
 
@@ -10,7 +10,7 @@ const runCheck = async ({ threadId, runId }) => {
   const check = await openai.beta.threads.runs.retrieve(threadId, runId);
   return check;
 };
-export async function POST(req) {
+export async function POST(req: NextRequest ) {
   try {
     let { runId, threadId } = await req.json();
 

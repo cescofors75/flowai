@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse  } from "next/server";
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({
@@ -10,13 +10,13 @@ const createThread = async () => {
 };
 
 //get thread
-const getThread = async (threadId) => {
+const getThread = async (threadId: string) => {
   const thread = await openai.beta.threads.retrieve(threadId);
   return thread;
 };
 
 //delete thread
-const deleteThread = async (threadId) => {
+const deleteThread = async (threadId: string) => {
   const response = await openai.beta.threads.del(threadId);
   return response;
 };
@@ -34,7 +34,7 @@ export async function POST() {
 
 
 //get thread
-export async function GET(req) {
+export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
     const threadId = searchParams.get("threadId");
@@ -58,7 +58,7 @@ export async function GET(req) {
 
 
 //delete thread
-export async function DELETE(req) {
+export async function DELETE(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
     const threadId = searchParams.get("threadId");

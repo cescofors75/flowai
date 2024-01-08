@@ -13,7 +13,7 @@ import {
 import { ChatIcon, DeleteIcon } from '@chakra-ui/icons';
 import Typewriter from './Typewriter'
 // Componente Popover para el asistente
-const AssistantPopover = () => {
+export  function AssistantPopover  ()  {
   const [prompt, setPrompt] = useState('');
   const [responseOpenAI, setResponseOpenAI] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -280,4 +280,3 @@ const AssistantPopover = () => {
     </>
   );
 };
-export default AssistantPopover;

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 import { OpenAI } from "openai";
 const openai = new OpenAI({
@@ -14,7 +14,7 @@ const runAssistant = async ({ assistantId, threadId, instructions }) => {
 };
 //export const runtime ='edge'
 //run the assistant
-export async function POST(req) {
+export async function POST(req: NextRequest ) {
   try {
     const {threadId,assistantId , instructions } = await req.json();
     console.log(threadId, assistantId , instructions)

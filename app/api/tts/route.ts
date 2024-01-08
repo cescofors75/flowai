@@ -2,7 +2,7 @@
 import OpenAI from "openai";
 import { NextResponse, NextRequest } from "next/server";
 
-export async function POST(req  ) {
+export async function POST(req: NextRequest  ) {
   const { text } = await req.json();
 
   // Handling the case where no text is provided

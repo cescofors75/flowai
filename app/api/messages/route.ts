@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 import { OpenAI } from "openai";
 const openai = new OpenAI({
@@ -16,7 +16,7 @@ const getMessages = async (threadId) => {
   return messages;
 };
 //create new messag
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   const { threadId, content } = await req.json();
   //console.log(threadId, content);
   try {
@@ -38,7 +38,7 @@ export async function POST(req) {
 
 
 //get all message using thread id
-export async function GET(req) {
+export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
     const query = searchParams.get("threadId");

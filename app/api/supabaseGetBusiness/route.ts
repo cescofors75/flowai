@@ -17,7 +17,8 @@ async function fetchData(id:string) {
     .from('bussines')
     .select('id, name, city,products,mail')
     .eq('name_no_space', id.toLowerCase())
-    console.log("data", data)
+    .single()
+   // console.log("data", data)
   return data
 }
 
@@ -25,7 +26,7 @@ async function fetchData(id:string) {
 
 export async function POST(req:NextRequest) {
   const { id } = await req.json();
-  console.log("id", id)
+ // console.log("id", id)
   
   try {
     const response = await  fetchData(id)

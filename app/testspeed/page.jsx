@@ -1,11 +1,11 @@
 'use client'
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image, Divider, Spinner, Avatar} from '@chakra-ui/react';
+import React, { useState, useRef, useCallback } from 'react';
+import { Box, Grid, Textarea, Button, Text, HStack, GridItem , Image,  Spinner, Avatar} from '@chakra-ui/react';
 import { ThemeSwitch } from '../components/ThemeSwitch';
-export const runtime = 'edge';
 
-function Home() {
+
+export default function Page() {
   const [prompt, setPrompt] = useState('');
   const [responses, setResponses] = useState({
     coherewebsearch: '',
@@ -36,72 +36,6 @@ function Home() {
     return time > 0 ? (tokens / time).toFixed(3) : 0;
   }, []);
  
-  const testAPIMultiple = async (apiName, endpoint) => {
-    const startTime = Date.now();
-    setIsLoading(true);
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const reader = response.body.getReader();
-      let responseText = '';
-      let findebucle = false;
-      while (!findebucle) {
-        const { done, value } = await reader.read();
-        if (done) 
-        {
-         // console.log('Done');
-          findebucle = true;
-
-        }
-  
-        // Convert the Uint8Array to a string
-        const chunkStr = new TextDecoder().decode(value);
-        //console.log(chunkStr);
-      
-      try {
-       
-          const chunkObj = JSON.parse(chunkStr);
-
-          // Handle based on the type
-          if (chunkObj.type === 'text-generation' || chunkObj.type === 'search-results') {
-            responseText += chunkObj.data; 
-          } 
-          //responseText += chunkStr.data;
-          
-  
-          // Update the responses and performance states
-          setResponses(prev => ({ ...prev, [apiName]: responseText }));
-          setPerformance(prev => ({
-            ...prev,
-            [apiName]: {
-              time: Date.now() - startTime,
-              tokens: responseText.length,
-              speed: calculateSpeed(responseText.length, Date.now() - startTime),
-            },
-          }));
-       }
-         catch (parseError) {
-        //  console.error(`Error parsing JSON from chunk at position ${chunkStr.length}:`, parseError);
-          // Optionally, log the problematic chunk for debugging
-        //  console.log("Problematic chunk:", chunkStr);
-          // Decide how to handle the error. For example, you might want to break out of the loop,
-          // or you might want to skip this chunk and continue.
-          continue; // or break; depending on your error handling strategy
-        }
-      
-      }
-    
-    //console.log('Done');
-    setIsLoading(false);
-  }
-
-
   
   
   const testAPI = async (apiName, endpoint) => {
@@ -168,14 +102,14 @@ function Home() {
       cohere: '',
       dalee: ''
     });
-   //testAPI('localstream', '/api/localstream');
+   testAPI('localstream', '/api/localstream');
    testAPI('mistral', '/api/mistral');
     testAPI('openai', '/api/openai');
    testAPI('cohere', '/api/cohere');
     testAPI('coherewebsearch', '/api/coherewebsearch');
  
-  //dalee();
-  //stability();
+  dalee();
+  stability();
  
   }
    
@@ -386,7 +320,7 @@ const dalee = async () => {
   );
 }
 
-export default Home;
+
 //
 
 
@@ -588,3 +522,73 @@ export default Home;
     setImagePreview('');
   };
   */
+
+/*
+
+  const testAPIMultiple = async (apiName, endpoint) => {
+    const startTime = Date.now();
+    setIsLoading(true);
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const reader = response.body.getReader();
+      let responseText = '';
+      let findebucle = false;
+      while (!findebucle) {
+        const { done, value } = await reader.read();
+        if (done) 
+        {
+         // console.log('Done');
+          findebucle = true;
+
+        }
+  
+        // Convert the Uint8Array to a string
+        const chunkStr = new TextDecoder().decode(value);
+        //console.log(chunkStr);
+      
+      try {
+       
+          const chunkObj = JSON.parse(chunkStr);
+
+          // Handle based on the type
+          if (chunkObj.type === 'text-generation' || chunkObj.type === 'search-results') {
+            responseText += chunkObj.data; 
+          } 
+          //responseText += chunkStr.data;
+          
+  
+          // Update the responses and performance states
+          setResponses(prev => ({ ...prev, [apiName]: responseText }));
+          setPerformance(prev => ({
+            ...prev,
+            [apiName]: {
+              time: Date.now() - startTime,
+              tokens: responseText.length,
+              speed: calculateSpeed(responseText.length, Date.now() - startTime),
+            },
+          }));
+       }
+         catch (parseError) {
+        //  console.error(`Error parsing JSON from chunk at position ${chunkStr.length}:`, parseError);
+          // Optionally, log the problematic chunk for debugging
+        //  console.log("Problematic chunk:", chunkStr);
+          // Decide how to handle the error. For example, you might want to break out of the loop,
+          // or you might want to skip this chunk and continue.
+          continue; // or break; depending on your error handling strategy
+        }
+      
+      }
+    
+    //console.log('Done');
+    setIsLoading(false);
+  }
+
+*/
+  

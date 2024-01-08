@@ -1,4 +1,4 @@
-//import React from 'react'
+
 
 export async function businessList() {
   const res = await fetch("../api/supabase", {
@@ -13,8 +13,8 @@ export async function businessList() {
 
   return data;
 }
-export async function getBusiness(id) {
-  console.log("id", id);
+async function fetchGetBusiness(id: string) {
+  
   const res = await fetch("../api/supabaseGetBusiness", {
     method: "POST",
     headers: {
@@ -25,7 +25,11 @@ export async function getBusiness(id) {
   });
 
   const data = await res.json();
-  console.log("data", data);
-
   return data;
 }
+
+
+export async function  getBusiness(id: string)  {
+  const dataBusiness = await fetchGetBusiness(id)
+  return (dataBusiness)
+  }

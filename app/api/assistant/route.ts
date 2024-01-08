@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { OpenAI } from "openai";
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -16,11 +16,11 @@ const createAssistant = async ({ name, instructions, fileId }) => {
 
 };
 
-const getAssistant = async (assistantId) => {
+const getAssistant = async (assistantId: string) => {
   const assistant = await openai.beta.assistants.retrieve(assistantId);
   return assistant;
 };
-const deleteAssistant = async (assistantId) => {
+const deleteAssistant = async (assistantId: string) => {
   const response = await openai.beta.assistants.del(assistantId);
   return response;
 };
@@ -29,7 +29,7 @@ const deleteAssistant = async (assistantId) => {
 
 //api to hande creation of simple assistant
 //or assistnt with files id 
-export async function POST(req) {
+export async function POST(req:NextRequest ) {
   try {
     const formData = await req.formData();
 
@@ -45,7 +45,7 @@ export async function POST(req) {
       );
     }
 
-    let newAssistantData = { name: name, instructions: instructions };
+    let newAssistantData = { name: name, instructions: instructions, fileId: undefined };
     if (fileId) newAssistantData.fileId = fileId;
 
     let newAssistant = await createAssistant(newAssistantData);
@@ -57,7 +57,7 @@ export async function POST(req) {
 }
 
 //get assistant
-export async function GET(req) {
+export async function GET(req:NextRequest ) {
   try {
     const assistantId = req.nextUrl.searchParams.get("assistantId");
 
@@ -78,7 +78,7 @@ export async function GET(req) {
 
 
 //delete assistant
-export async function DELETE(req) {
+export async function DELETE(req:NextRequest ) {
   try {
     const searchParams = req.nextUrl.searchParams;
     const assistantId = searchParams.get("assistantId");

@@ -1,12 +1,9 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
-import AssistantPopover from '../components/AssistantPopover';
-import { getBusiness } from '../functions/supabase'
-
-
-
+import { useEffect, useState } from "react";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import {AssistantPopover} from "../components/AssistantPopover";
+import { getBusiness } from "../functions/supabase";
 
 type Business = {
   name: string;
@@ -18,50 +15,35 @@ type Business = {
 };
 
 export default function PostPage({ params }: { params: Params }) {
-  
-  const [postId, setPostId] = useState('');
-  const [business, setBusiness] = useState<Business[]>([]);
- 
-
-
-
-  async function  getBusinessI(id: string)  {
-    const dataBusiness = await getBusiness(id)
-    return (dataBusiness)
-    }
+  const [postId, setPostId] = useState("");
+  const [business, setBusiness] = useState<Business>();
 
   useEffect(() => {
-    
-    setPostId(params.id)
-    
-    getBusinessI(params.id ).then((data) => {
-    setBusiness(data)
-    })
+    setPostId(params.id);
 
-
+    getBusiness(params.id).then((data) => {
+      setBusiness(data);
+    });
   }, [params]);
 
   return (
     <div>
-      <div>The ID of this post is: {postId}
-      <br/>
-      **************************
-      <br/>
-         
-      {business &&  business.map((bus) => (
-        <div key={bus.id}>
-          <h3>{bus.name}</h3>
-          <p>{bus.city}</p>
-          <p>{bus.products}</p>
-          <p>{bus.mail}</p>
-         
-         
-        </div>
-      ))} 
-         </div>
-      
-    
- 
+      <div>
+        The ID of this post is: {postId}
+        <br />
+        ****************************************************
+        <br />
+        Busines info:
+        {business && (
+          <div>
+            <h3>{business.name}</h3>
+            <p>{business.city}</p>
+            <p>{business.products}</p>
+            <p>{business.mail}</p>
+          </div>
+        )}
+      </div>
+
       <AssistantPopover />
     </div>
   );
