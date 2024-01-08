@@ -1,6 +1,6 @@
 import { StreamingTextResponse, CohereStream } from 'ai';
 export const maxDuration = 25
-export const runtime = 'edge';
+// export const runtime = 'edge';
 export async function POST(req: Request) {
   // Only allow POST requests
   if (req.method !== 'POST') {
